@@ -1,0 +1,61 @@
+---
+import { siteConfig } from "@/config/site";
+import "@fontsource-variable/inter";
+import "@/styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  jsonLd?: string;
+}
+
+const {
+  title = `${siteConfig.shortName} — AI Video Editor for Creators`,
+  description = siteConfig.description,
+  jsonLd
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, siteConfig.url).toString();
+const ogImageUrl = `${siteConfig.url}${siteConfig.ogImage}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteConfig.shortName} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${siteConfig.shortName} — AI Video Editor for Creators`} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <meta name="theme-color" content="#050505" />
+
+    {jsonLd && (
+      <script is:inline type="application/ld+json" set:html={jsonLd} />
+    )}
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,81 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { siteConfig } from "@/config/site";
+import { faqs } from "@/components/FAQ";
+import Navbar from "@/components/Navbar";
+import Hero from "@/components/Hero";
+import SiteMotion from "@/components/SiteMotion";
+import AIEditingDemo from "@/components/AIEditingDemo";
+import HowItWorks from "@/components/HowItWorks";
+import ProcessShowcase from "@/components/ProcessShowcase";
+import Examples from "@/components/Examples";
+import BetaSection from "@/components/BetaSection";
+import Pricing from "@/components/Pricing";
+import FAQ from "@/components/FAQ";
+import Footer from "@/components/Footer";
+
+const homepageJsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      name: siteConfig.shortName,
+      url: siteConfig.url
+    },
+    {
+      "@type": "Organization",
+      name: siteConfig.shortName,
+      url: siteConfig.url,
+      logo: `${siteConfig.url}${siteConfig.logo}`,
+      sameAs: [
+        "https://www.instagram.com/zerastudio.ai"
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: siteConfig.shortName,
+      applicationCategory: "MultimediaApplication",
+      operatingSystem: "Android",
+      description: siteConfig.description,
+      url: siteConfig.url,
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+        description: "Free to try during beta"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer
+        }
+      }))
+    }
+  ]
+});
+---
+
+<BaseLayout
+  title={`${siteConfig.shortName} — AI Video Editor for Creators`}
+  description={siteConfig.description}
+  jsonLd={homepageJsonLd}
+>
+  <SiteMotion client:load />
+  <Navbar client:load />
+  <main>
+    <Hero client:load />
+    <AIEditingDemo client:visible />
+    <HowItWorks />
+    <ProcessShowcase client:visible />
+    <Examples client:visible />
+    <BetaSection client:visible />
+    <Pricing />
+    <FAQ />
+  </main>
+  <Footer />
+</BaseLayout>

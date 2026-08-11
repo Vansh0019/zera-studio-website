@@ -1,0 +1,1 @@
+const e={logo:"/zera_studio_logo.png",playStoreUrl:"https://play.google.com/store/apps/details?id=com.zerastudio.app",nav:[{label:"Features",href:"#features"},{label:"How It Works",href:"#how-it-works"},{label:"Examples",href:"#examples"},{label:"Pricing",href:"#pricing"},{label:"FAQ",href:"#faq"}]};export{e as s};

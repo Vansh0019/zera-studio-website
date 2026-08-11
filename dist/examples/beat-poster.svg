@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1280" viewBox="0 0 720 1280" role="img" aria-label="Coming soon placeholder for a beat edit">
+  <rect width="720" height="1280" fill="#0c0c0c"/>
+  <rect x="54" y="74" width="612" height="1132" fill="#161616" stroke="#343434" stroke-width="2"/>
+  <rect x="92" y="132" width="536" height="548" fill="#202020"/>
+  <g fill="#fbfaf8">
+    <rect x="128" y="540" width="22" height="96"/>
+    <rect x="172" y="448" width="22" height="188"/>
+    <rect x="216" y="504" width="22" height="132"/>
+    <rect x="260" y="388" width="22" height="248"/>
+    <rect x="304" y="482" width="22" height="154"/>
+    <rect x="348" y="342" width="22" height="294"/>
+    <rect x="392" y="472" width="22" height="164"/>
+    <rect x="436" y="404" width="22" height="232"/>
+    <rect x="480" y="526" width="22" height="110"/>
+    <rect x="524" y="376" width="22" height="260"/>
+  </g>
+  <rect x="92" y="746" width="536" height="90" fill="#050505"/>
+  <path d="M164 746 V836 M314 746 V836 M500 746 V836" stroke="#f15caf" stroke-width="4"/>
+  <text x="92" y="1010" fill="#fbfaf8" font-family="Arial, sans-serif" font-size="44" font-weight="800">COMING SOON</text>
+  <text x="92" y="1072" fill="#8f8f8f" font-family="Arial, sans-serif" font-size="26" font-weight="700">BEAT EDIT</text>
+</svg>

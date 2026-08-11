@@ -1,0 +1,155 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { siteConfig } from "@/config/site";
+---
+
+<BaseLayout
+  title={`Account Deletion Policy & Instructions — ${siteConfig.shortName}`}
+  description={`Step-by-step instructions and policy for requesting deletion of your ${siteConfig.shortName} account and associated data.`}
+>
+  <Navbar client:load />
+
+  <main class="pt-[110px] pb-20 sm:pt-[130px] sm:pb-28">
+    <div class="container-x max-w-4xl">
+      <!-- Back Link -->
+      <div class="mb-8">
+        <a
+          href="/"
+          class="focus-ring inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-black/60 transition-colors hover:text-black"
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M19 12H5"></path>
+            <path d="M12 19l-7-7 7-7"></path>
+          </svg>
+          Back to Zera Studio
+        </a>
+      </div>
+
+      <!-- Header -->
+      <header class="mb-12 border-b border-black/10 pb-8">
+        <span class="eyebrow block mb-3">User Rights & Data Controls</span>
+        <h1 class="text-3.5xl sm:text-5xl font-black tracking-tight text-black leading-tight">
+          Account Deletion Policy & Instructions
+        </h1>
+        <div class="mt-4 flex flex-wrap items-center gap-3 text-xs sm:text-sm font-semibold text-black/60">
+          <span>Effective Date: August 11, 2026</span>
+          <span>•</span>
+          <span>Application Package: <code class="bg-bone px-1.5 py-0.5 rounded font-mono text-black">com.zerastudio.app</code></span>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <article class="space-y-10 text-[0.98rem] leading-relaxed text-black/80">
+        <section class="space-y-4">
+          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">1. Overview</h2>
+          <p>
+            Users of {siteConfig.shortName} (<code class="bg-bone px-1.5 py-0.5 rounded text-xs font-mono text-black font-semibold">com.zerastudio.app</code>) have the right to request the deletion of their account and associated personal information.
+          </p>
+          <p>
+            In compliance with Google Play Developer Policies, {siteConfig.shortName} provides both an <strong>in-app path</strong> to initiate account deletion and an <strong>external web/email request mechanism</strong> for users who cannot access the mobile application.
+          </p>
+        </section>
+
+        <section class="space-y-6">
+          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">2. How to Request Account Deletion</h2>
+
+          <!-- Option 1: In-App -->
+          <div class="bg-white p-6 rounded-xl border border-black/10 shadow-sm space-y-3">
+            <div class="inline-block px-2.5 py-1 bg-plum/10 text-plum font-bold text-xs rounded-md uppercase tracking-wide">
+              Option 1: In-App Account Deletion (Recommended)
+            </div>
+            <h3 class="text-lg font-bold text-black">Initiate deletion within the Android app</h3>
+            <ol class="list-decimal pl-6 space-y-2 text-black/80">
+              <li>Open the <strong>{siteConfig.shortName}</strong> app on your Android device.</li>
+              <li>Sign in to the account you wish to delete.</li>
+              <li>Go to <strong>Settings</strong> or your <strong>Account Profile</strong> page.</li>
+              <li>Select <strong>Delete Account</strong>.</li>
+              <li>Confirm the account deletion request when prompted.</li>
+            </ol>
+            <p class="text-xs text-black/60 pt-2 border-t border-black/5">
+              Upon confirmation, your session will end and account data will be scheduled for permanent removal.
+            </p>
+          </div>
+
+          <!-- Option 2: Web / Email Request -->
+          <div class="bg-white p-6 rounded-xl border border-black/10 shadow-sm space-y-3">
+            <div class="inline-block px-2.5 py-1 bg-black/10 text-black font-bold text-xs rounded-md uppercase tracking-wide">
+              Option 2: Web & Email Support Request
+            </div>
+            <h3 class="text-lg font-bold text-black">Request deletion if you cannot access the app</h3>
+            <p class="text-black/80">
+              If you have uninstalled the application or cannot access your Android device, you may submit a manual account deletion request via email:
+            </p>
+            <ol class="list-decimal pl-6 space-y-2 text-black/80">
+              <li>Send an email from the address registered with your {siteConfig.shortName} account.</li>
+              <li>Recipient: <a href={`mailto:${siteConfig.generalEmail}`} class="text-plum font-bold underline">{siteConfig.generalEmail}</a></li>
+              <li>Subject line: <code class="bg-bone px-2 py-0.5 rounded text-xs font-mono text-black font-bold">Account Deletion Request - {siteConfig.shortName}</code></li>
+              <li>Provide your registered email address and display name or User ID in the message body.</li>
+            </ol>
+            <p class="text-xs text-black/60 pt-2 border-t border-black/5">
+              Support requests will be verified to confirm account ownership and processed promptly (typically within 7 to 30 days depending on identity verification).
+            </p>
+          </div>
+        </section>
+
+        <section class="space-y-4">
+          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">3. Data Deleted vs. Retained</h2>
+          <p>Understanding what happens when your account deletion request is completed:</p>
+          
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div class="bg-bone p-4.5 rounded-lg border border-black/10">
+              <p class="font-bold text-black text-sm text-rose">Permanently Erased Data</p>
+              <ul class="text-xs text-black/70 mt-2 space-y-1.5 list-disc pl-4">
+                <li>Account profile (email, user ID, auth tokens, display name)</li>
+                <li>Uploaded media files and timeline configurations</li>
+                <li>Saved draft projects and AI prompt history</li>
+                <li>Account preferences and user configuration data</li>
+              </ul>
+            </div>
+            
+            <div class="bg-bone p-4.5 rounded-lg border border-black/10">
+              <p class="font-bold text-black text-sm text-black/80">Data Retained (If Applicable)</p>
+              <ul class="text-xs text-black/70 mt-2 space-y-1.5 list-disc pl-4">
+                <li>Records retained strictly to comply with legal or tax obligations (if any)</li>
+                <li>Fully anonymized operational metrics that cannot be linked back to an individual user or device</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="space-y-4">
+          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">4. Important Notes</h2>
+          <ul class="list-disc pl-6 space-y-2">
+            <li><strong>Permanence:</strong> Account deletion is permanent. Once completed, your saved projects and account settings cannot be recovered.</li>
+            <li><strong>Unsubscribing:</strong> Uninstalling the app does not automatically delete your account; you must initiate deletion in-app or submit an email request.</li>
+          </ul>
+        </section>
+
+        <section class="space-y-4 border-t border-black/10 pt-8">
+          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">5. Contact Support</h2>
+          <p>
+            If you have questions regarding account deletion or need assistance, contact:
+          </p>
+          <div class="bg-bone p-5 rounded-lg border border-black/10">
+            <p class="font-bold text-black">{siteConfig.shortName} Support</p>
+            <p class="mt-1">Email: <a href={`mailto:${siteConfig.generalEmail}`} class="text-plum font-semibold hover:underline">{siteConfig.generalEmail}</a></p>
+            <p class="mt-1 text-xs text-black/60">Privacy Policy: <a href="/privacy-policy" class="text-plum hover:underline font-medium font-semibold">View Privacy Policy</a></p>
+          </div>
+        </section>
+      </article>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

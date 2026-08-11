@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1280" viewBox="0 0 720 1280" role="img" aria-label="Coming soon placeholder for a cinematic edit">
+  <rect width="720" height="1280" fill="#0b0b0b"/>
+  <rect x="54" y="74" width="612" height="1132" fill="#151515" stroke="#343434" stroke-width="2"/>
+  <rect x="92" y="160" width="536" height="320" fill="#252525"/>
+  <rect x="92" y="520" width="536" height="320" fill="#1d1d1d"/>
+  <path d="M92 520 H628 V840 H92 Z" fill="#201826"/>
+  <path d="M156 792 H564" stroke="#fbfaf8" stroke-width="10"/>
+  <path d="M92 480 H628" stroke="#f15caf" stroke-width="5" opacity=".7"/>
+  <circle cx="360" cy="340" r="74" fill="#fbfaf8" opacity=".08"/>
+  <text x="92" y="1010" fill="#fbfaf8" font-family="Arial, sans-serif" font-size="44" font-weight="800">COMING SOON</text>
+  <text x="92" y="1072" fill="#8f8f8f" font-family="Arial, sans-serif" font-size="26" font-weight="700">CINEMATIC EDIT</text>
+</svg>
