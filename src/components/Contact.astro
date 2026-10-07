@@ -1,0 +1,66 @@
+---
+import FeedbackForm from "@/components/FeedbackForm";
+import { siteConfig } from "@/config/site";
+
+const channels = [
+  { label: "Support", email: siteConfig.supportEmail, copy: "The app, bugs, credits, account or data requests.", subject: "Zera Studio support" },
+  { label: "General", email: siteConfig.contactEmail, copy: "Business, partnerships, press.", subject: "Zera AI enquiry" },
+  { label: "Founder", email: siteConfig.founder.email, copy: `${siteConfig.founder.name}, ${siteConfig.founder.title}.`, subject: "Zera AI, for the founder" }
+];
+const { founder } = siteConfig;
+---
+
+<section id="contact" data-scene="calm" class="relative py-20 sm:py-28 lg:py-32">
+  <div class="container-x">
+    <div class="grid gap-6">
+      <div>
+        <h2 class="section-title reveal">
+          TELL US
+          <br />
+          <span class="text-brand">WHAT TO BUILD.</span>
+        </h2>
+      </div>
+      <p class="body-large reveal max-w-[620px] lg:justify-self-end">
+        Zera Studio is built by Zera AI, founded by {founder.name}. It changes every week, and most of what changes
+        starts as a message from someone using it.
+      </p>
+    </div>
+
+    <div class="reveal glass mt-12 grid gap-10 rounded-2xl p-5 sm:p-8 lg:grid-cols-[0.9fr_1.1fr] lg:p-10">
+      <div>
+        <p class="eyebrow mb-4">Feedback</p>
+        <h3 class="font-display text-4xl font-[750] uppercase leading-[0.95] [font-stretch:76%] sm:text-5xl">What worked? What didn't?</h3>
+        <p class="mt-5 max-w-[420px] text-base leading-7 text-white/60">
+          Add your email if you would like a reply.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={founder.linkedin} target="_blank" rel="noreferrer" class="cta-secondary focus-ring">Founder on LinkedIn</a>
+          <a href={siteConfig.companyLinkedin} target="_blank" rel="noreferrer" class="cta-secondary focus-ring">Zera AI on LinkedIn</a>
+          <a href={siteConfig.instagram} target="_blank" rel="noreferrer" class="cta-secondary focus-ring">Instagram</a>
+        </div>
+      </div>
+      <div class="lg:self-center">
+        <FeedbackForm client:visible />
+      </div>
+    </div>
+
+    <div class="spec spec-row reveal mt-10">
+      {
+        channels.map((c) => (
+          <article class="flex flex-col justify-between">
+            <div>
+              <p class="eyebrow mb-3">{c.label}</p>
+              <p class="text-sm leading-6 text-white/60">{c.copy}</p>
+            </div>
+            <a
+              href={`mailto:${c.email}?subject=${encodeURIComponent(c.subject)}`}
+              class="focus-ring mt-5 inline-flex w-fit items-center gap-2 border-b border-white/25 pb-1 text-sm font-semibold transition-colors hover:border-[#ffb547]"
+            >
+              {c.email}
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

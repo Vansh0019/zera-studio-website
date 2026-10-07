@@ -1,0 +1,85 @@
+---
+/** Reference to edit: a reel you love + your clips → your edit, cut the same way. Limits from the server. */
+const dna = [
+  { label: "Pacing", value: 86 },
+  { label: "Cuts on the beat", value: 92 },
+  { label: "Transitions", value: 71 },
+  { label: "Text & timing", value: 64 }
+];
+const steps = [
+  ["Pick a reel you love", "Any video from your gallery, up to 6 minutes."],
+  ["Add your clips", "Up to 15 clips, up to 30 minutes together."],
+  ["Get your edit in that style", "Its pacing, cuts and beat sync, on your footage."]
+];
+---
+
+<section id="reference" data-scene="reference" class="relative py-20 sm:py-28 lg:py-36">
+  <div class="container-x grid items-center gap-14 lg:grid-cols-[0.8fr_1.2fr]">
+    <div data-gate class="reveal relative mx-auto w-full max-w-[300px] sm:max-w-[330px]">
+      <div class="overflow-hidden rounded-[42px] border border-white/15 bg-black p-[9px] shadow-[0_50px_100px_-40px_rgba(0,0,0,0.9)]">
+        <div class="relative aspect-[9/19.2] overflow-hidden rounded-[33px]">
+          <video
+            class="absolute inset-0 h-full w-full object-cover"
+            src="/media/reference.mp4"
+            poster="/media/reference.jpg"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="none"
+            aria-label="Zera Studio editing clips in the style of a reference video"></video>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div>
+        <h2 class="section-title reveal">
+          LIKE THAT REEL?
+          <br />
+          <span class="text-brand">MAKE YOURS LIKE IT.</span>
+        </h2>
+        <p class="body-large mt-6 max-w-[600px]">
+          Show the AI a video whose edit you love. It studies how it is cut (the pacing, the beats, the transitions)
+          and builds the same kind of edit from your own clips. 5 credits an edit.
+        </p>
+      </div>
+
+      <div class="reveal glass mt-8 rounded-2xl p-5 sm:p-6">
+        <p class="eyebrow mb-5">Style the AI reads</p>
+        <div class="space-y-4">
+          {
+            dna.map((d, i) => (
+              <div>
+                <div class="mb-1.5 flex justify-between text-sm font-medium">
+                  <span>{d.label}</span>
+                  <span class="tc text-white/50">{d.value}%</span>
+                </div>
+                <div class="h-[3px] overflow-hidden bg-white/10">
+                  <span
+                    data-grow
+                    class="dna-bar block h-full bg-[#ffb547]"
+                    style={`width:${d.value}%; transition-delay:${i * 0.12}s`}
+                  />
+                </div>
+              </div>
+            ))
+          }
+        </div>
+        <p class="mt-4 text-xs text-white/40">Illustration of what the analysis looks at, not a score.</p>
+      </div>
+
+      <ol class="spec spec-row reveal mt-8 list-none p-0">
+        {
+          steps.map(([t, c], i) => (
+            <li>
+              <span class="tc text-xs text-[#ffb547]">Step {i + 1}</span>
+              <p class="spec-k mt-2">{t}</p>
+              <p class="spec-v">{c}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>

@@ -6,6 +6,7 @@ import { siteConfig } from "@/config/site";
 ---
 
 <BaseLayout
+  light
   title={`Account Deletion Policy & Instructions — ${siteConfig.shortName}`}
   description={`Step-by-step instructions and policy for requesting deletion of your ${siteConfig.shortName} account and associated data.`}
 >
@@ -45,7 +46,7 @@ import { siteConfig } from "@/config/site";
         <div class="mt-4 flex flex-wrap items-center gap-3 text-xs sm:text-sm font-semibold text-black/60">
           <span>Effective Date: August 11, 2026</span>
           <span>•</span>
-          <span>Application Package: <code class="bg-bone px-1.5 py-0.5 rounded font-mono text-black">com.zerastudio.app</code></span>
+          <span>Applies to: {siteConfig.shortName} for Android</span>
         </div>
       </header>
 
@@ -54,7 +55,7 @@ import { siteConfig } from "@/config/site";
         <section class="space-y-4">
           <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">1. Overview</h2>
           <p>
-            Users of {siteConfig.shortName} (<code class="bg-bone px-1.5 py-0.5 rounded text-xs font-mono text-black font-semibold">com.zerastudio.app</code>) have the right to request the deletion of their account and associated personal information.
+            Users of {siteConfig.shortName} for Android have the right to request the deletion of their account and associated personal information.
           </p>
           <p>
             In compliance with Google Play Developer Policies, {siteConfig.shortName} provides both an <strong>in-app path</strong> to initiate account deletion and an <strong>external web/email request mechanism</strong> for users who cannot access the mobile application.
@@ -93,7 +94,7 @@ import { siteConfig } from "@/config/site";
             </p>
             <ol class="list-decimal pl-6 space-y-2 text-black/80">
               <li>Send an email from the address registered with your {siteConfig.shortName} account.</li>
-              <li>Recipient: <a href={`mailto:${siteConfig.generalEmail}`} class="text-plum font-bold underline">{siteConfig.generalEmail}</a></li>
+              <li>Recipient: <a href={`mailto:${siteConfig.supportEmail}`} class="text-plum font-bold underline">{siteConfig.supportEmail}</a></li>
               <li>Subject line: <code class="bg-bone px-2 py-0.5 rounded text-xs font-mono text-black font-bold">Account Deletion Request - {siteConfig.shortName}</code></li>
               <li>Provide your registered email address and display name or User ID in the message body.</li>
             </ol>
@@ -142,9 +143,14 @@ import { siteConfig } from "@/config/site";
             If you have questions regarding account deletion or need assistance, contact:
           </p>
           <div class="bg-bone p-5 rounded-lg border border-black/10">
-            <p class="font-bold text-black">{siteConfig.shortName} Support</p>
-            <p class="mt-1">Email: <a href={`mailto:${siteConfig.generalEmail}`} class="text-plum font-semibold hover:underline">{siteConfig.generalEmail}</a></p>
-            <p class="mt-1 text-xs text-black/60">Privacy Policy: <a href="/privacy-policy" class="text-plum hover:underline font-medium font-semibold">View Privacy Policy</a></p>
+            <p class="font-bold text-black">{siteConfig.companyLegalName}</p>
+            <p class="mt-1">Support: <a href={`mailto:${siteConfig.supportEmail}`} class="text-plum font-semibold hover:underline">{siteConfig.supportEmail}</a></p>
+            <p class="mt-1">General contact: <a href={`mailto:${siteConfig.contactEmail}`} class="text-plum font-semibold hover:underline">{siteConfig.contactEmail}</a></p>
+            <p class="mt-1 text-xs text-black/60">
+              <a href="/privacy-policy" class="text-plum hover:underline font-semibold">Privacy Policy</a>
+              <span class="mx-1.5 text-black/30">·</span>
+              <a href="/terms" class="text-plum hover:underline font-semibold">Terms of Service</a>
+            </p>
           </div>
         </section>
       </article>

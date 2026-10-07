@@ -1,0 +1,103 @@
+---
+/**
+ * A strip of 35 mm film running across the page, with what Zera Studio does printed in its frames. It has sprocket
+ * holes, frame lines and edge numbers, like the film in the background. Pure CSS, so it costs nothing to keep moving.
+ */
+const frames = [
+  "AI B-roll",
+  "Hinglish captions",
+  "Motion graphics",
+  "Reference to edit",
+  "Auto zooms",
+  "Cuts on the beat",
+  "Keyframes",
+  "Export 4K 60"
+];
+---
+
+<section aria-label="What Zera Studio does" class="relative z-[2] overflow-hidden py-10 sm:py-16">
+  <div class="filmstrip -rotate-[2deg] scale-[1.04]">
+    <div class="marquee">
+      {
+        [0, 1].map((copy) => (
+          <div class="flex shrink-0" aria-hidden="true">
+            {frames.map((t, i) => (
+              <div class="frame">
+                <span class="edge tc">ZS {String(copy * frames.length + i + 1).padStart(4, "0")}</span>
+                <span class="pic">{t}</span>
+              </div>
+            ))}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+  <p class="sr-only">AI B-roll, Hinglish captions, motion graphics, reference to edit, auto zooms, cuts on the beat, keyframes and export up to 4K 60fps.</p>
+</section>
+
+<style>
+  .filmstrip {
+    --perf: 22px;
+    position: relative;
+    background-color: #120d0a;
+    padding: 22px 0;
+    box-shadow:
+      0 30px 60px -30px rgba(0, 0, 0, 0.9),
+      inset 0 1px 0 rgba(255, 210, 160, 0.08);
+  }
+  /* Sprocket holes along both edges: light coming through them. */
+  .filmstrip::before,
+  .filmstrip::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 9px;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent 0 7px,
+      rgba(255, 228, 190, 0.82) 7px 16px,
+      transparent 16px var(--perf)
+    );
+    border-radius: 2px;
+    opacity: 0.9;
+  }
+  .filmstrip::before {
+    top: 7px;
+  }
+  .filmstrip::after {
+    bottom: 7px;
+  }
+  .frame {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: clamp(220px, 26vw, 340px);
+    aspect-ratio: 1.5;
+    margin-right: 8px;
+    border-radius: 3px;
+    /* A frame of developed film: warm, a little uneven, lit from behind. */
+    background:
+      radial-gradient(120% 90% at 30% 20%, rgba(255, 181, 71, 0.22), transparent 60%),
+      linear-gradient(160deg, #2a1d14, #17110d 70%);
+    overflow: hidden;
+  }
+  .frame .pic {
+    font-family: "Archivo Variable", Archivo, ui-sans-serif, system-ui, sans-serif;
+    font-stretch: 72%;
+    font-weight: 800;
+    font-size: clamp(1.5rem, 2.6vw, 2.3rem);
+    line-height: 0.95;
+    text-align: center;
+    text-transform: uppercase;
+    color: #f3ede3;
+    padding: 0 1rem;
+  }
+  .frame .edge {
+    position: absolute;
+    left: 10px;
+    bottom: 7px;
+    font-size: 0.58rem;
+    color: rgba(255, 181, 71, 0.55);
+  }
+</style>

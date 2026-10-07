@@ -7,7 +7,9 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    // On the paper pages (legal) a transparent bar would put white text on white: always the dark bar there.
+    const paper = document.body.classList.contains("page-light");
+    const onScroll = () => setScrolled(paper || window.scrollY > 24);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -21,25 +23,14 @@ export default function Navbar() {
   const close = () => setOpen(false);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "border-b border-black/10 bg-paper/[0.86] backdrop-blur-xl"
-          : "border-b border-transparent bg-transparent"
-      }`}
-    >
-      <nav className="container-x flex h-[68px] items-center justify-between gap-5">
+    <header className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${scrolled ? "border-b border-white/10 bg-[#0b0908]/90" : "border-b border-transparent"}`}>
+      <nav
+        className="container-x flex h-[64px] items-center justify-between gap-5 text-white"
+      >
         <a href="/#top" className="focus-ring flex items-center gap-2.5" onClick={close}>
-          <img
-            src={siteConfig.logo}
-            alt="Zera Studio logo"
-            className="h-9 sm:h-10 w-auto object-contain"
-            width={40}
-            height={40}
-          />
-          <span className="text-[0.78rem] font-black leading-none">
-            ZERA
-            <span className="hidden sm:inline"> STUDIO</span>
+          <img src={siteConfig.logoSmall} alt="Zera Studio logo" className="h-8 w-auto object-contain" width={32} height={32} />
+          <span className="font-display text-[1.05rem] font-[750] uppercase tracking-[0.02em] [font-stretch:80%]">
+            ZERA<span className="hidden sm:inline"> STUDIO</span>
           </span>
         </a>
 
@@ -47,8 +38,8 @@ export default function Navbar() {
           {siteConfig.nav.map((item) => (
             <a
               key={item.href}
-              href={item.href.startsWith("#") ? `/${item.href}` : item.href}
-              className="focus-ring text-[0.76rem] font-bold text-black/70 transition-colors hover:text-black"
+              href={`/${item.href}`}
+              className="focus-ring text-[0.88rem] text-white/65 transition-colors hover:text-white"
             >
               {item.label}
             </a>
@@ -56,15 +47,15 @@ export default function Navbar() {
         </div>
 
         <div className="hidden items-center gap-2 lg:flex">
-          <a href={siteConfig.playStoreUrl} className="cta-primary focus-ring" target="_blank" rel="noreferrer">
-            Try Zera Studio
-            <ArrowUpRight size={15} strokeWidth={2.4} />
+          <a href={siteConfig.playStoreUrl} className="cta-primary focus-ring !min-h-[40px] !px-4 !text-[0.85rem]" target="_blank" rel="noreferrer">
+            Get the app
+            <ArrowUpRight size={15} strokeWidth={2} />
           </a>
         </div>
 
         <button
           type="button"
-          className="focus-ring grid h-10 w-10 place-items-center rounded-full border border-black/[0.15] lg:hidden"
+          className="focus-ring grid h-10 w-10 place-items-center rounded-[4px] border border-white/20 lg:hidden"
           aria-label={open ? "Close navigation" : "Open navigation"}
           aria-expanded={open}
           onClick={() => setOpen((value) => !value)}
@@ -74,30 +65,24 @@ export default function Navbar() {
       </nav>
 
       <div
-        className={`fixed inset-x-0 top-[68px] z-40 bg-paper px-4 pb-5 shadow-soft transition-all duration-300 lg:hidden ${
+        className={`fixed inset-x-0 top-[64px] z-40 transition-all duration-300 lg:hidden ${
           open ? "visible translate-y-0 opacity-100" : "invisible -translate-y-3 opacity-0"
         }`}
       >
-        <div className="rounded-b-[6px] border-x border-b border-black/10 bg-paper p-3">
+        <div className="border-b border-white/10 bg-[#0b0908] px-4 pb-4 text-white">
           {siteConfig.nav.map((item) => (
             <a
               key={item.href}
-              href={item.href.startsWith("#") ? `/${item.href}` : item.href}
+              href={`/${item.href}`}
               onClick={close}
-              className="focus-ring flex min-h-12 items-center border-b border-black/10 text-sm font-bold last:border-0"
+              className="focus-ring flex min-h-12 items-center border-b border-white/10 px-1 text-base"
             >
               {item.label}
             </a>
           ))}
-          <a
-            href={siteConfig.playStoreUrl}
-            onClick={close}
-            target="_blank"
-            rel="noreferrer"
-            className="cta-primary focus-ring mt-3 w-full"
-          >
-            Try Zera Studio
-            <ArrowUpRight size={15} strokeWidth={2.4} />
+          <a href={siteConfig.playStoreUrl} onClick={close} target="_blank" rel="noreferrer" className="cta-primary focus-ring mt-3 w-full">
+            Get it on Google Play
+            <ArrowUpRight size={15} strokeWidth={2} />
           </a>
         </div>
       </div>

@@ -1,131 +1,186 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { siteConfig } from "@/config/site";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { pricing, siteConfig } from "@/config/site";
 
-const clipRows = [
-  ["00:04", "Street", "Motion"],
-  ["00:09", "Product", "Close"],
-  ["00:13", "Audio", "Beat"]
+/** What the AI does, cut in on the beat like a jump cut. Short, so "AI <verb>" always fits one line. */
+const VERBS = ["EDITS.", "CUTS.", "CAPTIONS.", "ZOOMS.", "SYNCS."];
+
+/**
+ * Notes on the edit, the way an editor marks up a cut: what the AI put where, with its timecode. One lights up on
+ * the beat. Not floating gradient badges.
+ */
+const NOTES = [
+  { label: "B-roll", tc: "00:02", cls: "left-[-30%] top-[16%]" },
+  { label: "Zoom 1.2×", tc: "00:05", cls: "right-[-26%] top-[30%]" },
+  { label: "Flash on the beat", tc: "00:07", cls: "left-[-38%] top-[50%]" },
+  { label: "Motion graphic", tc: "00:11", cls: "right-[-30%] top-[62%]" },
+  { label: "Captions, Hinglish", tc: "00:00", cls: "left-[-34%] top-[78%]" }
 ];
+
+function useTimecode() {
+  const [tc, setTc] = useState("00:00:00:00");
+  useEffect(() => {
+    const start = performance.now();
+    let raf = 0;
+    let last = 0;
+    const tick = (now: number) => {
+      if (now - last > 40) {
+        last = now;
+        const f = Math.floor(((now - start) / 1000) * 25);
+        const ff = f % 25;
+        const s = Math.floor(f / 25);
+        const p = (n: number) => String(n).padStart(2, "0");
+        setTc(`${p(Math.floor(s / 3600))}:${p(Math.floor(s / 60) % 60)}:${p(s % 60)}:${p(ff)}`);
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+  return tc;
+}
 
 export default function Hero() {
   const root = useRef<HTMLElement>(null);
-  const visual = useRef<HTMLDivElement>(null);
+  const [verb, setVerb] = useState(0);
+  const [pop, setPop] = useState(-1);
+  const tc = useTimecode();
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!root.current || reduced) return;
+    if (!root.current) return;
+    let beats = 0;
+    const onBeat = () => {
+      beats++;
+      if (beats % 4 === 0) setVerb((v) => (v + 1) % VERBS.length);
+      if (beats % 2 === 0) setPop((p) => (p + 1) % NOTES.length);
+    };
+    window.addEventListener("zera:beat", onBeat);
+    if (reduced) return () => window.removeEventListener("zera:beat", onBeat);
 
+    gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
+      // The title comes in like a title card: each line rises out of a mask.
       gsap
-        .timeline({ defaults: { ease: "power3.out" } })
-        .from(".hero-logo", { opacity: 0, scale: 0.86, duration: 0.7 })
-        .from(".hero-word", { y: 70, opacity: 0, duration: 1.05, stagger: 0.08 }, "-=0.35")
-        .from(".hero-copy", { y: 26, opacity: 0, duration: 0.8 }, "-=0.55")
-        .from(".hero-actions", { y: 18, opacity: 0, duration: 0.7 }, "-=0.45")
-        .from(".hero-visual", { y: 42, opacity: 0, duration: 0.95 }, "-=0.75");
-
-      const loop = gsap.timeline({ repeat: -1, repeatDelay: 0.8, defaults: { ease: "power2.inOut" } });
-      loop
-        .fromTo(".clip-card", { x: -26, opacity: 0.5 }, { x: 0, opacity: 1, duration: 0.8, stagger: 0.1 })
-        .fromTo(".scan-line", { xPercent: -115 }, { xPercent: 125, duration: 1.4 }, "-=0.25")
-        .fromTo(".beat", { scaleY: 0.3, opacity: 0.35 }, { scaleY: 1, opacity: 1, duration: 0.5, stagger: 0.055 }, "-=1.0")
-        .fromTo(".cut-marker", { scaleY: 0, opacity: 0 }, { scaleY: 1, opacity: 1, duration: 0.35, stagger: 0.11 }, "-=0.75")
-        .to(".clip-card", { x: (i) => [74, 18, 46][i] ?? 28, duration: 0.75, stagger: 0.05 }, "-=0.15")
-        .to(".result-frame", { clipPath: "inset(0% 0% 0% 0%)", duration: 0.8 }, "-=0.55")
-        .to(".ready-pill", { opacity: 1, y: 0, duration: 0.45 }, "-=0.35")
-        .to(".ready-pill", { opacity: 0, y: -8, duration: 0.35 }, "+=1.2")
-        .to(".result-frame", { clipPath: "inset(0% 100% 0% 0%)", duration: 0.5 }, "-=0.2");
+        .timeline({ defaults: { ease: "expo.out" } })
+        .from(".hero-line", { yPercent: 105, duration: 1.25, stagger: 0.1 })
+        .from(".hero-copy", { opacity: 0, duration: 0.9 }, "-=0.8")
+        .from(".hero-actions > *", { opacity: 0, y: 10, duration: 0.7, stagger: 0.06 }, "-=0.7")
+        // The phone opens like a projector gate: a sliver of light widening to the full frame.
+        .fromTo(
+          ".hero-phone",
+          { clipPath: "inset(48% 0% 48% 0% round 44px)" },
+          { clipPath: "inset(0% 0% 0% 0% round 44px)", duration: 1.2, ease: "expo.inOut", clearProps: "clipPath" },
+          "-=1.1"
+        )
+        .from(".hero-note", { opacity: 0, x: (i) => (i % 2 ? 12 : -12), duration: 0.6, stagger: 0.06 }, "-=0.4");
+      // Scrolling away dollies the phone back.
+      gsap.to(".hero-phone-wrap", {
+        rotateX: 14,
+        rotateY: -10,
+        y: -30,
+        scale: 0.94,
+        ease: "none",
+        scrollTrigger: { trigger: root.current, start: "top top", end: "bottom top", scrub: true }
+      });
+      gsap.to(".hero-type", {
+        yPercent: -14,
+        opacity: 0.25,
+        ease: "none",
+        scrollTrigger: { trigger: root.current, start: "top top", end: "bottom top", scrub: true }
+      });
     }, root);
-
-    return () => ctx.revert();
+    return () => {
+      window.removeEventListener("zera:beat", onBeat);
+      ctx.revert();
+    };
   }, []);
 
   return (
-    <section id="top" ref={root} className="relative overflow-hidden pb-14 pt-[92px] sm:pb-20 lg:min-h-screen lg:pt-[104px]">
-      <div className="container-x grid items-end gap-10 lg:grid-cols-[0.98fr_1.02fr]">
-        <div className="max-w-[760px]">
-          <img src={siteConfig.logo} alt="" className="hero-logo mb-8 h-20 w-20 object-contain sm:h-24 sm:w-24" />
-          <p className="hero-copy eyebrow mb-5">AI Video Editor · Currently in Beta</p>
-          <h1 className="display overflow-hidden">
-            <span className="hero-word block">EDIT</span>
-            <span className="hero-word block">VIDEOS</span>
-            <span className="hero-word block text-black/[0.35]">LIKE A</span>
-            <span className="hero-word block">VISION.</span>
+    <section id="top" ref={root} data-scene="hero" className="relative overflow-hidden pb-16 pt-[120px] sm:pt-[140px] lg:min-h-[100svh] lg:pb-10">
+      <div className="container-x grid items-center gap-16 lg:grid-cols-[1.35fr_0.65fr]">
+        <div className="hero-type min-w-0">
+          <h1 className="font-display whitespace-nowrap text-[clamp(4.1rem,10.4vw,10.6rem)] font-[800] uppercase leading-[0.84] tracking-[-0.01em]">
+            <span className="block overflow-hidden">
+              <span className="hero-line block">You talk.</span>
+            </span>
+            <span className="block overflow-hidden pb-[0.04em]">
+              <span className="hero-line block">
+                <span className="text-white/40">AI </span>
+                <span key={verb} className="cut-word text-lamp">
+                  {VERBS[verb]}
+                </span>
+              </span>
+            </span>
           </h1>
-          <p className="hero-copy mt-7 max-w-[600px] text-[1.13rem] leading-[1.55] text-black/[0.65] sm:text-[1.28rem]">
-            Not frame by frame. Zera Studio uses AI to understand your footage
-            and turn your clips into an edited video.
+          <p className="hero-copy mt-9 max-w-[540px] text-[1.08rem] leading-[1.6] text-white/70 sm:text-[1.2rem]">
+            Drop in a talking video. Zera Studio listens to every word and hands back an edit with B-roll, motion
+            graphics, zooms and Hinglish captions on real tracks, so you can change any of it.
           </p>
-          <div className="hero-actions mt-7 flex flex-col gap-3 sm:flex-row">
+          <div className="hero-actions mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
             <a href={siteConfig.playStoreUrl} target="_blank" rel="noreferrer" className="cta-primary focus-ring">
-              Try Zera Studio
-              <ArrowUpRight size={15} strokeWidth={2.4} />
+              Get it on Google Play
+              <ArrowUpRight size={17} strokeWidth={2} />
             </a>
-            <a href="#how-it-works" className="cta-secondary focus-ring">
-              How It Works
-              <ArrowRight size={15} strokeWidth={2.4} />
+            <a href="/#broll" className="cta-secondary focus-ring">
+              See how it edits
+              <ArrowDown size={17} strokeWidth={2} />
             </a>
           </div>
+          <p className="hero-copy mt-5 text-sm text-white/55">
+            {pricing.welcomeCredits} credits free when you sign up. The editor and export are free.
+          </p>
         </div>
 
-        <div ref={visual} className="hero-visual relative min-h-[520px] overflow-hidden border border-black/10 bg-white p-3 shadow-soft sm:min-h-[620px] sm:p-4 lg:min-h-[690px]">
-          <div className="grid h-full min-h-[496px] grid-rows-[1fr_auto_1fr] gap-3 sm:min-h-[588px]">
-            <div className="relative overflow-hidden bg-[#111] p-4 text-white">
-              <div className="mb-5 flex items-center justify-between">
-                <span className="eyebrow text-white/60">Raw clips</span>
-                <span className="text-[0.7rem] font-bold text-white/[0.45]">3 ITEMS</span>
-              </div>
-              <div className="space-y-3">
-                {clipRows.map((clip) => (
-                  <div key={clip[1]} className="clip-card grid grid-cols-[58px_1fr_auto] items-center gap-3 border border-white/10 bg-white/[0.055] p-3">
-                    <span className="text-[0.72rem] font-black text-rose">{clip[0]}</span>
-                    <span className="text-sm font-bold">{clip[1]}</span>
-                    <span className="text-[0.68rem] font-bold text-white/50">{clip[2]}</span>
-                  </div>
-                ))}
-              </div>
-              <div className="scan-line pointer-events-none absolute inset-y-0 left-0 w-28 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-            </div>
-
-            <div className="border-y border-black/10 py-4">
-              <div className="mb-3 flex items-center justify-between">
-                <span className="eyebrow">AI analysis</span>
-                <span className="text-[0.7rem] font-black text-plum">TIMELINE BUILD</span>
-              </div>
-              <div className="grid h-20 items-end gap-1 overflow-hidden bg-bone p-3" style={{ gridTemplateColumns: "repeat(24, minmax(0, 1fr))" }}>
-                {Array.from({ length: 24 }).map((_, index) => (
-                  <span
-                    key={index}
-                    className="beat origin-bottom bg-black"
-                    style={{ height: `${18 + ((index * 19) % 48)}px` }}
-                  />
-                ))}
-              </div>
-              <div className="relative mt-3 h-12 bg-black">
-                {[11, 31, 54, 72, 88].map((left) => (
-                  <span key={left} className="cut-marker absolute top-0 h-full w-px origin-bottom bg-rose" style={{ left: `${left}%` }} />
-                ))}
-                <div className="absolute inset-y-2 left-[8%] w-[23%] bg-white/20" />
-                <div className="absolute inset-y-2 left-[36%] w-[16%] bg-white/[0.35]" />
-                <div className="absolute inset-y-2 left-[58%] w-[26%] bg-white/20" />
-              </div>
-            </div>
-
-            <div className="relative overflow-hidden bg-[#0b0b0b] p-4 text-white">
-              <div className="mb-4 flex items-center justify-between">
-                <span className="eyebrow text-white/60">Result</span>
-                <span className="ready-pill translate-y-2 text-[0.7rem] font-black text-cyan opacity-0">EDIT READY</span>
-              </div>
-              <div className="relative h-[calc(100%-2.1rem)] overflow-hidden border border-white/10 bg-white/[0.04]">
-                <div className="absolute inset-4 bg-gradient-to-br from-white/20 via-white/5 to-rose/20" />
-                <div className="absolute bottom-5 left-5 right-5 h-2 bg-white/[0.15]">
-                  <span className="block h-full w-[64%] bg-white" />
+        <div className="relative mx-auto w-full max-w-[300px] [perspective:1200px] sm:max-w-[340px] lg:max-w-[360px]">
+          <div className="hero-phone-wrap relative [transform-style:preserve-3d]">
+            <figure className="hero-phone relative m-0 overflow-hidden rounded-[44px] border border-white/15 bg-black p-[9px] shadow-[0_50px_100px_-40px_rgba(0,0,0,0.9)]">
+              <div className="relative aspect-[9/19.2] overflow-hidden rounded-[35px] bg-[#0b0b0d]">
+                <video
+                  className="absolute inset-0 h-full w-full object-cover"
+                  src="/media/home.mp4"
+                  poster="/media/home.jpg"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  aria-label="Zera Studio adding B-roll and graphics to a creator's talking video"
+                />
+                <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-end px-5 pt-4">
+                  <span className="tc rounded-[3px] bg-black/55 px-1.5 py-0.5 text-[0.62rem] text-white/85">{tc}</span>
                 </div>
-                <div className="result-frame absolute inset-0 bg-[linear-gradient(135deg,rgba(124,62,242,.78),rgba(241,92,175,.46)_48%,rgba(103,216,210,.42))]" style={{ clipPath: "inset(0% 100% 0% 0%)" }} />
+                {/* A timeline strip along the bottom, with its playhead. */}
+                <div className="pointer-events-none absolute inset-x-3 bottom-3 rounded-[6px] border border-white/10 bg-black/70 p-1.5">
+                  <div className="relative h-8 overflow-hidden">
+                    <div className="timeline-strip absolute inset-y-0 left-0 flex w-[200%] gap-[3px]">
+                      {Array.from({ length: 16 }).map((_, i) => (
+                        <span
+                          key={i}
+                          className="h-full flex-1 rounded-[2px]"
+                          style={{ background: ["#4a78c9", "rgba(243,237,227,0.14)", "#3f8f9a", "#b8643f"][i % 4] }}
+                        />
+                      ))}
+                    </div>
+                    <span className="absolute inset-y-0 left-1/2 w-[2px] -translate-x-1/2 bg-[#ffb547]" />
+                  </div>
+                </div>
               </div>
-            </div>
+            </figure>
+            {NOTES.map((c, i) => (
+              <span key={c.label} aria-hidden="true" className={`hero-note absolute ${c.cls} z-10 hidden sm:block`}>
+                <span
+                  className={`flex items-center gap-2.5 whitespace-nowrap border-l-2 bg-[#0e0c0b]/90 py-1.5 pl-2.5 pr-3 text-[0.72rem] transition-colors duration-200 ${
+                    pop === i ? "border-[#ffb547] text-white" : "border-white/25 text-white/60"
+                  }`}
+                >
+                  <span className="tc text-white/40">{c.tc}</span>
+                  {c.label}
+                </span>
+              </span>
+            ))}
           </div>
         </div>
       </div>

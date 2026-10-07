@@ -1,8 +1,7 @@
-import type { SVGProps } from "react";
-import { Mail } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { siteConfig } from "@/config/site";
 
-function InstagramIcon({ size = 16 }: { size?: number }) {
+function InstagramIcon({ size = 15 }: { size?: number }) {
   return (
     <svg
       width={size}
@@ -30,34 +29,65 @@ function InstagramIcon({ size = 16 }: { size?: number }) {
   );
 }
 
-const iconMap = {
-  Instagram: InstagramIcon,
-  X: (_props: SVGProps<SVGSVGElement>) => <span className="text-[0.72rem] font-black">X</span>
-};
+const productLinks = [
+  { label: "AI B-roll", href: "/#broll" },
+  { label: "Auto captions", href: "/#captions" },
+  { label: "Reference to edit", href: "/#reference" },
+  { label: "The editor", href: "/#editor" },
+  { label: "Pricing", href: "/#pricing" }
+];
+
+const companyLinks = [
+  { label: "FAQ", href: "/#faq" },
+  { label: "Contact", href: "/#contact" }
+];
+
+const legalLinks = [
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Terms of Service", href: "/terms" },
+  { label: "Account Deletion", href: "/account-deletion" }
+];
 
 export default function Footer() {
+  const verifyLinks = [
+    { label: "Google Play", href: siteConfig.playStoreUrl },
+    { label: "Company LinkedIn", href: siteConfig.companyLinkedin },
+    { label: "Founder LinkedIn", href: siteConfig.founder.linkedin }
+  ];
+
   return (
-    <footer className="dark-section border-t border-white/10 py-10">
+    <footer className="dark-section border-t border-white/10 py-14">
       <div className="container-x">
-        <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-start">
+        <div className="grid gap-10 lg:grid-cols-[1.15fr_1.85fr]">
+          {/* Brand */}
           <div>
             <a href="/#top" className="focus-ring inline-flex items-center gap-3">
-              <img src={siteConfig.logo} alt="Zera Studio logo" className="h-12 w-12 object-contain" width={48} height={48} />
-              <span className="text-sm font-black">ZERA STUDIO</span>
+              <img
+                src={siteConfig.logoSmall}
+                alt="Zera Studio logo"
+                className="h-12 w-auto object-contain"
+                width={48}
+                height={48}
+              />
+              <span className="font-display text-lg font-[750] uppercase [font-stretch:80%]">Zera Studio</span>
             </a>
-            <p className="mt-4 max-w-[360px] text-sm leading-6 text-white/60">
-              AI video editing, built for creators.
+            <p className="mt-4 max-w-[330px] text-sm leading-6 text-white/60">
+              The AI video editor for creators, by {siteConfig.company}. AI
+              B-roll, Hinglish captions and a full editor, on Android.
             </p>
           </div>
 
-          <div className="grid gap-8 sm:grid-cols-[auto_auto_auto] items-start lg:gap-10">
+          {/* Link columns */}
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:justify-items-end">
             <div>
-              <div className="mb-3 text-[0.72rem] font-extrabold uppercase tracking-wider text-white/40">Navigation</div>
-              <nav className="flex flex-col gap-2.5" aria-label="Footer navigation">
-                {siteConfig.nav.map((item) => (
+              <div className="mb-3.5 text-[0.72rem] font-extrabold uppercase tracking-wider text-white/40">
+                Product
+              </div>
+              <nav className="flex flex-col gap-2.5" aria-label="Product">
+                {productLinks.map((item) => (
                   <a
                     key={item.href}
-                    href={item.href.startsWith("#") ? `/${item.href}` : item.href}
+                    href={item.href}
                     className="focus-ring text-xs font-bold text-white/60 transition-colors hover:text-white"
                   >
                     {item.label}
@@ -67,65 +97,87 @@ export default function Footer() {
             </div>
 
             <div>
-              <div className="mb-3 text-[0.72rem] font-extrabold uppercase tracking-wider text-white/40">Legal</div>
-              <nav className="flex flex-col gap-2.5" aria-label="Legal navigation">
+              <div className="mb-3.5 text-[0.72rem] font-extrabold uppercase tracking-wider text-white/40">
+                Company
+              </div>
+              <nav className="flex flex-col gap-2.5" aria-label="Company">
+                {companyLinks.map((item) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className="focus-ring text-xs font-bold text-white/60 transition-colors hover:text-white"
+                  >
+                    {item.label}
+                  </a>
+                ))}
                 <a
-                  href="/privacy-policy"
+                  href={`mailto:${siteConfig.supportEmail}`}
                   className="focus-ring text-xs font-bold text-white/60 transition-colors hover:text-white"
                 >
-                  Privacy Policy
+                  {siteConfig.supportEmail}
                 </a>
                 <a
-                  href="/account-deletion"
+                  href={`mailto:${siteConfig.contactEmail}`}
                   className="focus-ring text-xs font-bold text-white/60 transition-colors hover:text-white"
                 >
-                  Account Deletion
+                  {siteConfig.contactEmail}
                 </a>
               </nav>
             </div>
 
-            <div className="flex gap-2 pt-1 sm:pt-0">
-              {siteConfig.socials.map((social) => {
-                const Icon = iconMap[social.label as keyof typeof iconMap];
-                return social.href ? (
+            <div>
+              <div className="mb-3.5 text-[0.72rem] font-extrabold uppercase tracking-wider text-white/40">
+                Legal
+              </div>
+              <nav className="flex flex-col gap-2.5" aria-label="Legal">
+                {legalLinks.map((item) => (
                   <a
-                    key={social.label}
-                    href={social.href}
-                    className="focus-ring grid h-9 w-9 place-items-center rounded-full border border-white/[0.15] text-white/70 transition-colors hover:text-white"
-                    aria-label={social.label}
+                    key={item.href}
+                    href={item.href}
+                    className="focus-ring text-xs font-bold text-white/60 transition-colors hover:text-white"
+                  >
+                    {item.label}
+                  </a>
+                ))}
+              </nav>
+            </div>
+
+            <div>
+              <div className="mb-3.5 text-[0.72rem] font-extrabold uppercase tracking-wider text-white/40">
+                Verify
+              </div>
+              <nav className="flex flex-col gap-2.5" aria-label="Verification links">
+                {verifyLinks.map((item) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
                     target="_blank"
                     rel="noreferrer"
+                    className="focus-ring inline-flex items-center gap-1.5 text-xs font-bold text-white/60 transition-colors hover:text-white"
                   >
-                    <Icon size={16} />
+                    {item.label}
+                    <ArrowUpRight size={12} strokeWidth={2.6} />
                   </a>
-                ) : (
-                  <span
-                    key={social.label}
-                    className="grid h-9 w-9 place-items-center rounded-full border border-white/10 text-white/30"
-                    aria-label={`${social.label} link unavailable`}
-                    aria-disabled="true"
-                    title={`${social.label} link unavailable`}
-                  >
-                    <Icon size={16} />
-                  </span>
-                );
-              })}
-              <a
-                href={`mailto:${siteConfig.generalEmail}`}
-                className="focus-ring grid h-9 w-9 place-items-center rounded-full border border-white/[0.15] text-white/70 transition-colors hover:text-white"
-                aria-label="Email Zera Studio"
-              >
-                <Mail size={16} />
-              </a>
+                ))}
+                <a
+                  href={siteConfig.instagram}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="focus-ring inline-flex items-center gap-2 text-xs font-bold text-white/60 transition-colors hover:text-white"
+                >
+                  <InstagramIcon size={14} />
+                  Instagram
+                </a>
+              </nav>
             </div>
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs font-bold text-white/40 sm:flex-row sm:items-center sm:justify-between">
-          <span>© {new Date().getFullYear()} Zera Studio.</span>
-          <a href={`mailto:${siteConfig.generalEmail}`} className="focus-ring w-fit">
-            {siteConfig.generalEmail}
-          </a>
+        <div className="mt-12 border-t border-white/10 pt-6 text-xs font-bold text-white/40">
+          <span>
+            © {new Date().getFullYear()} {siteConfig.companyLegalName}. All rights
+            reserved.
+          </span>
         </div>
       </div>
     </footer>

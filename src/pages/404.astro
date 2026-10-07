@@ -4,13 +4,17 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 ---
 
-<BaseLayout title="Page Not Found — Zera Studio" description="The page you are looking for does not exist.">
+<BaseLayout
+  title="Page Not Found — Zera Studio"
+  description="The page you are looking for does not exist."
+  noindex
+>
   <Navbar client:load />
 
-  <main class="bg-paper pt-[110px] pb-20 sm:pt-[130px] sm:pb-28 min-h-screen flex items-center justify-center">
+  <main class="pt-[110px] pb-20 sm:pt-[130px] sm:pb-28 min-h-screen flex items-center justify-center">
     <div class="container-x flex flex-col items-center justify-center text-center space-y-6">
       <h1 class="text-8xl sm:text-9xl font-black">404</h1>
-      <p class="text-black/60 max-w-md mx-auto text-lg sm:text-xl">
+      <p class="text-white/60 max-w-md mx-auto text-lg sm:text-xl">
         The page you are looking for doesn't exist or has been moved.
       </p>
       <a href="/" class="cta-primary focus-ring mt-4">

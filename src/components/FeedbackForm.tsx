@@ -1,116 +1,124 @@
 import { useId, useState } from "react";
 import { ArrowUpRight, Check } from "lucide-react";
-
-const FORM_NAME = "zera-feedback";
+import { siteConfig } from "@/config/site";
 
 type SubmitState = "idle" | "submitting" | "success" | "error";
 
-function toEncodedBody(formData: FormData) {
-  const body = new URLSearchParams();
-
-  formData.forEach((value, key) => {
-    if (typeof value === "string") {
-      body.append(key, value);
-    }
-  });
-
-  return body.toString();
-}
+const ENDPOINT = siteConfig.feedbackFormEndpoint;
 
 export default function FeedbackForm() {
   const formId = useId();
-  const [submitState, setSubmitState] = useState<SubmitState>("idle");
+  const [state, setState] = useState<SubmitState>("idle");
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const form = event.currentTarget;
-    const formData = new FormData(form);
-    const spamField = formData.get("bot-field");
-    const message = formData.get("message");
+    const data = new FormData(form);
 
-    if (typeof spamField === "string" && spamField.trim().length > 0) {
+    const name = String(data.get("name") ?? "").trim();
+    const email = String(data.get("email") ?? "").trim();
+    const message = String(data.get("message") ?? "").trim();
+
+    if (!message) {
+      setState("error");
       return;
     }
 
-    if (typeof message !== "string" || message.trim().length === 0) {
-      setSubmitState("error");
-      return;
-    }
+    // Preferred path: post to a configured form-to-email endpoint.
+    if (ENDPOINT) {
+      setState("submitting");
+      try {
+        const response = await fetch(ENDPOINT, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            message,
+            subject: `Zera Studio feedback${name ? ` from ${name}` : ""}`
+          })
+        });
 
-    formData.set("form-name", FORM_NAME);
-    setSubmitState("submitting");
+        if (!response.ok) throw new Error("Feedback submission failed");
 
-    try {
-      const response = await fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: toEncodedBody(formData)
-      });
-
-      if (!response.ok) {
-        throw new Error("Feedback submission failed");
+        form.reset();
+        setState("success");
+      } catch {
+        setState("error");
       }
-
-      form.reset();
-      setSubmitState("success");
-    } catch {
-      setSubmitState("error");
+      return;
     }
+
+    // Fallback on a static host with no backend: hand the message to the
+    // visitor's email client, addressed straight to the feedback inbox.
+    const body = [
+      name ? `Name: ${name}` : null,
+      email ? `Email: ${email}` : null,
+      "",
+      message
+    ]
+      .filter((line) => line !== null)
+      .join("\n");
+
+    const href =
+      `mailto:${siteConfig.feedbackEmail}` +
+      `?subject=${encodeURIComponent("Zera Studio feedback")}` +
+      `&body=${encodeURIComponent(body)}`;
+
+    window.location.href = href;
+    setState("success");
   }
 
   return (
-    <form
-      name={FORM_NAME}
-      method="POST"
-      action="/#feedback"
-      className="grid gap-4"
-      onSubmit={handleSubmit}
-      {...{
-        "data-netlify": "true",
-        "netlify-honeypot": "bot-field"
-      }}
-    >
-      <input type="hidden" name="form-name" value={FORM_NAME} />
-      <p className="hidden">
-        <label htmlFor={`${formId}-bot-field`}>
-          Do not fill this out if you are human.
-        </label>
-        <input id={`${formId}-bot-field`} name="bot-field" tabIndex={-1} autoComplete="off" />
-      </p>
-
+    <form className="grid gap-4" onSubmit={handleSubmit} noValidate>
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor={`${formId}-name`} className="mb-2 block text-xs font-black uppercase text-black/[0.55]">
-            Name <span className="font-bold text-black/[0.35]">(optional)</span>
+          <label
+            htmlFor={`${formId}-name`}
+            className="mb-2 block text-sm font-medium text-white/70"
+          >
+            Name <span className="font-normal text-white/40">(optional)</span>
           </label>
           <input
             id={`${formId}-name`}
             name="name"
             type="text"
             autoComplete="name"
-            className="focus-ring min-h-12 w-full border border-black/10 bg-white px-4 text-base font-bold text-black outline-none transition-colors focus:border-black"
+            className="focus-ring min-h-12 w-full rounded-[4px] border border-white/15 bg-black/40 px-4 text-base text-white outline-none transition-colors focus:border-[#ffb547]"
           />
         </div>
 
         <div>
-          <label htmlFor={`${formId}-email`} className="mb-2 block text-xs font-black uppercase text-black/[0.55]">
-            Email <span className="font-bold text-black/[0.35]">(optional, recommended)</span>
+          <label
+            htmlFor={`${formId}-email`}
+            className="mb-2 block text-sm font-medium text-white/70"
+          >
+            Email{" "}
+            <span className="font-normal text-white/40">
+              (optional, recommended)
+            </span>
           </label>
           <input
             id={`${formId}-email`}
             name="email"
             type="email"
             autoComplete="email"
-            placeholder="Recommended"
-            className="focus-ring min-h-12 w-full border border-black/10 bg-white px-4 text-base font-bold text-black outline-none transition-colors placeholder:text-black/30 focus:border-black"
+            placeholder="So we can reply"
+            className="focus-ring min-h-12 w-full rounded-[4px] border border-white/15 bg-black/40 px-4 text-base text-white outline-none transition-colors placeholder:text-white/30 focus:border-[#ffb547]"
           />
         </div>
       </div>
 
       <div>
-        <label htmlFor={`${formId}-message`} className="mb-2 block text-xs font-black uppercase text-black/[0.55]">
-          Feedback <span className="text-rose">*</span>
+        <label
+          htmlFor={`${formId}-message`}
+          className="mb-2 block text-sm font-medium text-white/70"
+        >
+          Feedback <span className="text-[#ffb547]">*</span>
         </label>
         <textarea
           id={`${formId}-message`}
@@ -118,7 +126,7 @@ export default function FeedbackForm() {
           required
           rows={6}
           placeholder="Tell us what worked, what did not, or what you would change."
-          className="focus-ring min-h-36 w-full resize-y border border-black/10 bg-white px-4 py-3 text-base font-bold leading-7 text-black outline-none transition-colors placeholder:text-black/30 focus:border-black"
+          className="focus-ring min-h-36 w-full resize-y rounded-[4px] border border-white/15 bg-black/40 px-4 py-3 text-base leading-7 text-white outline-none transition-colors placeholder:text-white/30 focus:border-[#ffb547]"
         />
       </div>
 
@@ -126,26 +134,48 @@ export default function FeedbackForm() {
         <button
           type="submit"
           className="cta-primary focus-ring disabled:cursor-not-allowed disabled:opacity-[0.55]"
-          disabled={submitState === "submitting"}
+          disabled={state === "submitting"}
         >
-          {submitState === "submitting" ? "Sending..." : "Send feedback"}
+          {state === "submitting" ? "Sending..." : "Send feedback"}
           <ArrowUpRight size={15} strokeWidth={2.4} />
         </button>
 
-        <p className="min-h-6 text-sm font-bold text-black/60" aria-live="polite">
-          {submitState === "success" && (
-            <span className="inline-flex items-center gap-2 text-black">
-              <Check size={15} strokeWidth={2.4} />
-              Thanks - your feedback has been received.
-            </span>
-          )}
-          {submitState === "error" && (
-            <span className="text-rose">
-              Please add feedback and try again.
+        <p
+          className="min-h-6 max-w-[340px] text-sm text-white/60"
+          aria-live="polite"
+        >
+          {state === "success" &&
+            (ENDPOINT ? (
+              <span className="inline-flex items-center gap-2 text-white">
+                <Check size={15} strokeWidth={2.4} />
+                Thanks, your feedback has been sent.
+              </span>
+            ) : (
+              <span className="inline-flex items-start gap-2 text-white">
+                <Check size={15} strokeWidth={2.4} className="mt-0.5 shrink-0" />
+                Your email app should have opened with the message ready to
+                send.
+              </span>
+            ))}
+          {state === "error" && (
+            <span className="text-[#ffb547]">
+              Please add your feedback, or email {siteConfig.feedbackEmail}{" "}
+              directly.
             </span>
           )}
         </p>
       </div>
+
+      <p className="text-xs leading-5 text-white/40">
+        Feedback goes to{" "}
+        <a
+          href={`mailto:${siteConfig.feedbackEmail}`}
+          className="focus-ring text-white/60 underline underline-offset-2"
+        >
+          {siteConfig.feedbackEmail}
+        </a>
+        .
+      </p>
     </form>
   );
 }

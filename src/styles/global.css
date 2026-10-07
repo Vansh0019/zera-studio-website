@@ -2,16 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * The look: a projection room. Warm black, projector-light ivory for type, and one accent (the lamp, amber) kept for
+ * whatever is happening right now. No gradient text, no glows, no glass. Why: `.ai/DECISIONS.md` "Website: no
+ * AI-template tells".
+ */
 :root {
-  color-scheme: light;
+  color-scheme: dark;
+  --night: #0b0908;
   --ink: #050505;
   --paper: #fbfaf8;
   --bone: #f2f0eb;
-  --line: #dedbd2;
-  --muted: #6e6a64;
-  --plum: #7c3ef2;
-  --rose: #f15caf;
-  --cyan: #67d8d2;
+  --ivory: #f3ede3;
+  --line: rgba(243, 237, 227, 0.14);
+  --muted: rgba(243, 237, 227, 0.64);
+  --lamp: #ffb547;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -21,19 +26,23 @@
 
 html {
   scroll-behavior: auto;
-  background: var(--paper);
+  background: var(--night);
+  /* Anything that pokes past the edge (the film strip, annotations) must never widen the phone layout. */
+  overflow-x: clip;
 }
 
 body {
   min-width: 320px;
   margin: 0;
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--night);
+  color: var(--ivory);
   font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Inter Variable", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
-  text-rendering: geometricPrecision;
+  font-feature-settings: "ss01", "cv11";
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 body.menu-open {
@@ -58,116 +67,204 @@ button {
 }
 
 ::selection {
-  background: rgba(124, 62, 242, 0.22);
+  background: var(--lamp);
+  color: #0b0908;
+}
+
+/* Everything above the fixed backdrop. */
+.page {
+  position: relative;
+  z-index: 1;
 }
 
 .container-x {
-  width: min(100% - 32px, 1220px);
+  width: min(100% - 32px, 1240px);
   margin-inline: auto;
 }
 
 @media (min-width: 768px) {
   .container-x {
-    width: min(100% - 64px, 1220px);
+    width: min(100% - 64px, 1240px);
   }
 }
 
+/* Small labels inside panels (plan names, field names). Not used as a kicker above section titles. */
 .eyebrow {
-  font-size: 0.72rem;
-  font-weight: 760;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   line-height: 1;
   color: var(--muted);
 }
 
+/*
+ * Display type: Archivo, condensed, set like the title cards and credits of a film. Inter does the reading.
+ */
+.font-display,
+.display,
+.section-title {
+  font-family: "Archivo Variable", Archivo, "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  font-stretch: 72%;
+  text-transform: uppercase;
+}
+
 .display {
-  font-size: clamp(3.55rem, 12vw, 10.8rem);
-  font-weight: 860;
+  font-size: clamp(4rem, 15vw, 13.5rem);
+  font-weight: 800;
   line-height: 0.82;
+  letter-spacing: -0.01em;
 }
 
 .section-title {
-  font-size: clamp(2.4rem, 7vw, 7rem);
-  font-weight: 830;
-  line-height: 0.9;
+  font-size: clamp(3rem, 8vw, 7.4rem);
+  font-weight: 800;
+  line-height: 0.86;
+  letter-spacing: -0.005em;
+}
+
+/* The second line of a two-line title: the same words, dimmed, so the first line leads. */
+.text-brand {
+  color: rgba(243, 237, 227, 0.4);
+}
+
+.text-lamp {
+  color: var(--lamp);
 }
 
 .body-large {
-  font-size: clamp(1.05rem, 1.5vw, 1.34rem);
-  line-height: 1.56;
+  font-size: clamp(1.05rem, 1.4vw, 1.22rem);
+  line-height: 1.6;
+  color: var(--muted);
+  /* The film passes behind copy; a soft dark halo keeps every line readable over a lit frame. */
+  text-shadow: 0 1px 14px rgba(11, 9, 8, 0.95), 0 0 2px rgba(11, 9, 8, 0.8);
+}
+
+/* A flat panel: the dark of the room, one hairline. Opaque enough to read on, with no blur to pay for. */
+.glass {
+  border: 1px solid var(--line);
+  background: rgba(14, 12, 11, 0.82);
+}
+
+/* Specs: facts in a row, divided by hairlines instead of boxed in cards. */
+.spec {
+  display: grid;
+  border-top: 1px solid var(--line);
+}
+.spec > * {
+  padding: 1.1rem 0 1.2rem;
+  border-bottom: 1px solid var(--line);
+}
+@media (min-width: 640px) {
+  .spec.spec-row {
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+  }
+  .spec.spec-row > * {
+    padding-right: 1.5rem;
+  }
+  .spec.spec-row > * + * {
+    padding-left: 1.5rem;
+    border-left: 1px solid var(--line);
+  }
+}
+.spec-k {
+  font-family: "Archivo Variable", Archivo, ui-sans-serif, system-ui, sans-serif;
+  font-stretch: 80%;
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.005em;
+}
+.spec-v {
+  margin-top: 0.35rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
   color: var(--muted);
 }
 
 .focus-ring:focus-visible {
-  outline: 2px solid var(--plum);
+  outline: 2px solid var(--lamp);
   outline-offset: 4px;
 }
 
 .cta-primary,
 .cta-secondary {
+  position: relative;
   display: inline-flex;
-  min-height: 46px;
+  min-height: 52px;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 800;
+  gap: 0.6rem;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: 650;
+  letter-spacing: 0;
   line-height: 1;
-  text-transform: uppercase;
+  padding: 0 1.35rem;
   transition:
-    transform 220ms var(--ease),
-    background 220ms var(--ease),
-    color 220ms var(--ease),
-    border-color 220ms var(--ease);
+    background-color 200ms var(--ease),
+    color 200ms var(--ease),
+    border-color 200ms var(--ease);
 }
 
 .cta-primary {
-  border: 1px solid var(--ink);
-  background: var(--ink);
-  color: white;
-  padding: 0 1rem;
+  border: 1px solid var(--ivory);
+  background: var(--ivory);
+  color: #0b0908;
 }
 
 .cta-secondary {
-  border: 1px solid rgba(5, 5, 5, 0.18);
+  border: 1px solid rgba(243, 237, 227, 0.3);
   background: transparent;
-  color: var(--ink);
-  padding: 0 1rem;
+  color: var(--ivory);
+}
+
+.cta-primary svg,
+.cta-secondary svg {
+  transition: transform 200ms var(--ease);
 }
 
 @media (hover: hover) {
-  .cta-primary:hover,
-  .cta-secondary:hover {
-    transform: translateY(-2px);
-  }
-
   .cta-primary:hover {
-    background: #1a151d;
+    background: var(--lamp);
+    border-color: var(--lamp);
   }
 
   .cta-secondary:hover {
-    border-color: var(--ink);
+    border-color: var(--ivory);
   }
-}
 
-.dark-section {
-  background: var(--ink);
-  color: white;
-}
-
-.dark-section .body-large,
-.dark-section .eyebrow {
-  color: rgba(255, 255, 255, 0.66);
+  .cta-primary:hover svg,
+  .cta-secondary:hover svg {
+    transform: translate(2px, -2px);
+  }
 }
 
 [id] {
-  scroll-margin-top: 86px;
+  scroll-margin-top: 90px;
 }
 
 .reveal {
   opacity: 0;
-  transform: translateY(34px);
+}
+
+/* The light pages (legal): paper, like a document. */
+.page-light {
+  background: var(--paper);
+  color: var(--ink);
+  color-scheme: light;
+}
+
+.page-light .eyebrow {
+  color: #6e6a64;
+}
+
+.page-light .cta-primary {
+  color: #0b0908;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -182,13 +279,68 @@ button {
 
   .reveal {
     opacity: 1;
-    transform: none;
   }
 }
 
 @media print {
   .reveal {
     opacity: 1 !important;
-    transform: none !important;
   }
+}
+
+/* ─────────────────────────────────────────────── motion pieces */
+
+/*
+ * A jump cut: the new word lands with a two-frame offset and a one-frame white flash, like a hard cut in an edit.
+ * No RGB-split glitch: that reads as a template effect.
+ */
+.cut-word {
+  display: inline-block;
+  animation: cutin 240ms steps(1, end) 1;
+}
+@keyframes cutin {
+  0% { transform: translateY(-0.06em); }
+  34% { transform: translateY(0.03em); opacity: 1; color: #fff; }
+  67% { transform: none; }
+}
+
+.timeline-strip {
+  animation: strip 6s linear infinite;
+}
+@keyframes strip {
+  to { transform: translateX(-50%); }
+}
+
+/* Infinite tickers. */
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+.marquee.reverse {
+  animation-direction: reverse;
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* A word lighting up as it is spoken, karaoke style. */
+.say {
+  transition: color 160ms ease, transform 220ms var(--ease), background-color 160ms ease;
+}
+
+.dark-section {
+  background: rgba(11, 9, 8, 0.94);
+  color: var(--ivory);
+}
+.dark-section .body-large,
+.dark-section .eyebrow {
+  color: rgba(243, 237, 227, 0.66);
+}
+
+/* Timecode and other numbers that tick: tabular, so they do not jitter. */
+.tc {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
 }

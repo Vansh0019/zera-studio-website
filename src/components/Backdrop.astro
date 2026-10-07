@@ -1,0 +1,77 @@
+---
+/**
+ * The page's living background (`src/scripts/backdrop.ts`). Fixed behind everything. Underneath the canvas sits a
+ * CSS gradient in the same colours, so a phone without WebGL (or one that loses its context) still sees a finished
+ * page, never a black box.
+ */
+---
+
+<div class="backdrop" aria-hidden="true">
+  <div class="backdrop-fallback"></div>
+  <canvas id="zera-backdrop" class="backdrop-canvas"></canvas>
+  <div class="backdrop-scrim"></div>
+</div>
+
+<script>
+  import { startBackdrop } from "@/scripts/backdrop";
+  const canvas = document.getElementById("zera-backdrop") as HTMLCanvasElement | null;
+  if (canvas) {
+    try {
+      startBackdrop(canvas);
+    } catch (err) {
+      console.warn("[backdrop] off", err);
+    }
+  }
+</script>
+
+<style>
+  .backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: #0b0908;
+    /* The fallback is oversized so its drift never shows an edge; unclipped, it widened the phone layout to 140%. */
+    overflow: hidden;
+  }
+  /* Without WebGL: the same room, a still beam from the top-left corner. */
+  .backdrop-fallback {
+    position: absolute;
+    inset: -20%;
+    background:
+      conic-gradient(from 118deg at 4% 2%, transparent 0deg, rgba(255, 219, 168, 0.1) 12deg, rgba(255, 219, 168, 0.04) 22deg, transparent 30deg),
+      radial-gradient(40% 30% at 12% 8%, rgba(255, 190, 120, 0.16), transparent 70%),
+      radial-gradient(60% 50% at 80% 80%, rgba(74, 120, 201, 0.12), transparent 70%),
+      #0b0908;
+    animation: drift 18s ease-in-out infinite alternate;
+  }
+  .backdrop-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 900ms ease;
+  }
+  /* Keeps text readable over a surface whose brightness changes every frame. */
+  .backdrop-scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(120% 70% at 50% 40%, rgba(11, 9, 8, 0.05), rgba(11, 9, 8, 0.45) 80%),
+      linear-gradient(180deg, rgba(11, 9, 8, 0.2), rgba(11, 9, 8, 0) 25%, rgba(11, 9, 8, 0) 70%, rgba(11, 9, 8, 0.35));
+  }
+  @keyframes drift {
+    from {
+      transform: translate3d(-3%, -2%, 0) scale(1);
+    }
+    to {
+      transform: translate3d(3%, 2%, 0) scale(1.08);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .backdrop-fallback {
+      animation: none;
+    }
+  }
+</style>

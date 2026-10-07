@@ -1,0 +1,25 @@
+---
+import { pricing, siteConfig } from "@/config/site";
+---
+
+<section data-scene="hero" class="relative overflow-hidden py-24 sm:py-32 lg:py-44">
+  <div class="container-x grid items-end gap-10 lg:grid-cols-[1.4fr_0.6fr]">
+    <h2 class="reveal display">
+      Edits
+      <br />
+      <span class="text-brand">itself.</span>
+    </h2>
+    <div class="reveal lg:pb-4">
+      <p class="body-large max-w-[400px]">
+        Get Zera Studio on Google Play. Your first {pricing.welcomeCredits} credits are on us.
+      </p>
+      <a href={siteConfig.playStoreUrl} target="_blank" rel="noreferrer" class="cta-primary focus-ring mt-8 !min-h-[58px] !px-7">
+        Get it on Google Play
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M7 17L17 7"></path>
+          <path d="M7 7h10v10"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>

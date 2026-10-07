@@ -1,35 +1,59 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { siteConfig } from "@/config/site";
+import { pricing, siteConfig } from "@/config/site";
 import { faqs } from "@/components/FAQ";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import SiteMotion from "@/components/SiteMotion";
-import AIEditingDemo from "@/components/AIEditingDemo";
-import HowItWorks from "@/components/HowItWorks";
-import ProcessShowcase from "@/components/ProcessShowcase";
-import Examples from "@/components/Examples";
-import BetaSection from "@/components/BetaSection";
+import Ticker from "@/components/Ticker.astro";
+import BrollStage from "@/components/BrollStage";
+import Captions from "@/components/Captions";
+import Reference from "@/components/Reference.astro";
+import Editor from "@/components/Editor.astro";
 import Pricing from "@/components/Pricing";
 import FAQ from "@/components/FAQ";
+import Contact from "@/components/Contact.astro";
+import FinalCta from "@/components/FinalCta.astro";
 import Footer from "@/components/Footer";
+
+const organizationId = `${siteConfig.url}/#organization`;
+const founderId = `${siteConfig.url}/#founder`;
 
 const homepageJsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "WebSite",
-      name: siteConfig.shortName,
-      url: siteConfig.url
-    },
-    {
       "@type": "Organization",
-      name: siteConfig.shortName,
+      "@id": organizationId,
+      name: siteConfig.company,
+      legalName: siteConfig.companyLegalName,
+      description: siteConfig.companyDescription,
       url: siteConfig.url,
       logo: `${siteConfig.url}${siteConfig.logo}`,
-      sameAs: [
-        "https://www.instagram.com/zerastudio.ai"
+      email: siteConfig.contactEmail,
+      founder: { "@id": founderId },
+      sameAs: [siteConfig.companyLinkedin, siteConfig.instagram, siteConfig.playStoreUrl],
+      contactPoint: [
+        { "@type": "ContactPoint", contactType: "customer support", email: siteConfig.supportEmail, availableLanguage: ["English", "Hindi"] },
+        { "@type": "ContactPoint", contactType: "general enquiries", email: siteConfig.contactEmail, availableLanguage: ["English", "Hindi"] }
       ]
+    },
+    {
+      "@type": "Person",
+      "@id": founderId,
+      name: siteConfig.founder.name,
+      jobTitle: siteConfig.founder.title,
+      email: siteConfig.founder.email,
+      worksFor: { "@id": organizationId },
+      sameAs: [siteConfig.founder.linkedin]
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteConfig.url}/#website`,
+      name: siteConfig.shortName,
+      url: siteConfig.url,
+      publisher: { "@id": organizationId },
+      inLanguage: "en"
     },
     {
       "@type": "SoftwareApplication",
@@ -37,23 +61,31 @@ const homepageJsonLd = JSON.stringify({
       applicationCategory: "MultimediaApplication",
       operatingSystem: "Android",
       description: siteConfig.description,
-      url: siteConfig.url,
-      offers: {
-        "@type": "Offer",
-        price: "0",
-        priceCurrency: "USD",
-        description: "Free to try during beta"
-      }
+      url: siteConfig.playStoreUrl,
+      downloadUrl: siteConfig.playStoreUrl,
+      installUrl: siteConfig.playStoreUrl,
+      publisher: { "@id": organizationId },
+      author: { "@id": organizationId },
+      offers: [
+        {
+          "@type": "Offer",
+          name: "Free",
+          price: "0",
+          priceCurrency: "INR",
+          description: `${pricing.welcomeCredits} free credits on sign-up; editor and export free`,
+          url: siteConfig.playStoreUrl
+        },
+        { "@type": "Offer", name: "Basic", price: "349", priceCurrency: "INR", description: `${pricing.basic.credits} credits a month`, url: siteConfig.playStoreUrl },
+        { "@type": "Offer", name: "Pro", price: "1249", priceCurrency: "INR", description: "1000 credits a month", url: siteConfig.playStoreUrl },
+        { "@type": "Offer", name: "Pro", price: "2499", priceCurrency: "INR", description: "2000 credits a month", url: siteConfig.playStoreUrl }
+      ]
     },
     {
       "@type": "FAQPage",
       mainEntity: faqs.map((faq) => ({
         "@type": "Question",
         name: faq.question,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: faq.answer
-        }
+        acceptedAnswer: { "@type": "Answer", text: faq.answer }
       }))
     }
   ]
@@ -61,7 +93,7 @@ const homepageJsonLd = JSON.stringify({
 ---
 
 <BaseLayout
-  title={`${siteConfig.shortName} — AI Video Editor for Creators`}
+  title={`${siteConfig.shortName} | AI video editor for Android: B-roll, Hinglish captions, reference edits`}
   description={siteConfig.description}
   jsonLd={homepageJsonLd}
 >
@@ -69,13 +101,15 @@ const homepageJsonLd = JSON.stringify({
   <Navbar client:load />
   <main>
     <Hero client:load />
-    <AIEditingDemo client:visible />
-    <HowItWorks />
-    <ProcessShowcase client:visible />
-    <Examples client:visible />
-    <BetaSection client:visible />
-    <Pricing />
+    <Ticker />
+    <BrollStage client:visible />
+    <Captions client:visible />
+    <Reference />
+    <Editor />
+    <Pricing client:visible />
     <FAQ />
+    <Contact />
+    <FinalCta />
   </main>
   <Footer />
 </BaseLayout>

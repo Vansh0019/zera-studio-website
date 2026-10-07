@@ -1,18 +1,26 @@
 ---
 import { siteConfig } from "@/config/site";
 import "@fontsource-variable/inter";
+import "@fontsource-variable/archivo/wdth.css";
 import "@/styles/global.css";
+
+import Backdrop from "@/components/Backdrop.astro";
 
 interface Props {
   title?: string;
   description?: string;
   jsonLd?: string;
+  noindex?: boolean;
+  /** Documents (legal pages) read best on paper, without the animated background. */
+  light?: boolean;
 }
 
 const {
   title = `${siteConfig.shortName} — AI Video Editor for Creators`,
   description = siteConfig.description,
-  jsonLd
+  jsonLd,
+  noindex = false,
+  light = false
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, siteConfig.url).toString();
@@ -26,7 +34,9 @@ const ogImageUrl = `${siteConfig.url}${siteConfig.ogImage}`;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {!noindex && <link rel="canonical" href={canonical} />}
+    <meta name="robots" content={noindex ? "noindex, follow" : "index, follow"} />
+    <meta name="author" content={siteConfig.companyLegalName} />
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -34,6 +44,7 @@ const ogImageUrl = `${siteConfig.url}${siteConfig.ogImage}`;
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:site_name" content={siteConfig.shortName} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -49,13 +60,16 @@ const ogImageUrl = `${siteConfig.url}${siteConfig.ogImage}`;
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
-    <meta name="theme-color" content="#050505" />
+    <meta name="theme-color" content="#0b0908" />
 
     {jsonLd && (
       <script is:inline type="application/ld+json" set:html={jsonLd} />
     )}
   </head>
-  <body>
-    <slot />
+  <body class={light ? "page-light" : ""}>
+    {!light && <Backdrop />}
+    <div class="page">
+      <slot />
+    </div>
   </body>
 </html>

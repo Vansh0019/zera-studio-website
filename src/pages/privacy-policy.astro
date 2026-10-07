@@ -6,6 +6,7 @@ import { siteConfig } from "@/config/site";
 ---
 
 <BaseLayout
+  light
   title={`Privacy Policy — ${siteConfig.shortName}`}
   description={`Privacy Policy for ${siteConfig.shortName} AI Video Editor (${siteConfig.domain}). Learn how we handle your data, media content, and user privacy.`}
 >
@@ -43,9 +44,9 @@ import { siteConfig } from "@/config/site";
           Privacy Policy
         </h1>
         <div class="mt-4 flex flex-wrap items-center gap-3 text-xs sm:text-sm font-semibold text-black/60">
-          <span>Effective Date: August 11, 2026</span>
+          <span>Effective Date: October 7, 2026</span>
           <span>•</span>
-          <span>Application Package: <code class="bg-bone px-1.5 py-0.5 rounded font-mono text-black">com.zerastudio.app</code></span>
+          <span>Applies to: {siteConfig.shortName} for Android</span>
         </div>
       </header>
 
@@ -54,7 +55,7 @@ import { siteConfig } from "@/config/site";
         <section class="space-y-4">
           <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">1. Overview & Scope</h2>
           <p>
-            This Privacy Policy applies to {siteConfig.shortName} ("we," "our," or "us"), including the {siteConfig.shortName} mobile application for Android (Package ID: <code class="bg-bone px-1.5 py-0.5 rounded text-xs font-mono text-black font-semibold">com.zerastudio.app</code>) and our official website located at <a href={siteConfig.url} class="text-plum font-semibold underline underline-offset-2 hover:opacity-80">{siteConfig.domain}</a>.
+            This Privacy Policy applies to {siteConfig.shortName} ("we," "our," or "us"), including the {siteConfig.shortName} mobile application for Android and this website.
           </p>
           <p>
             We respect user privacy and aim to maintain clear, transparent practices regarding what information is collected, how it is processed for AI video editing, and how you can exercise your data rights.
@@ -65,10 +66,13 @@ import { siteConfig } from "@/config/site";
           <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">2. Information We Collect</h2>
           <p>Depending on your interaction with {siteConfig.shortName}, we collect data in the following categories:</p>
           <ul class="list-disc pl-6 space-y-2">
-            <li><strong>Account Credentials:</strong> Email address, authentication tokens, user ID, and account profile details when you sign up or log in to the mobile application.</li>
-            <li><strong>User Content & Media:</strong> Video clips, audio tracks, images, and text prompts selected or uploaded by you within the app solely to enable AI video editing and timeline creation.</li>
-            <li><strong>Device & Operational Metrics:</strong> Technical device identifiers (such as device model, OS version, app version, and language) and diagnostic logs (such as error reports and editing performance metrics) to maintain app stability.</li>
-            <li><strong>Website Submissions:</strong> If you voluntarily submit feedback via the website feedback form, we process your submitted name, email address (optional), and feedback comments (hosted via Netlify Forms).</li>
+            <li><strong>Account Credentials:</strong> Email address or phone number, authentication tokens, user ID, and account profile details (such as your name from Google Sign-In) when you sign up or log in to the mobile application.</li>
+            <li><strong>User Content & Media:</strong> Video clips, audio tracks, images, and text prompts selected or uploaded by you within the app solely to enable AI video editing and timeline creation. Videos you edit only in the manual editor stay on your phone.</li>
+            <li><strong>Credits & Purchases:</strong> Your credit balance and a ledger of credits granted, spent and refunded. If you buy a plan, Google Play handles the payment; we receive the purchase record (product, purchase token and order details) to verify it with Google and add your credits. We do not receive your card or payment details.</li>
+            <li><strong>Device Verification:</strong> To give free welcome credits once per phone, the app asks Google Play Integrity to confirm the app and device are genuine. We store a one-way, salted hash of a device identifier, not the identifier itself.</li>
+            <li><strong>Device & Operational Metrics:</strong> Technical device identifiers (such as device model, OS version, app version, and language), usage events (such as which screens and features are used), and diagnostic logs (such as crash reports and editing performance metrics) to maintain app stability and improve the product.</li>
+            <li><strong>Advertising Data:</strong> On plans that show ads, Google AdMob may use your device's advertising ID and approximate location to show and measure ads, subject to the consent choices you make in the app.</li>
+            <li><strong>Feedback & Email Correspondence:</strong> If you contact us by email, or use the feedback form on our website, we process the contents of your message together with any name and email address you choose to include, in order to read and respond to it. The website feedback form composes the message in your own email application and sends it to us by email; the website itself does not store submissions.</li>
           </ul>
         </section>
 
@@ -77,9 +81,11 @@ import { siteConfig } from "@/config/site";
           <p>We process collected data exclusively for the following operational purposes:</p>
           <ul class="list-disc pl-6 space-y-2">
             <li><strong>Video Editing & AI Assembly:</strong> To analyze uploaded footage, detect scenes/cuts, perform automated editing transitions, and generate final video renders.</li>
-            <li><strong>Account & Service Authentication:</strong> To maintain secure user sessions, manage beta access, and sync project states to your account.</li>
-            <li><strong>Application Maintenance:</strong> To identify technical bugs, resolve crash reports, and optimize rendering speed.</li>
-            <li><strong>User Support:</strong> To respond to support requests or inquiries sent to <a href={`mailto:${siteConfig.generalEmail}`} class="text-plum font-semibold underline underline-offset-2 hover:opacity-80">{siteConfig.generalEmail}</a>.</li>
+            <li><strong>Account & Service Authentication:</strong> To maintain secure user sessions, manage account access, and sync project states to your account.</li>
+            <li><strong>Credits, Plans & Abuse Prevention:</strong> To charge credits for AI features, give credits back when a run fails, verify purchases with Google Play, and stop free credits from being claimed repeatedly.</li>
+            <li><strong>Application Maintenance & Improvement:</strong> To identify technical bugs, resolve crash reports, understand how features are used, and optimize rendering speed.</li>
+            <li><strong>Advertising:</strong> To show ads in the free version of the app.</li>
+            <li><strong>User Support:</strong> To respond to support requests or inquiries sent to <a href={`mailto:${siteConfig.supportEmail}`} class="text-plum font-semibold underline underline-offset-2 hover:opacity-80">{siteConfig.supportEmail}</a>.</li>
           </ul>
         </section>
 
@@ -90,7 +96,8 @@ import { siteConfig } from "@/config/site";
           </p>
           <ul class="list-disc pl-6 space-y-2">
             <li><strong>Data Transmission:</strong> All data exchanged between the app, web client, and processing services is encrypted in transit using standard HTTPS/TLS protocols.</li>
-            <li><strong>Third-Party Processing:</strong> Data and media processing tasks are handled using cloud service providers bound by contractual confidentiality and privacy obligations. Website form submissions are processed securely via Netlify Forms.</li>
+            <li><strong>Third-Party Processing:</strong> Data and media processing tasks are handled using cloud service providers bound by contractual confidentiality and privacy obligations. These include Google Firebase and Google Cloud (sign-in, database, file storage, server functions), Google Cloud Vertex AI (the AI models that analyze your media for editing, transcription and captions), Google Play (billing and Play Integrity), Google AdMob (ads and consent), Firebase Analytics and Crashlytics (usage and crash reports), and Microsoft Clarity (session recordings of the app's screens, used to find usability problems; recording is paused on the sign-in screen).</li>
+            <li><strong>Stock Footage:</strong> For AI B-roll, the app searches the Pexels stock library with short search terms chosen by the AI. Your own media is not sent to Pexels.</li>
             <li><strong>No Data Monetization:</strong> We do <strong>not</strong> sell, rent, or trade your personal information or private video media to advertisers, data brokers, or third parties.</li>
           </ul>
         </section>
@@ -98,7 +105,7 @@ import { siteConfig } from "@/config/site";
         <section class="space-y-4">
           <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">5. Data Retention & Storage</h2>
           <p>
-            Media assets and user content uploaded for AI video rendering are processed for the purpose of generating your requested video edits. Temporary buffer files created during rendering sessions are discarded upon completion of processing. Account data and project metadata are retained while your account remains active.
+            Media assets and user content uploaded for AI video editing are processed for the purpose of generating your requested video edits. A talking video uploaded for AI B-roll is deleted from our storage once the edit plan is made. Other uploaded media and project data are retained while your account remains active. The credit ledger and purchase records are kept as financial records, including after account deletion, and a hashed device record is kept so that free credits cannot be claimed again on the same phone.
           </p>
           <p>
             Upon account deletion, your account record and associated user data are removed from our active database in accordance with our <a href="/account-deletion" class="text-plum font-semibold underline underline-offset-2 hover:opacity-80">Account Deletion Policy</a>.
@@ -124,7 +131,7 @@ import { siteConfig } from "@/config/site";
         <section class="space-y-4">
           <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">8. Children's Privacy</h2>
           <p>
-            {siteConfig.shortName} is not intended for children under 13 years of age (or under 16 where required by local law). We do not knowingly collect personal data from children. If you believe a child has provided us with personal information, please notify us at <a href={`mailto:${siteConfig.generalEmail}`} class="text-plum font-semibold underline underline-offset-2 hover:opacity-80">{siteConfig.generalEmail}</a>.
+            {siteConfig.shortName} is not intended for children under 13 years of age (or under 16 where required by local law). We do not knowingly collect personal data from children. If you believe a child has provided us with personal information, please notify us at <a href={`mailto:${siteConfig.supportEmail}`} class="text-plum font-semibold underline underline-offset-2 hover:opacity-80">{siteConfig.supportEmail}</a>.
           </p>
         </section>
 
@@ -141,10 +148,11 @@ import { siteConfig } from "@/config/site";
             For privacy inquiries, account deletion requests, or support, please contact:
           </p>
           <div class="bg-bone p-5 rounded-lg border border-black/10">
-            <p class="font-bold text-black">{siteConfig.shortName} Support</p>
+            <p class="font-bold text-black">{siteConfig.companyLegalName}</p>
             <p class="mt-1">Website: <a href={siteConfig.url} class="text-plum font-medium hover:underline">{siteConfig.domain}</a></p>
-            <p class="mt-1">Support Email: <a href={`mailto:${siteConfig.generalEmail}`} class="text-plum font-medium hover:underline">{siteConfig.generalEmail}</a></p>
-            <p class="mt-1 text-xs text-black/60">Feedback Email: <a href={`mailto:${siteConfig.feedbackEmail}`} class="text-plum font-medium hover:underline">{siteConfig.feedbackEmail}</a></p>
+            <p class="mt-1">Support: <a href={`mailto:${siteConfig.supportEmail}`} class="text-plum font-medium hover:underline">{siteConfig.supportEmail}</a></p>
+            <p class="mt-1">General contact: <a href={`mailto:${siteConfig.contactEmail}`} class="text-plum font-medium hover:underline">{siteConfig.contactEmail}</a></p>
+            <p class="mt-1 text-xs text-black/60">Terms: <a href="/terms" class="text-plum font-semibold hover:underline">View Terms of Service</a></p>
           </div>
         </section>
       </article>
