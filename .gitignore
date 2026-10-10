@@ -4,3 +4,6 @@ dist/
 .env.*
 !.env.example
 mnt/data/
+
+# Firebase local deploy cache (firebase.json and .firebaserc are committed)
+.firebase/
