@@ -139,10 +139,11 @@ export function createReveal(canvas: HTMLCanvasElement, raw: HTMLVideoElement, e
   host.addEventListener("pointermove", move, { passive: true });
   host.addEventListener("pointerdown", (e) => { move(e); pen.px = pen.x; pen.py = pen.y; }, { passive: true });
 
-  let open = 0, active = true, raf = 0, aspect = 1, cover = [1, 1];
+  let open = 0, drawnOpen = -1, lastDraw = 0, active = true, raf = 0, aspect = 1, cover = [1, 1];
   const t0 = performance.now();
   const resize = () => {
-    const dpr = Math.min(devicePixelRatio || 1, 2);
+    // the clip is 720p on phones and 1080p on desktop; the canvas never needs more pixels than that
+    const dpr = Math.min(devicePixelRatio || 1, innerWidth < 900 ? 1.5 : 1.75);
     const w = Math.round(canvas.clientWidth * dpr), h = Math.round(canvas.clientHeight * dpr);
     if (w < 2 || h < 2) return;
     if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; sizeInk(); }
@@ -157,6 +158,12 @@ export function createReveal(canvas: HTMLCanvasElement, raw: HTMLVideoElement, e
     const now = performance.now(), time = (now - t0) / 1000;
     // Nobody steering: the brush wanders on its own, slower and lighter.
     const idle = now - pen.last > 2200;
+    // Draw only when there is something new: a video frame, a hand on the brush, or scroll opening the edit. A phone
+    // then works at the clip's 30 fps instead of the screen's 60 or 120.
+    const steering = !idle || open !== drawnOpen;
+    if (!steering && hasRvfc && fresh.size === 0) return;
+    if (!steering && !hasRvfc && now - lastDraw < 32) return;
+    lastDraw = now; drawnOpen = open;
     if (idle && opts.idle) {
       pen.x = 0.5 + Math.sin(time * 0.55) * 0.3 + Math.sin(time * 1.7) * 0.05;
       pen.y = 0.55 + Math.sin(time * 0.83 + 1.2) * 0.26;

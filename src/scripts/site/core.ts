@@ -1,6 +1,6 @@
 /**
  * The site's motion runtime. Sections add their own scenes in their own scripts; this file owns what is shared:
- * smooth scroll, the loader (it waits for the real assets), the nav, the menu, the cursor, magnetic buttons, text and
+ * smooth scroll, the loader (it waits for the real assets), the nav, the menu, magnetic buttons, text and
  * media reveals, hand-drawn strokes, the blue "flip" sections and video playback.
  *
  * Everything degrades: with reduced motion there is no loader and no smoothing, and text, strokes and media sit in
@@ -60,9 +60,9 @@ function waitFor(el: HTMLVideoElement | HTMLImageElement) {
   return new Promise<void>((res) => {
     const done = () => res();
     if (el instanceof HTMLVideoElement) {
-      if (el.readyState >= 3) return res();
-      el.addEventListener("canplaythrough", done, { once: true });
-      el.addEventListener("loadeddata", () => setTimeout(done, 400), { once: true });
+      // the first frame is enough to show; the rest streams while the loader leaves
+      if (el.readyState >= 2) return res();
+      el.addEventListener("loadeddata", done, { once: true });
       el.addEventListener("error", done, { once: true });
     } else {
       if (el.complete) return res();
@@ -80,7 +80,7 @@ function runLoader() {
   const jobs: Promise<unknown>[] = [document.fonts.ready, ...$$<HTMLVideoElement | HTMLImageElement>("[data-preload]").map(waitFor)];
   let target = 0, settled = 0;
   jobs.forEach((j) => j.then(() => { settled++; target = settled / jobs.length; }));
-  setTimeout(() => (target = 1), 6000); // a slow network never holds the page hostage
+  setTimeout(() => (target = 1), 3500); // a slow network never holds the page hostage
   const t0 = performance.now();
   const s = { p: 0 };
   const tick = () => {
@@ -141,21 +141,8 @@ export function closeMenu() {
 burger?.addEventListener("click", () => (menuOpen ? closeMenu() : openMenu()));
 addEventListener("keydown", (e) => { if (e.key === "Escape") closeMenu(); });
 
-// ── cursor and magnetic buttons (mouse and trackpad only) ─────────────────────
-const cursor = $("#cursor"), cLabel = $("#cursorLabel");
-if (cursor && fine && !reduce) {
-  const xTo = gsap.quickTo(cursor, "x", { duration: 0.5, ease: "power3" }), yTo = gsap.quickTo(cursor, "y", { duration: 0.5, ease: "power3" });
-  addEventListener("pointermove", (e) => { xTo(e.clientX); yTo(e.clientY); }, { passive: true });
-  document.addEventListener("pointerover", (e) => {
-    const t = (e.target as HTMLElement).closest<HTMLElement>("[data-cursor]");
-    cursor.classList.toggle("big", !!t);
-    if (t && cLabel) cLabel.textContent = t.dataset.cursor ?? "";
-  });
-  addEventListener("pointerdown", () => cursor.classList.add("down"));
-  addEventListener("pointerup", () => cursor.classList.remove("down"));
-  document.addEventListener("mouseleave", () => gsap.to(cursor, { opacity: 0, duration: 0.2 }));
-  document.addEventListener("mouseenter", () => gsap.to(cursor, { opacity: 1, duration: 0.2 }));
-
+// ── magnetic buttons (mouse and trackpad only) ────────────────────────────────
+if (fine && !reduce) {
   $$("[data-magnetic]").forEach((el) => {
     const x = gsap.quickTo(el, "x", { duration: 0.8, ease: "elastic.out(1, 0.4)" }), y = gsap.quickTo(el, "y", { duration: 0.8, ease: "elastic.out(1, 0.4)" });
     el.addEventListener("pointermove", (e) => {

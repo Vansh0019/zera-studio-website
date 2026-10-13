@@ -186,9 +186,10 @@ const steps = [
   raw.addEventListener("play", sync);
 
   // Transcript and plan playhead, on the clip's clock.
-  let upload = 0;
+  let upload = 0, near = false;
+  new IntersectionObserver(([e]) => (near = e.isIntersecting)).observe(document.getElementById("brPin")!);
   gsap.ticker.add(() => {
-    if (step < 0) return;
+    if (!near) return;
     const f = raw.currentTime * FPS;
     if (step === 1) {
       let cur = -1;

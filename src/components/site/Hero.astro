@@ -18,7 +18,7 @@ const chars = (w: string) => [...w].map((c) => `<span class="c">${c}</span>`).jo
       <span class="hw hw-4" aria-hidden="true"><span class="m" set:html={chars("edits.")} /></span>
     </h1>
 
-    <div class="stage" id="stage" data-cursor="Brush">
+    <div class="stage" id="stage">
       <video class="v-raw" id="heroRaw" muted playsinline loop autoplay preload="auto" poster={`${M}/hero_raw.webp`} data-auto data-preload>
         <source src={`${M}/hero_raw_m.mp4`} type="video/mp4" media="(max-width: 899px)" />
         <source src={`${M}/hero_raw.mp4`} type="video/mp4" />
@@ -112,12 +112,14 @@ const chars = (w: string) => [...w].map((c) => `<span class="c">${c}</span>`).jo
 
 <script>
   import { gsap, ScrollTrigger, onReady, reduce } from "@/scripts/site/core";
-  import { createReveal } from "@/scripts/site/reveal";
+  import { createReveal, type Reveal } from "@/scripts/site/reveal";
 
   const stage = document.getElementById("stage")!;
   const raw = document.getElementById("heroRaw") as HTMLVideoElement, edit = document.getElementById("heroEdit") as HTMLVideoElement;
   const canvas = document.getElementById("heroGl") as HTMLCanvasElement;
   const tc = document.getElementById("heroTc")!, mode = document.getElementById("stageMode")!;
+  let heroOn = true;
+  new IntersectionObserver(([e]) => (heroOn = e.isIntersecting)).observe(stage);
   const wide = matchMedia("(min-width: 900px)");
 
   // The two clips stay on the same frame, so the brush shows the edit of *this* moment.
@@ -129,15 +131,20 @@ const chars = (w: string) => [...w].map((c) => `<span class="c">${c}</span>`).jo
   raw.addEventListener("play", sync);
   setInterval(sync, 900);
   const fmt = (t: number) => `00:${String(Math.floor(t)).padStart(2, "0")}:${String(Math.floor((t % 1) * 30)).padStart(2, "0")}`;
-  gsap.ticker.add(() => { tc.textContent = fmt(raw.currentTime); });
+  gsap.ticker.add(() => { if (heroOn) tc.textContent = fmt(raw.currentTime); });
 
-  // WebGL where it exists; a CSS mask otherwise.
-  const reveal = reduce ? null : createReveal(canvas, raw, edit, { idle: true });
-  if (reveal) {
+  // WebGL where it exists, started once the page has loaded (it is not needed under the loader); a CSS mask
+  // otherwise.
+  let reveal: Reveal | null = null;
+  const startGl = () => {
+    reveal = createReveal(canvas, raw, edit, { idle: true });
+    if (!reveal) return fallback();
     stage.classList.add("gl-on");
-    canvas.addEventListener("reveal:lost", () => { stage.classList.remove("gl-on"); stage.classList.add("no-gl"); });
-    new IntersectionObserver(([e]) => reveal.setActive(e.isIntersecting)).observe(stage);
-  } else {
+    canvas.addEventListener("reveal:lost", () => { stage.classList.remove("gl-on"); fallback(); });
+    new IntersectionObserver(([e]) => reveal?.setActive(e.isIntersecting)).observe(stage);
+    reveal.setOpen(openNow);
+  };
+  function fallback() {
     stage.classList.add("no-gl");
     if (reduce) stage.style.setProperty("--r", "200%");
     else {
@@ -150,6 +157,9 @@ const chars = (w: string) => [...w].map((c) => `<span class="c">${c}</span>`).jo
       });
     }
   }
+  let openNow = 0;
+  if (reduce) fallback();
+  else onReady(() => ("requestIdleCallback" in window ? requestIdleCallback(startGl, { timeout: 600 }) : setTimeout(startGl, 200)));
 
   // "Zera edits." waits below its mask until the scroll brings it up.
   gsap.set(".hw-3 .c, .hw-4 .c", { y: 0, yPercent: 110 });
@@ -176,12 +186,12 @@ const chars = (w: string) => [...w].map((c) => `<span class="c">${c}</span>`).jo
       tl.to(".hero-tag, .hero-foot, .hero-hint", { opacity: 0, y: -20, duration: 0.25, ease: "power2.in" }, 0)
         .to(".hw-1", { xPercent: -60, opacity: 0, duration: 0.5, ease: "power2.in" }, 0)
         .to(".hw-2", { xPercent: 60, opacity: 0, duration: 0.5, ease: "power2.in" }, 0)
-        .to(o, { open: 1, duration: 0.7, ease: "power1.inOut", onUpdate: () => { reveal?.setOpen(o.open); mode.textContent = o.open > 0.6 ? "Zera edit" : "Raw clip"; } }, 0.05)
+        .to(o, { open: 1, duration: 0.7, ease: "power1.inOut", onUpdate: () => { openNow = o.open; reveal?.setOpen(o.open); mode.textContent = o.open > 0.6 ? "Zera edit" : "Raw clip"; } }, 0.05)
         .to(stage, { scale: 1.1, duration: 1, ease: "none" }, 0)
         .to(".hw-3 .c, .hw-4 .c", { yPercent: 0, duration: 0.45, ease: "expo.out", stagger: 0.02 }, 0.45)
         .to({}, { duration: 0.25 });
     } else {
-      gsap.to(o, { open: 1, ease: "none", onUpdate: () => { reveal?.setOpen(o.open); mode.textContent = o.open > 0.6 ? "Zera edit" : "Raw clip"; },
+      gsap.to(o, { open: 1, ease: "none", onUpdate: () => { openNow = o.open; reveal?.setOpen(o.open); mode.textContent = o.open > 0.6 ? "Zera edit" : "Raw clip"; },
         scrollTrigger: { trigger: stage, start: "top 30%", end: "bottom 20%", scrub: 0.6 } });
     }
     return () => reveal?.setOpen(0);

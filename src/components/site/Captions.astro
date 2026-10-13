@@ -18,7 +18,7 @@ const words = LINE.split(" ");
     <p class="hall-bg d" aria-hidden="true" id="hallBg">28 animations · 28 animations ·</p>
     <div class="hall-track" id="hallTrack">
       {captionStyles.map((c, n) => (
-        <article class={`cap st-${c.id}`} data-cursor={c.name}>
+        <article class={`cap st-${c.id}`}>
           <img src={`${M}/cap_${n % 4}.webp`} alt="" loading="lazy" decoding="async" />
           <div class="cap-line" aria-label={LINE}>
             {words.map((w, wi) => (
