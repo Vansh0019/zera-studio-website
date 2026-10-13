@@ -1,24 +1,22 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import Footer from "@/components/site/Footer.astro";
 import { siteConfig } from "@/config/site";
 ---
 
-<BaseLayout
-  light
+<SiteLayout
+  loader={false}
+  image="/og/privacy-policy.png"
   title={`Privacy Policy — ${siteConfig.shortName}`}
   description={`Privacy Policy for ${siteConfig.shortName} AI Video Editor (${siteConfig.domain}). Learn how we handle your data, media content, and user privacy.`}
 >
-  <Navbar client:load />
-
-  <main class="pt-[110px] pb-20 sm:pt-[130px] sm:pb-28">
-    <div class="container-x max-w-4xl">
+  <main class="doc">
+    <div class="wrap doc-wrap">
       <!-- Back Link -->
-      <div class="mb-8">
+      <div class="doc-back">
         <a
           href="/"
-          class="focus-ring inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-black/60 transition-colors hover:text-black"
+          class="label"
         >
           <svg
             width="14"
@@ -38,12 +36,12 @@ import { siteConfig } from "@/config/site";
       </div>
 
       <!-- Header -->
-      <header class="mb-12 border-b border-black/10 pb-8">
-        <span class="eyebrow block mb-3">Legal & Privacy</span>
-        <h1 class="text-3.5xl sm:text-5xl font-black tracking-tight text-black leading-tight">
+      <header class="doc-head">
+        <span class="doc-eyebrow">Legal & Privacy</span>
+        <h1 class="d doc-h1">
           Privacy Policy
         </h1>
-        <div class="mt-4 flex flex-wrap items-center gap-3 text-xs sm:text-sm font-semibold text-black/60">
+        <div class="doc-meta label">
           <span>Effective Date: October 13, 2026</span>
           <span>•</span>
           <span>Applies to: {siteConfig.shortName} for Android</span>
@@ -51,9 +49,9 @@ import { siteConfig } from "@/config/site";
       </header>
 
       <!-- Content -->
-      <article class="space-y-10 text-[0.98rem] leading-relaxed text-black/80">
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">1. Overview & Scope</h2>
+      <article class="doc-body">
+        <section>
+          <h2>1. Overview & Scope</h2>
           <p>
             This Privacy Policy applies to {siteConfig.shortName} ("we," "our," or "us"), including the {siteConfig.shortName} mobile application for Android and this website.
           </p>
@@ -62,10 +60,10 @@ import { siteConfig } from "@/config/site";
           </p>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">2. Information We Collect</h2>
+        <section>
+          <h2>2. Information We Collect</h2>
           <p>Depending on your interaction with {siteConfig.shortName}, we collect data in the following categories:</p>
-          <ul class="list-disc pl-6 space-y-2">
+          <ul>
             <li><strong>Account Credentials:</strong> Email address or phone number, authentication tokens, user ID, and account profile details (such as your name from Google Sign-In) when you sign up or log in to the mobile application.</li>
             <li><strong>User Content & Media:</strong> Video clips, audio tracks, images, and text prompts selected or uploaded by you within the app solely to enable AI video editing and timeline creation. Videos you edit only in the manual editor stay on your phone.</li>
             <li><strong>Credits & Purchases:</strong> Your credit balance and a ledger of credits granted, spent and refunded. If you buy a plan, Google Play handles the payment; we receive the purchase record (product, purchase token and order details) to verify it with Google and add your credits. We do not receive your card or payment details.</li>
@@ -77,26 +75,26 @@ import { siteConfig } from "@/config/site";
           </ul>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">3. How We Use Your Data</h2>
+        <section>
+          <h2>3. How We Use Your Data</h2>
           <p>We process collected data exclusively for the following operational purposes:</p>
-          <ul class="list-disc pl-6 space-y-2">
+          <ul>
             <li><strong>Video Editing & AI Assembly:</strong> To analyze uploaded footage, detect scenes/cuts, perform automated editing transitions, and generate final video renders.</li>
             <li><strong>Account & Service Authentication:</strong> To maintain secure user sessions, manage account access, and sync project states to your account.</li>
             <li><strong>Credits, Plans & Abuse Prevention:</strong> To charge credits for AI features, give credits back when a run fails, verify purchases with Google Play, and stop free credits from being claimed repeatedly.</li>
             <li><strong>Application Maintenance & Improvement:</strong> To identify technical bugs, resolve crash reports, understand how features are used, and optimize rendering speed.</li>
             <li><strong>Advertising:</strong> To show ads in the free version of the app.</li>
-            <li><strong>User Support:</strong> To respond to support requests or inquiries sent to <a href={`mailto:${siteConfig.supportEmail}`} class="text-plum font-semibold underline underline-offset-2 hover:opacity-80">{siteConfig.supportEmail}</a>.</li>
+            <li><strong>User Support:</strong> To respond to support requests or inquiries sent to <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a>.</li>
             <li><strong>Product Emails:</strong> If you sign in with an email address, we send a short welcome email and a few follow-ups during your first two weeks: tips for getting started, a request for feedback, and a check-in if you stop using the app. Every one of these emails has an unsubscribe link, and you can also reply "unsubscribe". We do not send them to accounts that signed in with a phone number only, and we never share your email address with advertisers.</li>
           </ul>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">4. AI Processing & Third-Party Infrastructure</h2>
+        <section>
+          <h2>4. AI Processing & Third-Party Infrastructure</h2>
           <p>
             {siteConfig.shortName} utilizes cloud infrastructure and machine learning processing services to deliver AI video editing capabilities:
           </p>
-          <ul class="list-disc pl-6 space-y-2">
+          <ul>
             <li><strong>Data Transmission:</strong> All data exchanged between the app, web client, and processing services is encrypted in transit using standard HTTPS/TLS protocols.</li>
             <li><strong>Third-Party Processing:</strong> Data and media processing tasks are handled using cloud service providers bound by contractual confidentiality and privacy obligations. These include Google Firebase and Google Cloud (sign-in, database, file storage, server functions), Google Cloud Vertex AI (the AI models that analyze your media for editing, transcription and captions), Google Play (billing and Play Integrity), Google AdMob (ads and consent), Firebase Analytics and Crashlytics (usage and crash reports), and Microsoft Clarity (session recordings of the app's screens, used to find usability problems; recording is paused on the sign-in screen).</li>
             <li><strong>Stock Footage:</strong> For AI B-roll, the app searches the Pexels stock library with short search terms chosen by the AI. Your own media is not sent to Pexels.</li>
@@ -104,58 +102,58 @@ import { siteConfig } from "@/config/site";
           </ul>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">5. Data Retention & Storage</h2>
+        <section>
+          <h2>5. Data Retention & Storage</h2>
           <p>
             Media assets and user content uploaded for AI video editing are processed for the purpose of generating your requested video edits. A talking video uploaded for AI B-roll is deleted from our storage once the edit plan is made. Other uploaded media and project data are retained while your account remains active. The credit ledger and purchase records are kept as financial records, including after account deletion, and a hashed device record is kept so that free credits cannot be claimed again on the same phone.
           </p>
           <p>
-            Upon account deletion, your account record and associated user data are removed from our active database in accordance with our <a href="/account-deletion" class="text-plum font-semibold underline underline-offset-2 hover:opacity-80">Account Deletion Policy</a>.
+            Upon account deletion, your account record and associated user data are removed from our active database in accordance with our <a href="/account-deletion">Account Deletion Policy</a>.
           </p>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">6. Data Security</h2>
+        <section>
+          <h2>6. Data Security</h2>
           <p>
             We employ standard administrative and technical safeguards—including encrypted transport layers (HTTPS/TLS) and restricted administrative access—to protect user information against unauthorized access, loss, or disclosure.
           </p>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">7. Your Choices & Account Deletion</h2>
+        <section>
+          <h2>7. Your Choices & Account Deletion</h2>
           <p>You have the right to inspect, update, or request deletion of your account and personal data:</p>
-          <ul class="list-disc pl-6 space-y-2">
+          <ul>
             <li><strong>In-App Deletion:</strong> You can initiate account deletion directly within the mobile application settings.</li>
-            <li><strong>Web Request:</strong> You can request manual account deletion via email or by following the instructions on our <a href="/account-deletion" class="text-plum font-semibold underline underline-offset-2 hover:opacity-80">Account Deletion Page</a>.</li>
+            <li><strong>Web Request:</strong> You can request manual account deletion via email or by following the instructions on our <a href="/account-deletion">Account Deletion Page</a>.</li>
             <li><strong>Email Opt-Out:</strong> Use the unsubscribe link at the bottom of any product email, or reply "unsubscribe", and we will stop sending them.</li>
           </ul>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">8. Children's Privacy</h2>
+        <section>
+          <h2>8. Children's Privacy</h2>
           <p>
-            {siteConfig.shortName} is not intended for children under 13 years of age (or under 16 where required by local law). We do not knowingly collect personal data from children. If you believe a child has provided us with personal information, please notify us at <a href={`mailto:${siteConfig.supportEmail}`} class="text-plum font-semibold underline underline-offset-2 hover:opacity-80">{siteConfig.supportEmail}</a>.
+            {siteConfig.shortName} is not intended for children under 13 years of age (or under 16 where required by local law). We do not knowingly collect personal data from children. If you believe a child has provided us with personal information, please notify us at <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a>.
           </p>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">9. Policy Updates</h2>
+        <section>
+          <h2>9. Policy Updates</h2>
           <p>
             We may update this Privacy Policy periodically. Any revisions will be published on this page with an updated Effective Date.
           </p>
         </section>
 
-        <section class="space-y-4 border-t border-black/10 pt-8">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">10. Contact Information</h2>
+        <section class="doc-end">
+          <h2>10. Contact Information</h2>
           <p>
             For privacy inquiries, account deletion requests, or support, please contact:
           </p>
-          <div class="bg-bone p-5 rounded-lg border border-black/10">
-            <p class="font-bold text-black">{siteConfig.companyLegalName}</p>
-            <p class="mt-1">Website: <a href={siteConfig.url} class="text-plum font-medium hover:underline">{siteConfig.domain}</a></p>
-            <p class="mt-1">Support: <a href={`mailto:${siteConfig.supportEmail}`} class="text-plum font-medium hover:underline">{siteConfig.supportEmail}</a></p>
-            <p class="mt-1">General contact: <a href={`mailto:${siteConfig.contactEmail}`} class="text-plum font-medium hover:underline">{siteConfig.contactEmail}</a></p>
-            <p class="mt-1 text-xs text-black/60">Terms: <a href="/terms" class="text-plum font-semibold hover:underline">View Terms of Service</a></p>
+          <div class="doc-card">
+            <p class="doc-strong">{siteConfig.companyLegalName}</p>
+            <p>Website: <a href={siteConfig.url}>{siteConfig.domain}</a></p>
+            <p>Support: <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a></p>
+            <p>General contact: <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a></p>
+            <p class="doc-links">Terms: <a href="/terms">View Terms of Service</a></p>
           </div>
         </section>
       </article>
@@ -163,4 +161,4 @@ import { siteConfig } from "@/config/site";
   </main>
 
   <Footer />
-</BaseLayout>
+</SiteLayout>

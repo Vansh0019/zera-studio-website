@@ -1,6 +1,6 @@
 ---
 // The site's layout (2026-10-13): loader (home only), nav, full-screen menu and the motion runtime. SEO tags match
-// BaseLayout's, so search results and link previews keep working unchanged.
+// BaseLayout's, plus a social card per page (`image`, from public/og/) so each link preview shows its own page.
 import { playUrl, siteConfig } from "@/config/site";
 import Beacon from "@/components/Beacon.astro";
 import { features } from "@/components/site/features";
@@ -16,11 +16,26 @@ interface Props {
   preload?: string[];
   /** The counting loader is the home page's entrance; inner pages open straight away. */
   loader?: boolean;
+  /** This page's social card (1200×630, under public/og/, made by scripts/generate-og-images.mjs). */
+  image?: string;
+  /** What the card shows, for screen readers in link previews. Defaults to the title. */
+  imageAlt?: string;
+  /** Pages that should stay out of search (the 404). */
+  noindex?: boolean;
 }
-const { title = `${siteConfig.shortName} — AI Video Editor for Creators`, description = siteConfig.description, jsonLd, preload = [], loader = true } = Astro.props;
+const {
+  title = `${siteConfig.shortName} — AI Video Editor for Creators`,
+  description = siteConfig.description,
+  jsonLd,
+  preload = [],
+  loader = true,
+  image = siteConfig.ogImage,
+  imageAlt = title,
+  noindex = false,
+} = Astro.props;
 const isHome = Astro.url.pathname === "/";
 const canonical = new URL(Astro.url.pathname, siteConfig.url).toString();
-const ogImageUrl = `${siteConfig.url}${siteConfig.ogImage}`;
+const ogImageUrl = new URL(image, siteConfig.url).toString();
 // The menu leads to the feature pages from everywhere (they carry the detail, and every page linking to them is how
 // search engines learn they matter); pricing and the FAQ live on the home page.
 const links = [
@@ -37,8 +52,8 @@ const roll = (t: string) => `<span>${t}</span><span aria-hidden="true">${t}</spa
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
-    <meta name="robots" content="index, follow" />
+    {!noindex && <link rel="canonical" href={canonical} />}
+    <meta name="robots" content={noindex ? "noindex, follow" : "index, follow"} />
     <meta name="author" content={siteConfig.companyLegalName} />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -51,11 +66,12 @@ const roll = (t: string) => `<span>${t}</span><span aria-hidden="true">${t}</spa
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={`${siteConfig.shortName} — AI Video Editor for Creators`} />
+    <meta property="og:image:alt" content={imageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={imageAlt} />
     <meta name="theme-color" content="#0e0e11" />
     {preload.map((href) => <link rel="preload" as="image" href={href} />)}
     {jsonLd && <script is:inline type="application/ld+json" set:html={jsonLd} />}

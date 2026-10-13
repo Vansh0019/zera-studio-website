@@ -1,24 +1,22 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import Footer from "@/components/site/Footer.astro";
 import { siteConfig } from "@/config/site";
 ---
 
-<BaseLayout
-  light
+<SiteLayout
+  loader={false}
+  image="/og/terms.png"
   title={`Terms of Service — ${siteConfig.shortName}`}
   description={`Terms of Service for ${siteConfig.shortName}, the AI video editing Android app by ${siteConfig.companyLegalName}. Covers the service, accounts, your content, acceptable use, and contact details.`}
 >
-  <Navbar client:load />
-
-  <main class="pt-[110px] pb-20 sm:pt-[130px] sm:pb-28">
-    <div class="container-x max-w-4xl">
+  <main class="doc">
+    <div class="wrap doc-wrap">
       <!-- Back Link -->
-      <div class="mb-8">
+      <div class="doc-back">
         <a
           href="/"
-          class="focus-ring inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-black/60 transition-colors hover:text-black"
+          class="label"
         >
           <svg
             width="14"
@@ -38,12 +36,12 @@ import { siteConfig } from "@/config/site";
       </div>
 
       <!-- Header -->
-      <header class="mb-12 border-b border-black/10 pb-8">
-        <span class="eyebrow block mb-3">Legal</span>
-        <h1 class="text-3.5xl sm:text-5xl font-black tracking-tight text-black leading-tight">
+      <header class="doc-head">
+        <span class="doc-eyebrow">Legal</span>
+        <h1 class="d doc-h1">
           Terms of Service
         </h1>
-        <div class="mt-4 flex flex-wrap items-center gap-3 text-xs sm:text-sm font-semibold text-black/60">
+        <div class="doc-meta label">
           <span>Effective Date: October 7, 2026</span>
           <span>•</span>
           <span>Applies to: {siteConfig.shortName} for Android</span>
@@ -51,9 +49,9 @@ import { siteConfig } from "@/config/site";
       </header>
 
       <!-- Content -->
-      <article class="space-y-10 text-[0.98rem] leading-relaxed text-black/80">
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">1. Agreement to These Terms</h2>
+      <article class="doc-body">
+        <section>
+          <h2>1. Agreement to These Terms</h2>
           <p>
             These Terms of Service ("Terms") apply to your use of {siteConfig.shortName}, the AI video editing Android application provided by {siteConfig.companyLegalName} ("Zera AI," "we," "our," or "us"), together with this website.
           </p>
@@ -62,8 +60,8 @@ import { siteConfig } from "@/config/site";
           </p>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">2. What Zera Studio Is</h2>
+        <section>
+          <h2>2. What Zera Studio Is</h2>
           <p>
             {siteConfig.shortName} is an AI-powered video editing application for Android. Its AI features add B-roll, motion graphics, zooms and captions to a talking video, or edit your clips in the style of a reference video. Every AI edit opens in a manual editor, where you can change it, preview it and export it.
           </p>
@@ -72,16 +70,16 @@ import { siteConfig } from "@/config/site";
           </p>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">3. Ongoing Development</h2>
+        <section>
+          <h2>3. Ongoing Development</h2>
           <p>
             {siteConfig.shortName} is publicly available and usable today, and it is <strong>under active development</strong>. Features may be added, changed, or removed as the product evolves, and you may encounter errors or interruptions.
           </p>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">4. Price, Credits and Plans</h2>
-          <ul class="list-disc pl-6 space-y-2">
+        <section>
+          <h2>4. Price, Credits and Plans</h2>
+          <ul>
             <li><strong>Free to download.</strong> Installing the app, the manual editor, effects and export are free.</li>
             <li><strong>Credits.</strong> AI features use credits. The number of credits a feature uses is shown in the app before you start it. If a run fails, the credits it used are returned.</li>
             <li><strong>Welcome credits.</strong> New accounts receive free welcome credits once per phone, on a phone that Google Play can verify. We may limit or withdraw free credits that are claimed through misuse, such as repeated accounts on one device.</li>
@@ -92,36 +90,36 @@ import { siteConfig } from "@/config/site";
           </ul>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">5. Eligibility</h2>
+        <section>
+          <h2>5. Eligibility</h2>
           <p>
             {siteConfig.shortName} is not intended for children under 13 years of age, or under 16 where a higher minimum age is required by local law. By using the app you confirm that you meet the applicable minimum age.
           </p>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">6. Your Account</h2>
-          <ul class="list-disc pl-6 space-y-2">
+        <section>
+          <h2>6. Your Account</h2>
+          <ul>
             <li>You are responsible for the accuracy of the account details you provide.</li>
             <li>You are responsible for keeping your login credentials secure.</li>
-            <li>You may delete your account at any time. See our <a href="/account-deletion" class="text-plum font-semibold underline underline-offset-2 hover:opacity-80">Account Deletion Policy</a> for in-app and email options.</li>
+            <li>You may delete your account at any time. See our <a href="/account-deletion">Account Deletion Policy</a> for in-app and email options.</li>
           </ul>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">7. Your Content</h2>
-          <ul class="list-disc pl-6 space-y-2">
+        <section>
+          <h2>7. Your Content</h2>
+          <ul>
             <li><strong>You keep ownership.</strong> You retain all rights you already hold in the video clips, audio, images, and text you add to the app. We do not claim ownership of your content.</li>
             <li><strong>Limited processing permission.</strong> You grant us permission to process your content only as needed to provide the editing service to you — for example, uploading, analyzing, assembling, rendering, and returning your edited video.</li>
             <li><strong>Your responsibility.</strong> You confirm that you hold the necessary rights to the content you upload, including any music, footage, or images owned by someone else.</li>
-            <li><strong>No monetization of your media.</strong> As stated in our <a href="/privacy-policy" class="text-plum font-semibold underline underline-offset-2 hover:opacity-80">Privacy Policy</a>, we do not sell, rent, or trade your personal information or private video media.</li>
+            <li><strong>No monetization of your media.</strong> As stated in our <a href="/privacy-policy">Privacy Policy</a>, we do not sell, rent, or trade your personal information or private video media.</li>
           </ul>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">8. Acceptable Use</h2>
+        <section>
+          <h2>8. Acceptable Use</h2>
           <p>You agree not to use {siteConfig.shortName} to:</p>
-          <ul class="list-disc pl-6 space-y-2">
+          <ul>
             <li>Upload or generate content that is unlawful, or that infringes the intellectual property or privacy rights of others.</li>
             <li>Upload content involving the sexual exploitation or abuse of minors, or content that incites violence against others.</li>
             <li>Attempt to disrupt, overload, probe, or gain unauthorized access to the app, our accounts, or our processing infrastructure.</li>
@@ -130,29 +128,29 @@ import { siteConfig } from "@/config/site";
           </ul>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">9. Distribution and Third-Party Services</h2>
+        <section>
+          <h2>9. Distribution and Third-Party Services</h2>
           <p>
-            {siteConfig.shortName} is distributed through Google Play, and your installation and use of the app is also subject to Google Play's own terms. As described in our <a href="/privacy-policy" class="text-plum font-semibold underline underline-offset-2 hover:opacity-80">Privacy Policy</a>, we use cloud infrastructure and machine learning processing services to deliver editing functionality.
+            {siteConfig.shortName} is distributed through Google Play, and your installation and use of the app is also subject to Google Play's own terms. As described in our <a href="/privacy-policy">Privacy Policy</a>, we use cloud infrastructure and machine learning processing services to deliver editing functionality.
           </p>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">10. Service Availability</h2>
+        <section>
+          <h2>10. Service Availability</h2>
           <p>
             Because {siteConfig.shortName} is under continuous development, we do not guarantee uninterrupted or error-free operation. We may modify, suspend, or discontinue all or part of the service, including during maintenance or as the product develops.
           </p>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">11. Disclaimer</h2>
+        <section>
+          <h2>11. Disclaimer</h2>
           <p>
             To the fullest extent permitted by applicable law, {siteConfig.shortName} is provided on an "as is" and "as available" basis. Automated editing results depend on the footage and reference material you provide, and we do not guarantee that a generated edit will meet a specific creative expectation.
           </p>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">12. Limitation of Liability</h2>
+        <section>
+          <h2>12. Limitation of Liability</h2>
           <p>
             To the fullest extent permitted by applicable law, Zera AI will not be liable for indirect, incidental, or consequential losses arising from your use of {siteConfig.shortName}, including loss of data or lost project work. Nothing in these Terms excludes any liability that cannot be excluded under applicable law.
           </p>
@@ -161,37 +159,37 @@ import { siteConfig } from "@/config/site";
           </p>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">13. Suspension and Termination</h2>
+        <section>
+          <h2>13. Suspension and Termination</h2>
           <p>
-            You may stop using {siteConfig.shortName} at any time and may delete your account as described in our <a href="/account-deletion" class="text-plum font-semibold underline underline-offset-2 hover:opacity-80">Account Deletion Policy</a>. We may suspend or terminate access where it is necessary to address a breach of these Terms, protect other users, or comply with a legal obligation.
+            You may stop using {siteConfig.shortName} at any time and may delete your account as described in our <a href="/account-deletion">Account Deletion Policy</a>. We may suspend or terminate access where it is necessary to address a breach of these Terms, protect other users, or comply with a legal obligation.
           </p>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">14. Privacy</h2>
+        <section>
+          <h2>14. Privacy</h2>
           <p>
-            Our handling of your data is described in the <a href="/privacy-policy" class="text-plum font-semibold underline underline-offset-2 hover:opacity-80">Privacy Policy</a>, which forms part of your use of {siteConfig.shortName}.
+            Our handling of your data is described in the <a href="/privacy-policy">Privacy Policy</a>, which forms part of your use of {siteConfig.shortName}.
           </p>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">15. Changes to These Terms</h2>
+        <section>
+          <h2>15. Changes to These Terms</h2>
           <p>
             We may update these Terms as the product develops. Any revised version will be published on this page with an updated Effective Date. Continuing to use {siteConfig.shortName} after an update means you accept the revised Terms.
           </p>
         </section>
 
-        <section class="space-y-4 border-t border-black/10 pt-8">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">16. Contact</h2>
+        <section class="doc-end">
+          <h2>16. Contact</h2>
           <p>
             For questions about these Terms, contact:
           </p>
-          <div class="bg-bone p-5 rounded-lg border border-black/10">
-            <p class="font-bold text-black">{siteConfig.companyLegalName}</p>
-            <p class="mt-1">Website: <a href={siteConfig.url} class="text-plum font-medium hover:underline">{siteConfig.domain}</a></p>
-            <p class="mt-1">Support: <a href={`mailto:${siteConfig.supportEmail}`} class="text-plum font-medium hover:underline">{siteConfig.supportEmail}</a></p>
-            <p class="mt-1">General contact: <a href={`mailto:${siteConfig.contactEmail}`} class="text-plum font-medium hover:underline">{siteConfig.contactEmail}</a></p>
+          <div class="doc-card">
+            <p class="doc-strong">{siteConfig.companyLegalName}</p>
+            <p>Website: <a href={siteConfig.url}>{siteConfig.domain}</a></p>
+            <p>Support: <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a></p>
+            <p>General contact: <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a></p>
           </div>
         </section>
       </article>
@@ -199,4 +197,4 @@ import { siteConfig } from "@/config/site";
   </main>
 
   <Footer />
-</BaseLayout>
+</SiteLayout>
