@@ -5,6 +5,7 @@ import "@fontsource-variable/archivo/wdth.css";
 import "@/styles/global.css";
 
 import Backdrop from "@/components/Backdrop.astro";
+import Beacon from "@/components/Beacon.astro";
 
 interface Props {
   title?: string;
@@ -71,5 +72,6 @@ const ogImageUrl = `${siteConfig.url}${siteConfig.ogImage}`;
     <div class="page">
       <slot />
     </div>
+    <Beacon />
   </body>
 </html>

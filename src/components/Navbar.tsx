@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
-import { siteConfig } from "@/config/site";
+import { playUrl, siteConfig } from "@/config/site";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -47,7 +47,7 @@ export default function Navbar() {
         </div>
 
         <div className="hidden items-center gap-2 lg:flex">
-          <a href={siteConfig.playStoreUrl} className="cta-primary focus-ring !min-h-[40px] !px-4 !text-[0.85rem]" target="_blank" rel="noreferrer">
+          <a href={playUrl("page-nav")} className="cta-primary focus-ring !min-h-[40px] !px-4 !text-[0.85rem]" target="_blank" rel="noreferrer">
             Get the app
             <ArrowUpRight size={15} strokeWidth={2} />
           </a>
@@ -80,7 +80,7 @@ export default function Navbar() {
               {item.label}
             </a>
           ))}
-          <a href={siteConfig.playStoreUrl} onClick={close} target="_blank" rel="noreferrer" className="cta-primary focus-ring mt-3 w-full">
+          <a href={playUrl("page-nav")} onClick={close} target="_blank" rel="noreferrer" className="cta-primary focus-ring mt-3 w-full">
             Get it on Google Play
             <ArrowUpRight size={15} strokeWidth={2} />
           </a>

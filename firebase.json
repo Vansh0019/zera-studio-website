@@ -51,6 +51,15 @@
           }
         ]
       }
+    ],
+    "rewrites": [
+      {
+        "source": "/api/hit",
+        "function": {
+          "functionId": "siteHit",
+          "region": "asia-south1"
+        }
+      }
     ]
   }
 }

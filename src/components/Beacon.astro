@@ -1,0 +1,24 @@
+---
+// Visits and "Get the app" taps, counted on our own server (`siteHit` in the app repo's functions): no cookies, no
+// identifiers, nothing stored per person, so there is nothing to consent to. Only on zera-ai.com itself (previews and
+// localhost do not count), and never when the browser asks not to be tracked.
+---
+<script is:inline>
+  (() => {
+    try {
+      if (!/^(www\.)?zera-ai\.com$/.test(location.hostname)) return;
+      if (navigator.globalPrivacyControl || navigator.doNotTrack === "1" || !navigator.sendBeacon) return;
+      const q = new URLSearchParams(location.search);
+      const send = (k, extra) =>
+        navigator.sendBeacon("/api/hit", new Blob([JSON.stringify(Object.assign({ k, p: location.pathname, r: document.referrer, u: q.get("utm_source") || q.get("ref") || "" }, extra))], { type: "text/plain" }));
+      send("view");
+      document.addEventListener("click", (e) => {
+        const a = e.target instanceof Element && e.target.closest('a[href*="play.google.com/store/apps/details"]');
+        if (!a) return;
+        const ref = new URL(a.href).searchParams.get("referrer") || "";
+        const m = ref.match(/utm_campaign=([\w-]+)/);
+        send("play", { c: m ? m[1] : "" });
+      }, { capture: true });
+    } catch (e) {}
+  })();
+</script>

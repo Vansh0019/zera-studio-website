@@ -17,13 +17,18 @@ const wave = refPeaks.map((p, i) => {
   const h = Math.max(2, p * H * 0.9);
   return `M${(i * bar + bar / 2).toFixed(1)} ${(H / 2 - h / 2).toFixed(1)}v${h.toFixed(1)}`;
 }).join("");
+interface Props { /** Without the chapter heading and facts: a showcase on a feature page. */ bare?: boolean }
+const { bare = false } = Astro.props;
 ---
 <section class="chap ref" id="reference">
+  {!bare && (
   <div class="wrap chap-head ref-head">
     <p class="chap-idx"><b>02</b><i></i><span class="label">Reference to edit</span></p>
     <h2 class="chap-title d" data-split>Any reel.<br /><span class="b">Its edit.</span><br />Your clips.</h2>
     <p class="lead" data-reveal>Show Zera a reel you love. It reads the cuts, the pacing and the transitions, then builds the same edit from your own clips, on the beat.</p>
+    <a class="chap-more" href="/copy-reel-editing-style/">Copy a reel's editing style <span aria-hidden="true">→</span></a>
   </div>
+  )}
 
   <div class="ref-stage" id="refStage">
     <div class="ref-pair" id="refPair">
@@ -62,6 +67,7 @@ const wave = refPeaks.map((p, i) => {
     </div>
   </div>
 
+  {!bare && (
   <div class="wrap">
     <ul class="facts ref-facts" data-reveal>
       <li><b>13 cuts</b> matched in this one</li>
@@ -70,6 +76,7 @@ const wave = refPeaks.map((p, i) => {
       <li><b>5 credits</b> an edit</li>
     </ul>
   </div>
+  )}
 </section>
 
 <style>

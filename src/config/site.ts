@@ -77,3 +77,11 @@ export const pricing = {
     { name: "Pro", price: "₹2,499", credits: 2000 }
   ]
 } as const;
+
+/**
+ * The Play Store link for one button on the site, tagged so Play Console's acquisition report can say which button
+ * brought an install: `utm_source=zera-ai.com`, `utm_medium=website`, `utm_campaign=<placement>`. Play reads these
+ * from the `referrer` parameter. Structured data keeps the plain `siteConfig.playStoreUrl`.
+ */
+export const playUrl = (placement: string) =>
+  `${siteConfig.playStoreUrl}&referrer=${encodeURIComponent(`utm_source=zera-ai.com&utm_medium=website&utm_campaign=${placement}`)}`;

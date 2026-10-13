@@ -13,13 +13,18 @@ const fx = [{ a: 14, b: 22, t: "Zoom" }, { a: 41, b: 49, t: "Zoom" }, { a: 69, b
 const ov = [{ a: 1, b: 13, t: "HEY!" }, { a: 42, b: 68, t: "Checklist" }];
 const keys = [8, 30, 52, 77];
 const bars = refPeaks.filter((_, i) => i % 2 === 0);
+interface Props { /** Without the chapter heading and facts: a showcase on a feature page. */ bare?: boolean }
+const { bare = false } = Astro.props;
 ---
 <section class="chap ed" id="editor">
+  {!bare && (
   <div class="wrap chap-head">
     <p class="chap-idx"><b>04</b><i></i><span class="label">The editor</span></p>
     <h2 class="chap-title d" data-split>A full editor.<br /><span class="b">Free, forever.</span></h2>
     <p class="lead" data-reveal>Every AI edit opens on a real multi-track timeline, so nothing is locked in. Or skip the AI and edit from scratch. Editing and export never cost credits.</p>
+    <a class="chap-more" href="/video-editor/">Everything the editor does <span aria-hidden="true">→</span></a>
   </div>
+  )}
 
   <div class="ed-pin" id="edPin">
     <div class="wrap ed-grid">

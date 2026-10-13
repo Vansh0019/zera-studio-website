@@ -1,14 +1,19 @@
 ---
-import { faqs } from "./content";
+// The FAQ: the home page's by default, or a feature page's own list.
+import { faqs as homeFaqs } from "./content";
+type Item = { question?: string; answer?: string; q?: string; a?: string };
+interface Props { items?: Item[]; idx?: string }
+const { items = homeFaqs as Item[], idx = "07" } = Astro.props;
+const list = items.map((f: Item) => ({ question: f.question ?? f.q ?? "", answer: f.answer ?? f.a ?? "" }));
 ---
 <section class="chap faq" id="faq">
   <div class="wrap faq-grid">
     <div class="chap-head faq-head">
-      <p class="chap-idx"><b>07</b><i></i><span class="label">FAQ</span></p>
+      <p class="chap-idx"><b>{idx}</b><i></i><span class="label">FAQ</span></p>
       <h2 class="chap-title d" data-split>Questions,<br /><span class="b">answered.</span></h2>
     </div>
     <div class="faq-list">
-      {faqs.map((f, i) => (
+      {list.map((f, i) => (
         <details data-reveal>
           <summary><span class="num faq-n">{String(i + 1).padStart(2, "0")}</span><span class="faq-q">{f.question}</span><i aria-hidden="true"></i></summary>
           <div class="faq-a"><p>{f.answer}</p></div>

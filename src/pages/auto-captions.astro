@@ -1,0 +1,10 @@
+---
+import FeaturePage from "@/components/site/FeaturePage.astro";
+import Captions from "@/components/site/Captions.astro";
+---
+<FeaturePage
+  slug="auto-captions"
+  demo={{ kind: "one", clip: { poster: "/media/site/broll_raw.webp", src: "/media/site/broll_raw.mp4", label: "Captions in the Pop style" }, caption: "this changed everything" }}
+>
+  <Captions slot="showcase" bare />
+</FeaturePage>

@@ -1,5 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
-import { siteConfig } from "@/config/site";
+import { playUrl, siteConfig } from "@/config/site";
 
 function InstagramIcon({ size = 15 }: { size?: number }) {
   return (
@@ -50,7 +50,7 @@ const legalLinks = [
 
 export default function Footer() {
   const verifyLinks = [
-    { label: "Google Play", href: siteConfig.playStoreUrl },
+    { label: "Google Play", href: playUrl("page-footer") },
     { label: "Company LinkedIn", href: siteConfig.companyLinkedin },
     { label: "Founder LinkedIn", href: siteConfig.founder.linkedin }
   ];

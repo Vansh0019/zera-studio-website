@@ -1,7 +1,9 @@
 ---
-// The home page's layout (2026-10-13): loader, nav, full-screen menu and the motion runtime. SEO tags match
+// The site's layout (2026-10-13): loader (home only), nav, full-screen menu and the motion runtime. SEO tags match
 // BaseLayout's, so search results and link previews keep working unchanged.
-import { siteConfig } from "@/config/site";
+import { playUrl, siteConfig } from "@/config/site";
+import Beacon from "@/components/Beacon.astro";
+import { features } from "@/components/site/features";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/mona-sans/wdth.css";
 import "@fontsource/caveat/600.css";
@@ -12,22 +14,24 @@ interface Props {
   description?: string;
   jsonLd?: string;
   preload?: string[];
+  /** The counting loader is the home page's entrance; inner pages open straight away. */
+  loader?: boolean;
 }
-const { title = `${siteConfig.shortName} — AI Video Editor for Creators`, description = siteConfig.description, jsonLd, preload = [] } = Astro.props;
+const { title = `${siteConfig.shortName} — AI Video Editor for Creators`, description = siteConfig.description, jsonLd, preload = [], loader = true } = Astro.props;
+const isHome = Astro.url.pathname === "/";
 const canonical = new URL(Astro.url.pathname, siteConfig.url).toString();
 const ogImageUrl = `${siteConfig.url}${siteConfig.ogImage}`;
+// The menu leads to the feature pages from everywhere (they carry the detail, and every page linking to them is how
+// search engines learn they matter); pricing and the FAQ live on the home page.
 const links = [
-  { label: "AI B-roll", href: "#broll" },
-  { label: "Reference edit", href: "#reference" },
-  { label: "Captions", href: "#captions" },
-  { label: "Editor", href: "#editor" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "FAQ", href: "#faq" },
+  ...features.map((f) => ({ label: f.menu, href: `/${f.slug}/` })),
+  { label: "Pricing", href: isHome ? "#pricing" : "/#pricing" },
+  { label: "FAQ", href: isHome ? "#faq" : "/#faq" },
 ];
 const roll = (t: string) => `<span>${t}</span><span aria-hidden="true">${t}</span>`;
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" data-loader={loader ? "on" : "off"}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -58,17 +62,19 @@ const roll = (t: string) => `<span>${t}</span><span aria-hidden="true">${t}</spa
     <script is:inline>
       // The loader plays once per visit and never for reduced motion; decided before first paint so it never flashes.
       try {
-        if (sessionStorage.getItem("zera-loaded") || matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("no-loader");
+        if (document.documentElement.dataset.loader === "off" || sessionStorage.getItem("zera-loaded") || matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("no-loader");
       } catch (e) { document.documentElement.classList.add("no-loader"); }
     </script>
   </head>
   <body>
+{loader && (
     <div class="loader" id="loader" aria-hidden="true">
       <div class="ld-row"><span class="label">Zera Studio</span><span class="label">Loading the edit</span></div>
       <div class="ld-num d"><span id="ldNum">0</span></div>
       <div class="ld-bar"><i id="ldBar"></i></div>
       <div class="ld-sweep" id="ldSweep"></div>
     </div>
+)}
 
     <header class="nav" id="nav">
       <a href="/" class="brand" aria-label="Zera Studio home">
@@ -76,7 +82,7 @@ const roll = (t: string) => `<span>${t}</span><span aria-hidden="true">${t}</spa
         <span class="d-x">Zera</span>
       </a>
       <div class="nav-r">
-        <a class="btn nav-get" href={siteConfig.playStoreUrl} data-magnetic><span class="roll" set:html={roll("Get the app")} /></a>
+        <a class="btn nav-get" href={playUrl("nav")} data-magnetic><span class="roll" set:html={roll("Get the app")} /></a>
         <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
           <span class="burger-t roll" set:html={roll("Menu")} /><span class="burger-i"><i></i><i></i></span>
         </button>
@@ -97,13 +103,14 @@ const roll = (t: string) => `<span>${t}</span><span aria-hidden="true">${t}</spa
           <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a>
           <a href={siteConfig.instagram} target="_blank" rel="noopener">Instagram</a>
           <a href={siteConfig.companyLinkedin} target="_blank" rel="noopener">LinkedIn</a>
-          <a href={siteConfig.playStoreUrl}>Google Play</a>
+          <a href={playUrl("menu")}>Google Play</a>
         </div>
       </div>
     </div>
 
 
     <slot />
+    <Beacon />
 
     <style is:global>
       /* loader */

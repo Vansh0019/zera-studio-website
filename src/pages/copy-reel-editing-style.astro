@@ -1,0 +1,10 @@
+---
+import FeaturePage from "@/components/site/FeaturePage.astro";
+import Reference from "@/components/site/Reference.astro";
+---
+<FeaturePage
+  slug="copy-reel-editing-style"
+  demo={{ kind: "pair", a: { poster: "/media/site/ref_reel.webp", src: "/media/site/ref_reel.mp4", label: "The reel you like" }, b: { poster: "/media/site/ref_edit.webp", src: "/media/site/ref_edit.mp4", label: "Your clips, same edit" } }}
+>
+  <Reference slot="showcase" bare />
+</FeaturePage>

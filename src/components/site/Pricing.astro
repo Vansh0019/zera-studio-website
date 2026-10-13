@@ -1,6 +1,6 @@
 ---
 // Plans and what credits buy. Numbers are the server's (`src/config/site.ts` ← `functions/src/config/credits/config.ts`).
-import { pricing, siteConfig } from "@/config/site";
+import { playUrl, pricing } from "@/config/site";
 import { plans } from "./content";
 ---
 <section class="chap pr" id="pricing">
@@ -11,7 +11,7 @@ import { plans } from "./content";
 
   <div class="wrap pr-list">
     {plans.map((p) => (
-      <a class={`pr-row ${p.hot ? "hot" : ""}`} href={siteConfig.playStoreUrl} data-reveal>
+      <a class={`pr-row ${p.hot ? "hot" : ""}`} href={playUrl(`pricing-${p.name.toLowerCase()}`)} data-reveal>
         <span class="pr-fill" aria-hidden="true"></span>
         <span class="pr-name d">{p.name}{p.hot && <em class="pr-tag">Most credits</em>}</span>
         <span class="pr-lines">{p.lines.map((l) => <span>{l}</span>)}</span>

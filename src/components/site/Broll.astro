@@ -22,12 +22,17 @@ const steps = [
   { t: "It plans the edit", d: "Which lines get B-roll, which get a graphic, where to punch in, where captions land." },
   { t: "You get the edit, not a template", d: "Everything lands on a real timeline in the editor. Change any of it, then export." },
 ];
+interface Props { /** Without the chapter heading and facts: a showcase on a feature page. */ bare?: boolean }
+const { bare = false } = Astro.props;
 ---
 <section class="chap br" id="broll">
+  {!bare && (
   <div class="wrap chap-head">
     <p class="chap-idx"><b>01</b><i></i><span class="label">AI B-roll</span></p>
     <h2 class="chap-title d" data-split>You talk.<br /><span class="b">Zera shows it.</span></h2>
+    <a class="chap-more" href="/auto-b-roll/">How auto B-roll works <span aria-hidden="true">→</span></a>
   </div>
+  )}
 
   <div class="br-pin" id="brPin">
     <div class="wrap br-grid">
@@ -79,6 +84,7 @@ const steps = [
     </div>
   </div>
 
+  {!bare && (
   <div class="wrap">
     <ul class="facts br-facts" data-reveal>
       <li><b>Up to 3 min</b> per video</li>
@@ -87,6 +93,7 @@ const steps = [
       <li><b>Credits back</b> if a run fails</li>
     </ul>
   </div>
+  )}
 </section>
 
 <style>

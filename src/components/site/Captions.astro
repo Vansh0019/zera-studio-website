@@ -4,15 +4,25 @@
 // pinned and scrolled sideways; phones swipe it.
 import { captionStyles } from "./content";
 const M = "/media/site";
-const LINE = "this changed everything";
+interface Props {
+  /** Without the chapter heading and facts: a showcase on a feature page. */
+  bare?: boolean;
+  /** The line every card animates (the Hinglish page shows a Hinglish one). */
+  line?: string;
+}
+const { bare = false, line = "this changed everything" } = Astro.props;
+const LINE = line;
 const words = LINE.split(" ");
 ---
 <section class="chap caps" id="captions" data-flip>
+  {!bare && (
   <div class="wrap chap-head caps-head">
     <p class="chap-idx"><b>03</b><i></i><span class="label">Auto captions</span></p>
     <h2 class="chap-title d" data-split>Captions<br />on every word.</h2>
     <p class="lead caps-lead" data-reveal>Word by word, on the beat you said it. 28 animations, any font, colour, glow and outline. English, Hindi, and Hinglish in Roman letters, the way people actually type it.</p>
+    <p class="chap-links"><a class="chap-more" href="/auto-captions/">Auto captions <span aria-hidden="true">→</span></a><a class="chap-more" href="/hinglish-captions/">Hinglish captions <span aria-hidden="true">→</span></a></p>
   </div>
+  )}
 
   <div class="hall" id="hall">
     <p class="hall-bg d" aria-hidden="true" id="hallBg">28 animations · 28 animations ·</p>
@@ -37,6 +47,7 @@ const words = LINE.split(" ");
   </div>
   <p class="wrap hand hall-hint" aria-hidden="true">swipe →</p>
 
+  {!bare && (
   <div class="wrap">
     <ul class="facts caps-facts" data-reveal>
       <li><b>1 credit</b> a minute</li>
@@ -44,6 +55,7 @@ const words = LINE.split(" ");
       <li><b>Every word</b> editable after</li>
     </ul>
   </div>
+  )}
 </section>
 
 <style>

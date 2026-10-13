@@ -1,0 +1,7 @@
+---
+import FeaturePage from "@/components/site/FeaturePage.astro";
+import Editor from "@/components/site/Editor.astro";
+---
+<FeaturePage slug="video-editor" demo={{ kind: "still", src: "/media/site/app_home.webp", alt: "Zera Studio app home screen: New Video and Edit with AI" }}>
+  <Editor slot="showcase" bare />
+</FeaturePage>

@@ -1,0 +1,10 @@
+---
+import FeaturePage from "@/components/site/FeaturePage.astro";
+import Broll from "@/components/site/Broll.astro";
+---
+<FeaturePage
+  slug="auto-b-roll"
+  demo={{ kind: "pair", a: { poster: "/media/site/broll_raw.webp", src: "/media/site/broll_raw.mp4", label: "Before: the talking clip" }, b: { poster: "/media/site/broll_edit.webp", src: "/media/site/broll_edit.mp4", label: "After: Zera's edit" } }}
+>
+  <Broll slot="showcase" bare />
+</FeaturePage>
