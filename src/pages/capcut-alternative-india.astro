@@ -46,23 +46,23 @@ const rows: Row[] = [
   { app: "InShot", by: "InShot, Singapore", watermark: `Yes; removed with Pro ${ref(8)}`, ads: `Yes ${ref(7)}`, hindi: `Yes ${ref(7)}`, hinglish: "Not stated", out: `4K, 60 fps ${ref(8)}`, iphone: "Yes" },
   { app: "KineMaster", by: "KineMaster Corp., South Korea", watermark: `Yes; removed with a subscription ${ref(10)}`, ads: `Yes ${ref(9)}`, hindi: `Yes ${ref(11)}`, hinglish: "Not stated", out: `4K, 60 fps ${ref(9)}`, iphone: "Yes" },
   { app: "YouCut", by: "InShot, Singapore", watermark: `No ${ref(12)}`, ads: `Yes ${ref(12)}`, hindi: `Yes ${ref(12)}`, hinglish: "Not stated", out: `Up to 4K ${ref(12)}`, iphone: "Yes" },
-  { app: "Edits (Instagram)", by: "Meta, US", watermark: `No ${ref(13)}`, ads: `Not labelled ${ref(13)}`, hindi: `Yes, as bilingual captions ${ref(14)}`, hinglish: "Not stated", out: `4K ${ref(13)}`, iphone: "Yes" },
+  { app: "Edits (Instagram)", by: "Meta, US", watermark: `No ${ref(13)}`, ads: `No ads label on Play ${ref(13)}`, hindi: `Yes, as bilingual captions ${ref(14)}`, hinglish: "Not stated", out: `4K ${ref(13)}`, iphone: "Yes" },
 ];
 
 const notes = [
   { app: "VN", good: "A free editor with no watermark and free 4K HDR export, plus a long list of AI tools and templates.", mind: "The free version shows ads." },
-  { app: "InShot", good: "Simple, very popular, with Hindi among its caption languages.", mind: "The free version adds a watermark; Pro removes it." },
-  { app: "KineMaster", good: "A layered editor with many pro tools, and free auto captions in 36 languages including Hindi.", mind: "The free version adds a watermark; a subscription removes it." },
-  { app: "YouCut", good: "No watermark and Hindi captions, from the same developer as InShot.", mind: "The free version shows ads." },
-  { app: "Edits", good: "Meta's free editor for Instagram: 4K export with no watermark, and bilingual captions.", mind: "Built around Instagram, and newer than most here." },
+  { app: "InShot", good: "Simple and very popular, with Hindi among its caption languages.", mind: "The free version adds a watermark; Pro removes it." },
+  { app: "KineMaster", good: "A layer-based editor with many pro tools, plus free auto captions in 36 languages, Hindi included.", mind: "The free version adds a watermark; a subscription removes it." },
+  { app: "YouCut", good: "No watermark and Hindi captions. Made by the same developer as InShot.", mind: "The free version shows ads." },
+  { app: "Edits", good: "Meta's free editor for Instagram: 4K export with no watermark, and bilingual captions.", mind: "Built mainly for Instagram, and newer than most apps here." },
 ];
 
 const faqs = [
   { q: "Is CapCut available in India?", a: `No. As of ${CHECKED}, CapCut is not on Google Play or the App Store in India, and capcut.com is unavailable from India. It was reported among the apps India blocked in 2020.` },
-  { q: "Which video editors have no watermark on the free version?", a: "Going by their own listings and pages: VN, YouCut, Edits and Zera Studio export without a watermark for free. InShot and KineMaster add one until you pay." },
+  { q: "Which video editors have no watermark on the free version?", a: "According to their own listings and pages, VN, YouCut, Edits and Zera Studio export without a watermark on their free versions. InShot and KineMaster add one until you pay." },
   { q: "Which app writes Hinglish captions in Roman letters?", a: "Zera Studio has a Hinglish option that writes Hindi and Hindi-English speech in Roman letters, the way people type it. We found no mention of Roman Hinglish captions on the official pages of the other apps here; several offer Hindi captions in Devanagari." },
-  { q: "Can any of these copy a reel's editing style?", a: "Zera Studio's reference edit takes any reel you like plus your own clips and copies the cuts, pacing, transitions and effects onto your footage, on the beat. Template libraries in other apps work differently: you fill a fixed template." },
-  { q: "Is Zera Studio free?", a: `The editor and export are free, with ads, and carry no watermark. The AI features use credits: every new phone gets ${pricing.welcomeCredits} free credits once, and plans start at ${pricing.basic.price} a month.` },
+  { q: "Can any of these copy a reel's editing style?", a: "Zera Studio's reference edit takes any reel you like plus your own clips and copies the cuts, pacing, transitions and effects onto your footage, on the beat. Template-based apps work differently: you pick a template and fill its slots with your clips." },
+  { q: "Is Zera Studio free?", a: `Editing and export are free (with ads) and never add a watermark. The AI features use credits: every new phone gets ${pricing.welcomeCredits} free credits once, and plans start at ${pricing.basic.price} a month.` },
   { q: "Who wrote this page?", a: "ZERA AI, the company that makes Zera Studio. We have tried to be fair: every fact about another app links to that app's own listing or page, and Zera's weak spots are listed too. If something is out of date, tell us and we will fix it." },
 ];
 
@@ -103,18 +103,18 @@ const jsonLd = JSON.stringify({
       <nav class="crumbs label" aria-label="Breadcrumb"><a href="/">Zera Studio</a><span aria-hidden="true">/</span><span aria-current="page">CapCut alternatives in India</span></nav>
       <h1 class="d cmp-h1" data-split>CapCut alternatives in India, compared honestly</h1>
       <p class="lead cmp-lead">
-        CapCut is not on Google Play or the App Store in India, and capcut.com is unavailable from India<Fragment set:html={ref(2)} />. It was reported among the apps India blocked in 2020<Fragment set:html={ref(1)} />. If you made Reels or Shorts with it, here is how the editors you can install today compare on the things people ask about most: watermark, ads, captions in Hindi and Hinglish, and export quality.
+        CapCut is not on Google Play or the App Store in India, and capcut.com is unavailable from India<Fragment set:html={ref(2)} />. It was reported among the apps India blocked in 2020<Fragment set:html={ref(1)} />. If you used it for Reels or Shorts, here is how the editors you can install today compare on what people ask about most: watermark, ads, captions in Hindi and Hinglish, and export quality.
       </p>
-      <p class="cmp-meta"><span class="chip-date">Last checked {CHECKED}</span><span>Written by ZERA AI, the makers of Zera Studio. Zera's weak spots are listed too.</span></p>
+      <p class="cmp-meta"><span class="chip-date">Last checked {CHECKED}</span><span>Written by ZERA AI, the makers of Zera Studio. We list Zera's weak spots too.</span></p>
     </section>
 
     <section class="wrap cmp-sec">
       <p class="chap-idx"><b>01</b><i></i><span class="label">The short answer</span></p>
       <ul class="cmp-short" data-reveal>
-        <li><b>Free, no watermark, general editing:</b> VN, YouCut, Edits and Zera Studio export without a watermark on their free versions.</li>
-        <li><b>Hindi captions:</b> InShot, KineMaster, YouCut, Edits and Zera Studio list Hindi.</li>
-        <li><b>Hinglish captions in Roman letters, AI B-roll, or copying a reel's edit:</b> Zera Studio is the one here built for these.</li>
-        <li><b>On an iPhone:</b> every app here except Zera Studio, which is Android only for now.</li>
+        <li><b>Free editing with no watermark:</b> VN, YouCut, Edits and Zera Studio don't add a watermark on their free versions.</li>
+        <li><b>Hindi captions:</b> InShot, KineMaster, YouCut, Edits and Zera Studio support Hindi captions.</li>
+        <li><b>Hinglish captions in Roman letters, AI B-roll, or copying a reel's edit:</b> these are what Zera Studio is built for.</li>
+        <li><b>On iPhone:</b> every app here except Zera Studio, which is Android-only for now.</li>
       </ul>
     </section>
 
@@ -122,7 +122,7 @@ const jsonLd = JSON.stringify({
       <div class="wrap">
         <p class="chap-idx"><b>02</b><i></i><span class="label">Side by side</span></p>
         <h2 class="d cmp-h2" data-split>The comparison.</h2>
-        <p class="cmp-note">From each app's Google Play listing, App Store listing or official pages, checked {CHECKED}. "Not stated" means we found no mention on the app's official pages, not that it is missing.</p>
+        <p class="cmp-note">Taken from each app's Google Play listing, App Store listing or official website, checked on {CHECKED}. "Not stated" means we found no mention of it on the app's official pages; the feature may still exist.</p>
       </div>
       <div class="cmp-scroll" tabindex="0" role="region" aria-label="Comparison table, scrolls sideways">
         <table class="cmp-table">
@@ -159,7 +159,7 @@ const jsonLd = JSON.stringify({
         <article class="zera" data-reveal>
           <h3 class="d-x">Zera Studio</h3>
           <p><span class="label">Good for</span>AI B-roll for talking videos, copying any reel's edit onto your own clips, and Hinglish captions in Roman letters. Editing and export are free, up to 4K, with no watermark.</p>
-          <p><span class="label">Keep in mind</span>See below: we would rather you knew before you install.</p>
+          <p><span class="label">Keep in mind</span>Android only, and the AI features use credits. The full list is just below.</p>
         </article>
       </div>
     </section>
@@ -169,20 +169,20 @@ const jsonLd = JSON.stringify({
       <h2 class="d cmp-h2" data-split>Honestly.</h2>
       <ul class="cmp-short cmp-minus" data-reveal>
         <li><b>Android only.</b> There is no iPhone version yet.</li>
-        <li><b>The AI features use credits.</b> Every new phone gets {pricing.welcomeCredits} free credits once; after that, AI B-roll, reference edits and captions need a plan from {pricing.basic.price} a month. The editor and export stay free.</li>
+        <li><b>The AI features use credits.</b> Every new phone gets {pricing.welcomeCredits} free credits once; after that, AI B-roll, reference edits and captions need credits from a plan, starting at {pricing.basic.price} a month. Editing and export stay free.</li>
         <li><b>The free version shows ads.</b> Paid plans have none.</li>
-        <li><b>No template library.</b> Instead of fixed templates, the reference edit copies any reel you give it, which is different from browsing ready-made templates.</li>
-        <li><b>A young app.</b> Smaller than the others here, and still growing.</li>
+        <li><b>No template library.</b> Instead, the reference edit copies the editing of any reel you give it. If you enjoy browsing ready-made templates, that is a different experience.</li>
+        <li><b>A young app.</b> It is smaller than the others here and still growing.</li>
       </ul>
     </section>
 
     <section class="wrap cmp-sec">
       <p class="chap-idx"><b>05</b><i></i><span class="label">What to look for</span></p>
       <div class="cmp-cards cmp-look">
-        <article data-reveal><h3 class="d-x">No watermark</h3><p>Check the free version's export, not just the store page's headline.</p></article>
+        <article data-reveal><h3 class="d-x">No watermark</h3><p>Export a test video on the free version; don't rely on the store page alone.</p></article>
         <article data-reveal><h3 class="d-x">Captions in your language</h3><p>Hindi in Devanagari and Hinglish in Roman letters read very differently on screen. Try both on your own video.</p></article>
-        <article data-reveal><h3 class="d-x">Export quality</h3><p>1080p is enough for most Reels; 4K and 60 fps matter for sharp, fast footage.</p></article>
-        <article data-reveal><h3 class="d-x">Runs on your phone</h3><p>Try a real project on the phone you film with, especially if it is a budget one.</p></article>
+        <article data-reveal><h3 class="d-x">Export quality</h3><p>1080p is enough for most Reels; 4K and 60 fps help with sharp, fast-moving footage.</p></article>
+        <article data-reveal><h3 class="d-x">Runs on your phone</h3><p>Edit a real project on the phone you film with, especially if it's a budget phone.</p></article>
       </div>
     </section>
 

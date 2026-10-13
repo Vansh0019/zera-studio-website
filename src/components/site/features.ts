@@ -82,7 +82,7 @@ export const features: Feature[] = [
       { t: "Podcasters", d: "Short clips from an episode that hold attention on Reels and Shorts." },
     ],
     faqs: [
-      { q: "What is B-roll?", a: "B-roll is the footage that plays over your talking shot to show what you are describing: the city you mention, the gym, the laptop, the money. It keeps a viewer watching through the parts where the speaker alone would not." },
+      { q: "What is B-roll?", a: "B-roll is the footage that plays over your talking shot to show what you are describing: the city you mention, the gym, the laptop, the money. It keeps viewers watching through the parts where a talking head alone might lose them." },
       { q: "Where does the B-roll come from?", a: "From Pexels, a library of stock footage that is free to use. Zera searches it for each moment it picks, so the clips follow what you say." },
       { q: "Can I replace a clip I don't like?", a: "Yes. Every piece of the edit is a separate item on the timeline, so you can swap a B-roll clip for your own footage, trim it, move it, or delete it." },
       { q: "Does it work for Hindi or Hinglish videos?", a: "Yes. Zera transcribes English, Hindi and Hinglish speech and plans the edit from it. Captions can be written in English, in Hindi (Devanagari) or in Hinglish (Roman letters)." },
@@ -101,7 +101,7 @@ export const features: Feature[] = [
     h1: "Hinglish captions for Reels, word by word",
     lead:
       "Most caption apps hear Hinglish and either write it in Devanagari or translate it into stiff English. Zera writes it the way you would type it to a friend: Roman letters, your own words, each one timed to the moment you say it. Want Devanagari instead? Pick Hindi. Speaking English? Pick English.",
-    facts: [["Roman letters", "the way people type"], ["Word by word", "on the beat you said it"], ["28 animations", "to style them"], ["3 credits", "a minute"]],
+    facts: [["Roman letters", "the way people type"], ["Word by word", "timed to your voice"], ["28 animations", "to style them"], ["3 credits", "a minute"]],
     steps: [
       { t: "Open your video", d: "A Reel, a Short, a vlog: any video where you talk in Hindi, English or a mix of both." },
       { t: "Choose Hinglish", d: "Zera listens and writes every word in Roman letters, timed to your voice." },
@@ -111,7 +111,7 @@ export const features: Feature[] = [
       "Writes Hindi and Hindi-English speech in Roman letters, the way it is typed on Instagram and WhatsApp",
       "Times every word to the moment you say it",
       "Keeps English words in English, as you said them",
-      "Lays the captions out ready for vertical video",
+      "Works for Reels, Shorts and any video where you talk",
     ],
     yours: [
       "Edit any word, or the spelling of a name, before you export",
@@ -133,7 +133,7 @@ export const features: Feature[] = [
     ],
     faqs: [
       { q: "What are Hinglish captions?", a: "Captions that write Hindi or mixed Hindi-English speech in Roman letters, like \"ye trick try karo\", instead of Devanagari (\"ये ट्रिक ट्राई करो\") or a translation. It is how most people type Hindi on their phones, so it is how most viewers read fastest." },
-      { q: "Why not just use Hindi captions?", a: "You can: choose Hindi and Zera writes in Devanagari. Many viewers, especially on Instagram, read Roman Hinglish faster, and English words in your speech stay readable in it." },
+      { q: "Why not just use Hindi captions?", a: "You can: choose Hindi and Zera writes in Devanagari. Many viewers, especially on Instagram, read Roman Hinglish faster, and the English words you use stay as they are." },
       { q: "Can I fix a word the AI got wrong?", a: "Yes. Every caption is editable before you export: correct a word, change a spelling, or delete a line." },
       { q: "How much does it cost?", a: `Hinglish captions cost 3 credits a minute; Hindi, English and Auto cost 1 credit a minute. Every new phone gets ${W} free credits once, and the price is shown before the captions start.` },
       { q: "Does it work for YouTube Shorts and Instagram Reels?", a: "Yes. The captions are part of the exported video, so you can post it anywhere." },
@@ -149,7 +149,7 @@ export const features: Feature[] = [
     kicker: "Auto captions",
     h1: "Auto captions, word by word, in 28 animations",
     lead:
-      "Most people watch with the sound off, so a video without captions loses them in the first second. Zera listens to your video and writes captions that appear word by word, on the beat you said them, in the style you pick: 28 animations, any font and colour, with glow and outline.",
+      "Most people watch with the sound off, so a video without captions loses them in the first second. Zera listens to your video and writes captions that appear word by word, right as each word is said, in the style you pick: 28 animations, any font and colour, with glow and outline.",
     facts: [["28 animations", "from Pop to Scramble"], ["English, Hindi", "and Hinglish"], ["1 credit", "a minute"], ["Every word", "editable"]],
     steps: [
       { t: "Open your video", d: "Any video where someone talks, from your gallery." },
@@ -177,11 +177,11 @@ export const features: Feature[] = [
     example: `A 45-second Reel with English captions costs 1 credit. The ${W} free credits on a new phone caption more than an hour and a half of video.`,
     who: [
       { t: "Reels and Shorts creators", d: "Captions that keep viewers watching with the sound off." },
-      { t: "Podcast and interview clips", d: "Readable, timed text for every speaker line." },
+      { t: "Podcast and interview clips", d: "Readable, timed text for every line spoken." },
       { t: "Teachers and explainers", d: "Accessible videos that are easier to follow." },
     ],
     faqs: [
-      { q: "Which languages does it support?", a: "English, Hindi (written in Devanagari) and Hinglish (Hindi and English written in Roman letters). Auto lets Zera pick from the speech." },
+      { q: "Which languages does it support?", a: "English, Hindi (written in Devanagari) and Hinglish (Hindi and English written in Roman letters). Choose Auto and Zera detects the language from the speech." },
       { q: "What do the 28 animations look like?", a: "They range from simple to loud: Pop, Wave, Type, Reveal, Letter Drop, Glow, Slide, Scramble, Bounce, Jitter and more. You can see ten of them running on the home page." },
       { q: "Can I edit the captions?", a: "Yes. Every word can be corrected, and the style can be changed as often as you like without paying again." },
       { q: "How much do auto captions cost?", a: `1 credit a minute for Auto, English and Hindi, 3 credits a minute for Hinglish, charged by the second. New phones get ${W} free credits once.` },
@@ -201,7 +201,7 @@ export const features: Feature[] = [
       "Found a reel whose editing you love? Give Zera that reel and your own clips. It reads where the reference cuts, how long each shot holds, which transitions and effects it uses and where the beat lands, then builds the same edit from your footage, cut to the reference's music. The result opens in the editor, so you can change anything.",
     facts: [["Cuts, pacing", "transitions and effects"], ["On the beat", "of the reference's music"], ["1–15 clips", "or photos"], ["5 credits", "an edit"]],
     steps: [
-      { t: "Pick the reference", d: "Any reel or short video whose editing you want, up to 6 minutes long." },
+      { t: "Pick the reference", d: "Any reel or short video whose editing you like, up to 6 minutes long." },
       { t: "Add your clips", d: "1 to 15 of your own videos or photos, up to 30 minutes together. Add a note if you like: keep it fast and punchy, start with my best clip, slow and cinematic." },
       { t: "Get the edit", d: "Zera matches each shot of the reference with a moment from your clips and cuts them on the beat. Fine-tune it in the editor and export." },
     ],
