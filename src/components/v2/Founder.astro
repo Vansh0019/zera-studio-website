@@ -1,0 +1,31 @@
+---
+// A note from the founder, in hand (landonorris.com's "Message from Lando"). His words to approve before going live.
+import { siteConfig } from "@/config/site";
+---
+<section class="note wrap" data-doodle-trigger>
+  <p class="kicker">Message from the founder</p>
+  <div class="note-body hand" data-rise>
+    <p>Hi, main Yuvansh hoon.</p>
+    <p>Zera main un creators ke liye bana raha hoon jo <span class="circ">sab kuch phone pe<svg class="doodle circ-d" viewBox="0 0 300 90" preserveAspectRatio="none" aria-hidden="true"><path d="M150 8 C 70 4, 10 22, 12 46 C 14 74, 110 86, 190 80 C 270 74, 296 50, 280 28 C 262 6, 190 4, 128 10" /></svg></span> karte hain.</p>
+    <p>Tum bas bolo. Cutting, B-roll, captions, beat pe zoom, wo sab Zera ka kaam hai.</p>
+    <p>Kuch toote ya pasand na aaye, seedha mujhe likho.</p>
+  </div>
+  <div class="sign">
+    <svg class="doodle sig" viewBox="0 0 320 110" aria-hidden="true">
+      <path d="M12 70 C 30 30, 46 22, 50 40 C 54 60, 40 92, 34 98 C 46 70, 62 52, 78 56 C 90 60, 80 80, 92 78 C 104 76, 108 56, 120 58 C 132 60, 122 82, 136 80 C 150 78, 154 50, 170 54 C 184 58, 170 84, 188 82 C 206 80, 214 56, 230 60 C 246 64, 234 86, 252 80 C 272 72, 290 52, 306 48" />
+    </svg>
+    <a class="sign-mail" href={`mailto:${siteConfig.founder.email}`}>{siteConfig.founder.email}</a>
+  </div>
+</section>
+
+<style>
+  .note { padding-block: clamp(90px, 16vw, 200px); }
+  .note-body { margin-top: 26px; font-size: clamp(30px, 5.4vw, 72px); line-height: 1.12; color: var(--paper); font-weight: 400; max-width: 22ch; }
+  .note-body p + p { margin-top: 0.5em; }
+  .circ { position: relative; display: inline-block; color: var(--zera-hi); }
+  .circ-d { left: -6%; top: -18%; width: 112%; height: 136%; }
+  .sign { display: flex; align-items: flex-end; gap: 22px; margin-top: 38px; flex-wrap: wrap; }
+  .sig { position: relative; width: clamp(200px, 26vw, 320px); height: auto; }
+  .sig path { stroke-width: 3.6; }
+  .sign-mail { color: var(--muted); font-size: 15px; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+</style>

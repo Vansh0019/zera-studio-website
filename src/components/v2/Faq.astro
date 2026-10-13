@@ -1,0 +1,30 @@
+---
+import { faqs } from "./content";
+---
+<section class="ch" id="faq">
+  <div class="wrap ch-head">
+    <p class="kicker">FAQ</p>
+    <h2 class="display ch-title" data-split>Sawaal?</h2>
+  </div>
+  <div class="wrap faq">
+    {faqs.map((f) => (
+      <details data-rise>
+        <summary><span>{f.question}</span><i aria-hidden="true"></i></summary>
+        <p>{f.answer}</p>
+      </details>
+    ))}
+  </div>
+</section>
+
+<style>
+  .faq { margin-top: clamp(30px, 5vw, 60px); border-top: 1px solid var(--line); max-width: 1100px; }
+  details { border-bottom: 1px solid var(--line); }
+  summary { list-style: none; display: flex; justify-content: space-between; gap: 20px; align-items: center; padding: 22px 0; cursor: pointer; font-family: var(--display); font-weight: 700; font-size: clamp(22px, 2.6vw, 34px); letter-spacing: -0.03em; }
+  summary::-webkit-details-marker { display: none; }
+  summary i { position: relative; flex: none; width: 18px; height: 18px; }
+  summary i::before, summary i::after { content: ""; position: absolute; top: 8px; left: 0; width: 18px; height: 2px; background: var(--paper); transition: transform 0.3s var(--ease); }
+  summary i::after { transform: rotate(90deg); }
+  details[open] summary i::after { transform: rotate(0); }
+  details p { padding: 0 0 24px; color: var(--muted); max-width: 70ch; font-size: 17px; }
+  summary:hover { color: var(--zera-hi); }
+</style>

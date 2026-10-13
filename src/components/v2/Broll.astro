@@ -1,0 +1,74 @@
+---
+// AI B-roll: a pinned scene. The edited clip grows into place while hand-written notes draw in around it, one per
+// thing the AI did. Facts: 3-minute talking videos, 30 credits a minute, credits back if a run fails.
+const M = "/media/v2";
+// Each note sits beside the card and its arrow points into it (tips run past the viewBox, which is allowed to overflow).
+const notes = [
+  { cls: "a1", text: "B-roll, khud chuna", path: "M60 14 C 84 52, 138 66, 185 58 M170 52 L 185 58 L 172 68" },
+  { cls: "a2", text: "zoom, beat pe", path: "M100 12 C 78 48, 20 60, -25 52 M-13 62 L -25 52 L -10 47" },
+  { cls: "a3", text: "graphics jo bolte hain", path: "M70 12 C 94 46, 140 54, 185 40 M169 36 L 185 40 L 174 52" },
+  { cls: "a4", text: "Hinglish captions, har shabd pe", path: "M90 12 C 68 44, 20 50, -25 40 M-13 51 L -25 40 L -10 35" },
+];
+---
+<section class="ch" id="broll">
+  <div class="wrap ch-head">
+    <p class="kicker">AI B-roll</p>
+    <h2 class="display ch-title" data-split>Tum bolo.<br />Zera dikhaye.</h2>
+  </div>
+
+  <div class="br-stage" id="brStage">
+    <div class="br-inner">
+      <div class="br-card" id="brCard" data-cursor="AI edit">
+        <video data-lazy data-src={`${M}/talk_ai.mp4`} poster={`${M}/talk_ai.jpg`} muted playsinline loop></video>
+      </div>
+      {notes.map((n) => (
+        <div class={`br-note ${n.cls}`}>
+          <span class="hand">{n.text}</span>
+          <svg viewBox="0 0 160 90" aria-hidden="true"><path class="br-path" d={n.path} /></svg>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="wrap" data-rise><p class="ch-foot">Talking video daalo, 3 minute tak. Zera har line sunta hai, aur jahan zarurat ho wahan stock B-roll, animated graphics, zoom aur captions lagata hai. 30 credits per minute. Run fail hua, to credits wapas.</p></div>
+</section>
+
+<style>
+  .br-stage { height: 100svh; display: grid; place-items: center; }
+  .br-inner { position: relative; height: min(76svh, 760px); aspect-ratio: 9 / 16; }
+  .br-card { position: absolute; inset: 0; border-radius: 22px; overflow: hidden; background: var(--ink-2); box-shadow: 0 40px 80px -30px rgba(0,0,0,0.8), 0 0 0 1px var(--line); }
+  .br-card video { width: 100%; height: 100%; object-fit: cover; }
+  .br-note { position: absolute; width: clamp(150px, 20vw, 230px); }
+  .br-note span { display: block; font-size: clamp(18px, 1.9vw, 28px); line-height: 1.05; }
+  .br-note svg { width: 100%; height: auto; overflow: visible; }
+  .br-path { fill: none; stroke: var(--zera-hi); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .a1 { top: 8%; right: 106%; text-align: right; }
+  .a2 { top: 30%; left: 106%; }
+  .a3 { bottom: 28%; right: 106%; text-align: right; }
+  .a4 { bottom: 6%; left: 106%; }
+  @media (max-width: 899px) {
+    .br-inner { height: min(64svh, 600px); }
+    .br-note { width: 130px; }
+    .br-note span { font-size: 17px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
+    .a1 { right: auto; left: -8%; top: -9%; text-align: left; }
+    .a2 { left: auto; right: -8%; top: 24%; text-align: right; }
+    .a3 { right: auto; left: -8%; bottom: 30%; text-align: left; }
+    .a4 { left: auto; right: -8%; bottom: -10%; text-align: right; }
+  }
+</style>
+
+<script>
+  import { gsap, reduce } from "@/scripts/v2/motion";
+  const stage = document.getElementById("brStage")!;
+  const notes = Array.from(stage.querySelectorAll<HTMLElement>(".br-note"));
+  if (!reduce) {
+    const tl = gsap.timeline({ scrollTrigger: { trigger: stage, start: "top top", end: "+=180%", scrub: 0.6, pin: true } });
+    tl.fromTo("#brCard", { scale: 0.55, rotate: -7, yPercent: 8 }, { scale: 1, rotate: 0, yPercent: 0, ease: "power2.out", duration: 1 });
+    notes.forEach((n, i) => {
+      const path = n.querySelector("path")!, label = n.querySelector("span")!;
+      tl.from(label, { opacity: 0, y: 14, duration: 0.25 }, 0.7 + i * 0.32)
+        .fromTo(path, { drawSVG: "0%" }, { drawSVG: "100%", duration: 0.35, ease: "none" }, "<");
+    });
+    tl.to({}, { duration: 0.4 });
+  }
+</script>

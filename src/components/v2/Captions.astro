@@ -1,0 +1,105 @@
+---
+// Captions hall of fame (landonorris.com's helmet hall, for Zera's caption animations). Ten of the app's 28, live in
+// type on the page — names as in the app's Animate tab. Horizontal: pinned and scrubbed on desktop, swiped on phones.
+import { captionStyles } from "./content";
+const M = "/media/v2";
+const LINE = "ye reel viral hogi";
+const words = LINE.split(" ");
+const bgs = ["selfie_raw", "talk_raw"];
+---
+<section class="ch caps" id="captions">
+  <div class="wrap ch-head">
+    <p class="kicker">Auto captions</p>
+    <h2 class="display ch-title" data-split>28 caption<br />animations.</h2>
+    <p class="ch-foot caps-sub" data-rise>Hindi, English aur Hinglish (Roman me, jaise sab type karte hain). Har shabd usi pal pe jab bola gaya. Font, color, glow, outline, sab tumhare haath me. 1 credit per minute, Hinglish 3.</p>
+  </div>
+
+  <div class="hall" id="hall">
+    <div class="hall-track" id="hallTrack">
+      {captionStyles.map((c, n) => (
+        <article class={`cap-card st-${c.id}`} data-cursor={c.name}>
+          <img src={`${M}/${bgs[n % 2]}.jpg`} alt="" loading="lazy" />
+          <div class="cap-line" aria-label={LINE} data-text={LINE}>
+            {words.map((w, wi) => (
+              <span class="w" style={`--w:${wi}`}>{[...w].map((ch, ci) => <span class="c" style={`--c:${ci + wi * 6}`}>{ch}</span>)}</span>
+            ))}
+          </div>
+          <div class="cap-name"><span class="kicker">Animate</span><b>{c.name}</b></div>
+        </article>
+      ))}
+    </div>
+  </div>
+  <p class="wrap hand hall-hint" aria-hidden="true">← swipe karo →</p>
+</section>
+
+<style>
+  .caps-sub { margin-top: 24px; }
+  .hall { margin-top: clamp(40px, 6vw, 80px); overflow: hidden; }
+  .hall-track { display: flex; gap: 16px; padding-inline: var(--gutter); width: max-content; }
+  .cap-card { position: relative; width: clamp(220px, 24vw, 320px); aspect-ratio: 9 / 16; border-radius: 20px; overflow: hidden; background: var(--ink-2); flex: none; box-shadow: 0 0 0 1px var(--line); }
+  .cap-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.55) saturate(0.9); }
+  .cap-line { position: absolute; left: 8%; right: 8%; bottom: 26%; text-align: center; font-family: var(--display); font-weight: 800; font-size: clamp(26px, 2.6vw, 38px); line-height: 1.05; letter-spacing: -0.02em; color: #fff; text-shadow: 0 3px 0 rgba(0,0,0,0.5); }
+  .w { display: inline-block; margin: 0 0.12em; }
+  .c { display: inline-block; }
+  .cap-name { position: absolute; left: 14px; right: 14px; bottom: 14px; display: flex; justify-content: space-between; align-items: baseline; }
+  .cap-name b { font-family: var(--display); font-size: 24px; letter-spacing: -0.03em; }
+
+  /* the ten, each a 2.4 s loop */
+  .st-pop .w { animation: pop 2.4s var(--ease) infinite; animation-delay: calc(var(--w) * 0.18s); }
+  @keyframes pop { 0% { transform: scale(0); } 12% { transform: scale(1.18); } 20%, 80% { transform: scale(1); } 100% { transform: scale(0); } }
+  .st-wave .c { animation: wave 1.6s ease-in-out infinite; animation-delay: calc(var(--c) * 0.06s); }
+  @keyframes wave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+  .st-type .c { animation: type 2.8s steps(1) infinite; animation-delay: calc(var(--c) * 0.08s); opacity: 0; }
+  @keyframes type { 0% { opacity: 0; } 4%, 70% { opacity: 1; } 100% { opacity: 0; } }
+  .st-reveal .cap-line { animation: reveal 2.4s var(--ease) infinite; }
+  @keyframes reveal { 0% { clip-path: inset(0 100% 0 0); } 35%, 80% { clip-path: inset(0 0 0 0); } 100% { clip-path: inset(0 0 0 100%); } }
+  .st-drop .c { animation: drop 2.4s cubic-bezier(.3,1.6,.5,1) infinite; animation-delay: calc(var(--c) * 0.05s); }
+  @keyframes drop { 0% { transform: translateY(-60px); opacity: 0; } 18%, 80% { transform: none; opacity: 1; } 100% { transform: translateY(20px); opacity: 0; } }
+  .st-glow .cap-line { animation: glow 1.8s ease-in-out infinite; color: #fff; }
+  @keyframes glow { 0%, 100% { text-shadow: 0 0 6px rgba(76,154,255,0.4); } 50% { text-shadow: 0 0 22px rgba(76,154,255,1), 0 0 44px rgba(29,116,217,0.9); } }
+  .st-slide .cap-line { animation: slide 2.4s var(--ease) infinite; }
+  @keyframes slide { 0% { transform: translateX(-60%); opacity: 0; filter: blur(8px); } 25%, 80% { transform: none; opacity: 1; filter: none; } 100% { transform: translateX(40%); opacity: 0; } }
+  .st-bounce .w { animation: bounce 1.2s ease-in-out infinite; animation-delay: calc(var(--w) * 0.15s); }
+  @keyframes bounce { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(-18px) scale(1.06); } }
+  .st-jitter .c { animation: jitter 0.3s steps(2) infinite; animation-delay: calc(var(--c) * -0.07s); }
+  @keyframes jitter { 0% { transform: translate(1px, -1px) rotate(-2deg); } 50% { transform: translate(-1px, 2px) rotate(2deg); } 100% { transform: translate(2px, 0); } }
+  .st-scramble .c { color: #fff; }
+
+  .hall-hint { display: none; margin-top: 14px; text-align: center; font-size: 20px; }
+  @media (max-width: 899px) {
+    .hall-hint { display: block; }
+    .hall { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .hall::-webkit-scrollbar { display: none; }
+    .cap-card { scroll-snap-align: center; width: 66vw; }
+  }
+</style>
+
+<script>
+  import { gsap, reduce } from "@/scripts/v2/motion";
+  // Desktop: the row slides sideways while the page is pinned.
+  const mm = gsap.matchMedia();
+  mm.add("(min-width: 900px) and (prefers-reduced-motion: no-preference)", () => {
+    const track = document.getElementById("hallTrack")!, hall = document.getElementById("hall")!;
+    gsap.to(track, {
+      x: () => -(track.scrollWidth - innerWidth),
+      ease: "none",
+      scrollTrigger: { trigger: hall, start: "center center", end: () => `+=${track.scrollWidth - innerWidth}`, scrub: 0.5, pin: true, invalidateOnRefresh: true, anticipatePin: 1 },
+    });
+  });
+  // Scramble: letters cycle through noise before settling, like the app's Scramble.
+  // One timer for all the letters, running only while the card is on screen.
+  const glyphs = "ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&@*";
+  const scr = document.querySelector<HTMLElement>(".st-scramble");
+  const letters = Array.from(document.querySelectorAll<HTMLElement>(".st-scramble .c")).map((el) => ({ el, real: el.textContent! }));
+  if (scr && !reduce) {
+    let t = 0, timer = 0;
+    const tick = () => {
+      t = (t + 1) % 60;
+      letters.forEach(({ el, real }, i) => { el.textContent = t < 8 + i * 1.5 || t > 50 ? glyphs[(Math.random() * glyphs.length) | 0] : real; });
+    };
+    new IntersectionObserver(([e]) => {
+      clearInterval(timer);
+      if (e.isIntersecting) timer = window.setInterval(tick, 45);
+    }).observe(scr);
+  }
+</script>
