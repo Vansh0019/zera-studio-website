@@ -1,0 +1,63 @@
+---
+// Plans and what credits buy. Numbers are the server's (`src/config/site.ts` ← `functions/src/config/credits/config.ts`).
+import { pricing, siteConfig } from "@/config/site";
+import { plans } from "./content";
+---
+<section class="chap pr" id="pricing">
+  <div class="wrap chap-head">
+    <p class="chap-idx"><b>06</b><i></i><span class="label">Pricing</span></p>
+    <h2 class="chap-title d" data-split>The editor's free.<br /><span class="b">AI runs on credits.</span></h2>
+  </div>
+
+  <div class="wrap pr-list">
+    {plans.map((p) => (
+      <a class={`pr-row ${p.hot ? "hot" : ""}`} href={siteConfig.playStoreUrl} data-cursor={p.cta} data-reveal>
+        <span class="pr-fill" aria-hidden="true"></span>
+        <span class="pr-name d">{p.name}{p.hot && <em class="pr-tag">Most credits</em>}</span>
+        <span class="pr-lines">{p.lines.map((l) => <span>{l}</span>)}</span>
+        <span class="pr-price d">{p.price}<small>{p.per}</small></span>
+      </a>
+    ))}
+  </div>
+
+  <div class="wrap pr-costs">
+    <p class="label">What credits buy</p>
+    <dl class="pr-grid">
+      {pricing.costs.map((c) => (
+        <div data-reveal><dt>{c.feature}</dt><dd><b class="d">{c.amount}</b><span>{c.unit}</span></dd></div>
+      ))}
+    </dl>
+    <p class="pr-note">Every AI run shows its price before it starts, and a run that fails gives its credits back. Prices are Google Play's prices in India; Play shows yours in your currency.</p>
+  </div>
+</section>
+
+<style>
+  .pr-list { margin-top: clamp(50px, 6vw, 90px); border-top: 1px solid var(--line); }
+  .pr-row { position: relative; display: grid; grid-template-columns: 1fr auto; grid-template-areas: "name price" "lines lines"; gap: 14px 24px; align-items: end; padding: clamp(26px, 3.4vw, 46px) 0; border-bottom: 1px solid var(--line); isolation: isolate; transition: padding 0.6s var(--out), color 0.4s; }
+  .pr-fill { position: absolute; inset: 0 calc(var(--gutter) * -1); z-index: -1; background: var(--zera); transform: scaleY(0); transform-origin: bottom; transition: transform 0.6s var(--out); }
+  @media (hover: hover) {
+    .pr-row:hover .pr-fill { transform: none; }
+    .pr-row:hover { color: #fff; }
+    .pr-row:hover .pr-lines, .pr-row:hover .pr-price small { color: rgba(255, 255, 255, 0.82); }
+    }
+  .pr-name { grid-area: name; justify-self: start; position: relative; font-size: clamp(64px, 10vw, 190px); }
+  .pr-tag { position: absolute; top: 0.1em; left: calc(100% + 14px); font: 600 12px/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; padding: 7px 10px; border-radius: 999px; background: var(--zera); color: #fff; }
+  .pr-row:hover .pr-tag { background: #fff; color: var(--zera); }
+  .pr-price { grid-area: price; font-size: clamp(44px, 6.6vw, 124px); text-align: right; }
+  .pr-price small { display: block; margin-top: 8px; font: 500 15px/1 var(--body); text-transform: none; letter-spacing: 0; color: var(--muted); }
+  .pr-lines { grid-area: lines; display: flex; flex-wrap: wrap; gap: 4px 20px; color: var(--muted); font-size: 16px; transition: color 0.4s; }
+  @media (min-width: 1000px) {
+    .pr-row { grid-template-columns: 1.15fr 1fr auto; grid-template-areas: "name lines price"; align-items: center; }
+    .pr-lines { flex-direction: column; }
+    @media (hover: hover) { .pr-row:hover { padding-left: 24px; padding-right: 24px; } }
+  }
+
+  .pr-costs { margin-top: clamp(70px, 8vw, 130px); }
+  .pr-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px; margin-top: 18px; border-radius: 20px; overflow: hidden; background: var(--line); }
+  .pr-grid div { display: grid; align-content: space-between; gap: 30px; padding: 22px; background: var(--ink-2); min-height: 170px; }
+  .pr-grid dt { color: var(--muted); font-size: 15px; }
+  .pr-grid dd { display: flex; align-items: baseline; gap: 8px; }
+  .pr-grid dd b { font-size: clamp(54px, 5vw, 84px); color: var(--paper); }
+  .pr-grid dd span { font-size: 14px; color: var(--muted); }
+  .pr-note { margin-top: 16px; max-width: 72ch; color: var(--dim); font-size: 14px; }
+</style>

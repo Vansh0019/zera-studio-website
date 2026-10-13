@@ -1,0 +1,156 @@
+---
+// 02 · Reference to edit. Left, a reel someone liked; right, the same edit built from other clips. Both play in step,
+// and under them the reel's music and its thirteen cuts: as the playhead crosses a cut, both phones cut on that
+// frame. The pair is the demo rendered for the launch (`ad/src/car/shots.ts`: the reference's cuts and transitions,
+// read frame by frame).
+import { refPeaks } from "./refPeaks";
+const M = "/media/site";
+const DUR = 14;
+// [frame of the cut, transition into the next shot]
+const cuts: [number, string][] = [
+  [84, "zoom"], [107, "whip"], [127, "cut"], [148, "cut"], [170, "cut"], [191, "drop"], [226, "spin"],
+  [255, "whip"], [276, "whip"], [297, "whip"], [318, "whip"], [339, "dusk"], [360, "cut"],
+];
+const W = 1000, H = 120;
+const bar = W / refPeaks.length;
+const wave = refPeaks.map((p, i) => {
+  const h = Math.max(2, p * H * 0.9);
+  return `M${(i * bar + bar / 2).toFixed(1)} ${(H / 2 - h / 2).toFixed(1)}v${h.toFixed(1)}`;
+}).join("");
+---
+<section class="chap ref" id="reference">
+  <div class="wrap chap-head ref-head">
+    <p class="chap-idx"><b>02</b><i></i><span class="label">Reference to edit</span></p>
+    <h2 class="chap-title d" data-split>Any reel.<br /><span class="b">Its edit.</span><br />Your clips.</h2>
+    <p class="lead" data-reveal>Show Zera a reel you love. It reads the cuts, the pacing and the transitions, then builds the same edit from your own clips, on the beat.</p>
+  </div>
+
+  <div class="ref-stage" id="refStage">
+    <div class="ref-pair" id="refPair">
+      <figure class="ref-side l">
+        <div class="phone fit"><div class="scr">
+          <video id="refA" data-src={`${M}/ref_reel.mp4`} poster={`${M}/ref_reel.webp`} muted playsinline loop></video>
+          <span class="flash"></span>
+        </div></div>
+        <figcaption><span class="label">The reel you like</span></figcaption>
+      </figure>
+      <div class="ref-mid" data-doodle-trigger aria-hidden="true">
+        <span class="hand">same cuts, <br />same beat</span>
+        <svg class="doodle" viewBox="0 0 160 60"><path d="M8 32 C 50 10, 100 52, 148 26 M132 16 L 150 26 L 136 40" /></svg>
+      </div>
+      <figure class="ref-side r">
+        <div class="phone fit"><div class="scr">
+          <video id="refB" data-src={`${M}/ref_edit.mp4`} poster={`${M}/ref_edit.webp`} muted playsinline loop></video>
+          <span class="flash"></span>
+        </div></div>
+        <figcaption><span class="label">Your clips, cut the same way</span></figcaption>
+      </figure>
+    </div>
+
+    <div class="wrap">
+      <div class="beat" id="beat" aria-hidden="true">
+        <div class="beat-top"><span class="label">Reference music · 85 BPM</span><span class="label num" id="beatT">0:00.0</span></div>
+        <div class="beat-track">
+          <svg class="beat-wave" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none"><path d={wave} /></svg>
+          <svg class="beat-wave lit" id="beatLit" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none"><path d={wave} /></svg>
+          {cuts.map(([f, t]) => (
+            <span class="cut" style={`left:${(f / 30 / DUR) * 100}%`} data-t={f / 30}><b>{t}</b></span>
+          ))}
+          <span class="beat-head" id="beatHead"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <ul class="facts ref-facts" data-reveal>
+      <li><b>13 cuts</b> matched in this one</li>
+      <li><b>Reference</b> up to 6 min</li>
+      <li><b>Your clips</b> up to 30 min</li>
+      <li><b>5 credits</b> an edit</li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .ref-head .lead { margin-top: 6px; }
+  .ref-stage { margin-top: clamp(50px, 7vw, 110px); perspective: 1600px; }
+  .ref-pair { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: clamp(12px, 3vw, 56px); max-width: 1100px; margin-inline: auto; padding-inline: var(--gutter); transform-style: preserve-3d; }
+  .ref-side { display: grid; gap: 14px; justify-items: center; }
+  .ref-side .phone { width: min(100%, 360px); }
+  .ref-side.l { transform-origin: right center; }
+  .ref-side.r { transform-origin: left center; }
+  .ref-side video { position: absolute; inset: 0; }
+  .flash { position: absolute; inset: 0; z-index: 3; pointer-events: none; box-shadow: inset 0 0 0 3px var(--zera-hi); opacity: 0; border-radius: inherit; }
+  .ref-mid { display: grid; justify-items: center; gap: 6px; text-align: center; }
+  .ref-mid .hand { font-size: clamp(20px, 2vw, 30px); }
+  .ref-mid .doodle { width: clamp(70px, 9vw, 140px); }
+
+  .beat { max-width: 1100px; margin: clamp(30px, 4vw, 54px) auto 0; }
+  .beat-top { display: flex; justify-content: space-between; margin-bottom: 12px; }
+  .beat-track { position: relative; height: 96px; border-radius: 14px; background: var(--ink-2); box-shadow: inset 0 0 0 1px var(--line); }
+  .beat-wave { position: absolute; inset: 10px 8px; width: calc(100% - 16px); height: calc(100% - 20px); }
+  .beat-wave path { stroke: #3a3a46; stroke-width: 3.2; stroke-linecap: round; }
+  .beat-wave.lit path { stroke: var(--zera-hi); }
+  .beat-wave.lit { clip-path: inset(0 100% 0 0); }
+  .cut { position: absolute; top: 6px; bottom: 6px; width: 2px; margin-left: -1px; background: rgba(244,244,246,0.22); border-radius: 2px; }
+  .cut b { position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); font: 500 9.5px/1 var(--mono); letter-spacing: 0.04em; text-transform: uppercase; color: var(--dim); white-space: nowrap; }
+  .cut.hit { background: var(--paper); }
+  .cut.hit b { color: var(--paper); }
+  .cut:nth-child(even) b { top: auto; bottom: calc(100% + 8px); }
+  .beat-head { position: absolute; top: -4px; bottom: -4px; left: 0; width: 2px; background: var(--paper); box-shadow: 0 0 12px rgba(244,244,246,0.6); }
+  .ref-facts { margin-top: clamp(60px, 6vw, 90px); }
+
+  @media (max-width: 760px) {
+    .ref-pair { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .ref-mid { grid-column: 1 / -1; grid-row: 1; display: flex; gap: 10px; }
+    .ref-mid .hand br { display: none; }
+    .ref-mid .doodle { width: 64px; }
+    .cut b { display: none; }
+    .beat-track { height: 72px; }
+  }
+</style>
+
+<script>
+  import { gsap, reduce } from "@/scripts/site/core";
+  const a = document.getElementById("refA") as HTMLVideoElement, b = document.getElementById("refB") as HTMLVideoElement;
+  const head = document.getElementById("beatHead")!, lit = document.getElementById("beatLit")!, tEl = document.getElementById("beatT")!;
+  const cuts = Array.from(document.querySelectorAll<HTMLElement>("#beat .cut"));
+  const flashes = Array.from(document.querySelectorAll<HTMLElement>("#refPair .flash"));
+  const DUR = 14;
+
+  // One clock: the reference. The edit follows it to within a frame or two.
+  let visible = false;
+  new IntersectionObserver(([e]) => {
+    visible = e.isIntersecting;
+    [a, b].forEach((v) => { if (visible && !v.getAttribute("src")) { v.src = v.dataset.src!; v.load(); } });
+    if (visible) { a.play().catch(() => {}); b.play().catch(() => {}); } else { a.pause(); b.pause(); }
+  }, { rootMargin: "200px" }).observe(document.getElementById("refStage")!);
+  setInterval(() => { if (visible && Math.abs(b.currentTime - a.currentTime) > 0.08) b.currentTime = a.currentTime; }, 700);
+
+  let last = 0;
+  gsap.ticker.add(() => {
+    if (!visible) return;
+    const t = a.currentTime, p = Math.min(1, t / DUR);
+    head.style.left = `${p * 100}%`;
+    lit.style.clipPath = `inset(0 ${(1 - p) * 100}% 0 0)`;
+    tEl.textContent = `0:${t.toFixed(1).padStart(4, "0")}`;
+    if (t < last) cuts.forEach((c) => c.classList.remove("hit"));
+    cuts.forEach((c) => {
+      const ct = Number(c.dataset.t);
+      if (ct <= t && ct > last && !c.classList.contains("hit")) {
+        c.classList.add("hit");
+        if (!reduce) gsap.fromTo(flashes, { opacity: 1 }, { opacity: 0, duration: 0.45, ease: "power2.out" });
+      }
+    });
+    last = t;
+  });
+
+  // The pair turns to face you as it comes up.
+  const mm = gsap.matchMedia();
+  mm.add("(prefers-reduced-motion: no-preference)", () => {
+    const st = { trigger: "#refStage", start: "top 95%", end: "top 25%", scrub: 0.8 };
+    gsap.fromTo(".ref-side.l", { rotateY: 38, xPercent: 18, z: -200, opacity: 0.4 }, { rotateY: 0, xPercent: 0, z: 0, opacity: 1, ease: "power2.out", scrollTrigger: st });
+    gsap.fromTo(".ref-side.r", { rotateY: -38, xPercent: -18, z: -200, opacity: 0.4 }, { rotateY: 0, xPercent: 0, z: 0, opacity: 1, ease: "power2.out", scrollTrigger: st });
+  });
+</script>

@@ -1,0 +1,69 @@
+---
+import { siteConfig } from "@/config/site";
+const year = new Date().getFullYear();
+---
+<footer class="ft" id="get">
+  <div class="wrap ft-cta" data-doodle-trigger>
+    <p class="label">Free to start · Android</p>
+    <h2 class="d ft-h" data-split>Just talk.<br /><span class="b">Zera does the edit.</span></h2>
+    <div class="ft-btns">
+      <a class="btn" href={siteConfig.playStoreUrl} data-magnetic>
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 1.8c-.3.3-.4.7-.4 1.2v18c0 .5.1.9.4 1.2l.1.1L13.8 12.2v-.3L3.7 1.7l-.1.1Zm13.6 13.8-3.4-3.4v-.3l3.4-3.4.1.1 4 2.3c1.1.6 1.1 1.7 0 2.4l-4 2.3h-.1Zm-.1.1L13.6 12 3.6 22.2c.4.4 1 .4 1.7.1l11.8-6.6M17.1 8.3 5.3 1.6C4.6 1.2 4 1.3 3.6 1.7L13.6 12l3.5-3.7Z"/></svg>
+        <span class="roll"><span>Get it on Google Play</span><span aria-hidden="true">Get it on Google Play</span></span>
+      </a>
+      <span class="ft-note"><span class="hand">100 credits on day one</span><svg class="doodle" viewBox="0 0 120 40" aria-hidden="true"><path d="M114 30 C 80 6, 40 4, 8 20 M22 8 L 6 21 L 22 32" /></svg></span>
+    </div>
+  </div>
+
+  <div class="wrap ft-cols">
+    <div><p class="label">Contact</p><a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a><a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a><a href={`mailto:${siteConfig.feedbackEmail}`}>{siteConfig.feedbackEmail}</a></div>
+    <div><p class="label">Follow</p><a href={siteConfig.instagram} target="_blank" rel="noopener">Instagram</a><a href={siteConfig.companyLinkedin} target="_blank" rel="noopener">LinkedIn</a><a href={siteConfig.founder.linkedin} target="_blank" rel="noopener">The founder</a></div>
+    <div><p class="label">Legal</p><a href="/privacy-policy/">Privacy policy</a><a href="/terms/">Terms of service</a><a href="/account-deletion/">Delete your account</a></div>
+    <div><p class="label">Product</p><a href="#broll">AI B-roll</a><a href="#reference">Reference edit</a><a href="#captions">Captions</a><a href="#pricing">Pricing</a></div>
+  </div>
+
+  <div class="ft-mark" aria-hidden="true"><span class="d" id="ftMark">{[..."Zera"].map((c) => <span class="c">{c}</span>)}</span></div>
+
+  <div class="wrap ft-base">
+    <span>© {year} {siteConfig.companyLegalName}. All rights reserved.</span>
+    <span>Made in India, for creators everywhere.</span>
+    <a href="#top" class="ft-top">Back to top ↑</a>
+  </div>
+</footer>
+
+<style>
+  .ft { position: relative; padding-top: clamp(140px, 18vw, 300px); overflow: hidden; }
+  .ft-h { font-size: clamp(64px, 11vw, 220px); }
+  .ft-h .b { color: var(--zera-hi); }
+  .ft-cta .label { margin-bottom: 26px; }
+  .ft-btns { display: flex; flex-wrap: wrap; align-items: center; gap: 22px; margin-top: clamp(30px, 4vw, 54px); }
+  .ft-note { display: flex; align-items: center; gap: 10px; flex-direction: row-reverse; }
+  .ft-note .hand { font-size: 28px; }
+  .ft-note .doodle { width: 70px; }
+  .ft-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 34px; margin-top: clamp(100px, 12vw, 180px); padding-top: 34px; border-top: 1px solid var(--line); }
+  .ft-cols div { display: grid; gap: 9px; align-content: start; }
+  .ft-cols .label { margin-bottom: 8px; }
+  .ft-cols a { color: var(--muted); width: fit-content; background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: color 0.3s, background-size 0.5s var(--out); }
+  .ft-cols a:hover { color: var(--paper); background-size: 100% 1px; }
+  .ft-mark { margin-top: clamp(60px, 8vw, 120px); line-height: 0.74; text-align: center; color: var(--paper); overflow: hidden; }
+  .ft-mark .d { display: inline-block; white-space: nowrap; font-size: 40vw; letter-spacing: -0.02em; }
+  .ft-mark .c { display: inline-block; }
+  .ft-base { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; padding-block: 22px 28px; color: var(--dim); font-size: 13px; border-top: 1px solid var(--line); }
+  .ft-top:hover { color: var(--paper); }
+</style>
+
+<script>
+  import { gsap, reduce } from "@/scripts/site/core";
+  // The wordmark fills the page's width exactly, whatever the font's own widths are.
+  const mark = document.getElementById("ftMark")!;
+  const fit = () => {
+    mark.style.fontSize = "100px";
+    const w = mark.getBoundingClientRect().width;
+    mark.style.fontSize = `${(100 * (document.documentElement.clientWidth - 8)) / w}px`;
+  };
+  document.fonts.ready.then(fit);
+  addEventListener("resize", fit);
+  if (!reduce) {
+    gsap.from("#ftMark .c", { yPercent: 100, duration: 1.4, ease: "expo.out", stagger: 0.08, scrollTrigger: { trigger: ".ft-mark", start: "top 92%", once: true } });
+  }
+</script>

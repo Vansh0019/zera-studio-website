@@ -1,0 +1,46 @@
+---
+// The app itself: three real screens, rendered from the app's own widgets (`test/ui_render_tool.dart`, dark palette,
+// full phone resolution), set in phones that drift at different speeds as the page moves.
+const M = "/media/site";
+const screens = [
+  { src: "app_home", title: "Home", text: "Start a new video, or hand one to the AI." },
+  { src: "app_hub", title: "Zera AI", text: "Pick B-roll or a reference edit, add a note if you like." },
+  { src: "app_welcome", title: "Day one", text: "100 credits on the house, once per phone." },
+];
+---
+<section class="chap scr-sec" id="app">
+  <div class="wrap chap-head">
+    <p class="chap-idx"><b>05</b><i></i><span class="label">The app</span></p>
+    <h2 class="chap-title d" data-split>Made for the<br /><span class="b">phone you film on.</span></h2>
+  </div>
+
+  <div class="wrap scr-row">
+    {screens.map((s, i) => (
+      <figure class={`scr-fig f${i}`} data-parallax={["0.4", "-0.2", "0.6"][i]}>
+        <div class="phone"><div class="scr"><span class="sb" aria-hidden="true"><b>9:41</b><i></i></span><img src={`${M}/${s.src}.webp`} alt={`Zera Studio app: ${s.title} screen`} loading="lazy" decoding="async" width="720" height="1560" /></div></div>
+        <figcaption><b class="d-x">{s.title}</b><span>{s.text}</span></figcaption>
+      </figure>
+    ))}
+  </div>
+</section>
+
+<style>
+  .scr-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 3vw, 60px); align-items: start; margin-top: clamp(60px, 8vw, 130px); max-width: 1240px; }
+  .scr-fig { display: grid; gap: 22px; }
+  .scr-fig .phone { width: 100%; }
+  .scr-fig .scr { display: flex; flex-direction: column; background: #0e0e11; }
+  .sb { flex: none; height: 6.2%; display: flex; align-items: center; justify-content: space-between; padding: 0 9% 0 10%; font-size: clamp(9px, 0.8vw, 12px); color: var(--paper); }
+  .sb b { font-weight: 650; }
+  .sb i { width: 2.2em; height: 0.95em; border-radius: 3px; box-shadow: inset 0 0 0 1.2px rgba(244,244,246,0.8); background: linear-gradient(90deg, var(--paper) 70%, transparent 70%) 2px 2px / calc(100% - 4px) calc(100% - 4px) no-repeat; }
+  .scr-fig img { flex: 1; min-height: 0; width: 100%; height: auto; object-fit: cover; object-position: center bottom; }
+  .f1 { margin-top: clamp(40px, 8vw, 140px); }
+  .scr-fig figcaption { display: grid; gap: 6px; }
+  .scr-fig figcaption b { font-size: clamp(20px, 1.8vw, 28px); }
+  .scr-fig figcaption span { color: var(--muted); font-size: 15.5px; max-width: 30ch; }
+  @media (max-width: 760px) {
+    .scr-row { grid-template-columns: repeat(3, 72vw); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 6px; }
+    .scr-row::-webkit-scrollbar { display: none; }
+    .scr-fig { scroll-snap-align: center; transform: none !important; }
+    .f1 { margin-top: 0; }
+  }
+</style>

@@ -1,16 +1,19 @@
 ---
-import ZeraLayout from "@/layouts/ZeraLayout.astro";
+import SiteLayout from "@/layouts/SiteLayout.astro";
 import { pricing, siteConfig } from "@/config/site";
-import { faqs } from "@/components/v2/content";
-import Hero from "@/components/v2/Hero.astro";
-import Founder from "@/components/v2/Founder.astro";
-import Broll from "@/components/v2/Broll.astro";
-import Reference from "@/components/v2/Reference.astro";
-import Captions from "@/components/v2/Captions.astro";
-import Editor from "@/components/v2/Editor.astro";
-import Pricing from "@/components/v2/Pricing.astro";
-import Faq from "@/components/v2/Faq.astro";
-import Footer from "@/components/v2/Footer.astro";
+import { faqs } from "@/components/site/content";
+import Hero from "@/components/site/Hero.astro";
+import Manifesto from "@/components/site/Manifesto.astro";
+import Marquee from "@/components/site/Marquee.astro";
+import Broll from "@/components/site/Broll.astro";
+import Reference from "@/components/site/Reference.astro";
+import Captions from "@/components/site/Captions.astro";
+import Editor from "@/components/site/Editor.astro";
+import Screens from "@/components/site/Screens.astro";
+import Founder from "@/components/site/Founder.astro";
+import Pricing from "@/components/site/Pricing.astro";
+import Faq from "@/components/site/Faq.astro";
+import Footer from "@/components/site/Footer.astro";
 
 const organizationId = `${siteConfig.url}/#organization`;
 const founderId = `${siteConfig.url}/#founder`;
@@ -88,20 +91,24 @@ const homepageJsonLd = JSON.stringify({
 });
 ---
 
-<ZeraLayout
-  title={`${siteConfig.shortName} | AI video editor for Android: B-roll, Hinglish captions, reference edits`}
+<SiteLayout
+  title={`${siteConfig.shortName} | AI video editor for Android: B-roll, captions, reference edits`}
   description={siteConfig.description}
   jsonLd={homepageJsonLd}
+  preload={["/media/site/hero_raw.webp"]}
 >
   <main>
     <Hero />
-    <Founder />
+    <Manifesto />
+    <Marquee />
     <Broll />
     <Reference />
     <Captions />
     <Editor />
+    <Screens />
+    <Founder />
     <Pricing />
     <Faq />
   </main>
   <Footer />
-</ZeraLayout>
+</SiteLayout>

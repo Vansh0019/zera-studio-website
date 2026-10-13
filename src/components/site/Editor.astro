@@ -1,0 +1,165 @@
+---
+// 04 · The editor. A phone running the editor's layout (the app's palette and track kinds): the preview on top, a
+// fixed centre playhead, five tracks that scroll under it. The page's scroll is the playhead: it scrubs the clip
+// frame by frame (`editor.mp4` is encoded with a keyframe every third frame for this) and slides the timeline, while
+// the features around the phone light up in turn. Features are the app's, as he has shipped them.
+import { refPeaks } from "./refPeaks";
+const M = "/media/site";
+const left = ["Keyframes", "Masking", "Filters & adjust", "Speed 0.25–4×", "Crop & frame"];
+const right = ["Overlays & PiP", "Transitions", "Text, 28 animations", "Music & waveform"];
+// Track layout in percent of the clip (10 s).
+const text = [{ a: 14, b: 40, t: "STEPS" }, { a: 42, b: 69, t: "CAPTIONS" }, { a: 70, b: 97, t: "VIEWS" }];
+const fx = [{ a: 14, b: 22, t: "Zoom" }, { a: 41, b: 49, t: "Zoom" }, { a: 69, b: 74, t: "Flash" }];
+const ov = [{ a: 1, b: 13, t: "HEY!" }, { a: 42, b: 68, t: "Checklist" }];
+const keys = [8, 30, 52, 77];
+const bars = refPeaks.filter((_, i) => i % 2 === 0);
+---
+<section class="chap ed" id="editor">
+  <div class="wrap chap-head">
+    <p class="chap-idx"><b>04</b><i></i><span class="label">The editor</span></p>
+    <h2 class="chap-title d" data-split>A full editor.<br /><span class="b">Free, forever.</span></h2>
+    <p class="lead" data-reveal>Every AI edit opens on a real multi-track timeline, so nothing is locked in. Or skip the AI and edit from scratch. Editing and export never cost credits.</p>
+  </div>
+
+  <div class="ed-pin" id="edPin">
+    <div class="wrap ed-grid">
+      <ul class="ed-feats l">{left.map((f, i) => <li style={`--i:${i * 2}`}><i></i>{f}</li>)}</ul>
+
+      <div class="phone ed-phone" data-cursor="Scroll to scrub">
+        <div class="scr ed-scr">
+          <div class="ed-top">
+            <span class="ed-back" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" /></svg></span>
+            <b>My reel</b>
+            <span class="ed-export">Export</span>
+          </div>
+          <div class="ed-prev">
+            <video id="edVid" data-src={`${M}/editor.mp4`} poster={`${M}/editor.webp`} muted playsinline preload="none"></video>
+          </div>
+          <div class="ed-time num"><span id="edTc">00:00</span><span class="ed-play" aria-hidden="true"></span><span>00:10</span></div>
+          <div class="ed-tl" aria-hidden="true">
+            <div class="ed-tracks" id="edTracks">
+              <div class="trk v"><span class="film" style={`background-image:url(${M}/filmstrip.webp)`}></span>{keys.map((k) => <b class="key" style={`left:${k}%`}></b>)}</div>
+              <div class="trk">{text.map((c) => <span class="clip t" style={`left:${c.a}%;width:${c.b - c.a}%`}>{c.t}</span>)}</div>
+              <div class="trk">{fx.map((c) => <span class="clip f" style={`left:${c.a}%;width:${c.b - c.a}%`}>{c.t}</span>)}</div>
+              <div class="trk">{ov.map((c) => <span class="clip o" style={`left:${c.a}%;width:${c.b - c.a}%`}>{c.t}</span>)}</div>
+              <div class="trk m"><span class="wave">{bars.map((p) => <i style={`height:${Math.max(10, p * 100)}%`}></i>)}</span></div>
+            </div>
+            <span class="ed-head"></span>
+          </div>
+          <div class="ed-tools" aria-hidden="true">
+            {["Edit", "Audio", "Text", "Effects", "Overlay", "Filters"].map((t, i) => (
+              <span class={i === 0 ? "on" : ""}><i></i>{t}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <ul class="ed-feats r">{right.map((f, i) => <li style={`--i:${i * 2 + 1}`}><i></i>{f}</li>)}</ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ed-pin { height: 100svh; display: grid; align-items: center; margin-top: clamp(20px, 3vw, 50px); }
+  .ed-grid { display: grid; grid-template-columns: 1fr; justify-items: center; gap: 20px; }
+  .ed-phone { height: min(84svh, 800px); }
+
+  .ed-feats { list-style: none; display: grid; gap: 6px; }
+  .ed-feats li { display: flex; align-items: center; gap: 12px; font-family: var(--display); font-weight: 650; font-stretch: 100%; font-size: clamp(20px, 1.9vw, 32px); letter-spacing: -0.02em; color: var(--dim); transition: color 0.5s var(--out); }
+  .ed-feats li i { width: 9px; height: 9px; border-radius: 2px; background: currentColor; transform: rotate(45deg); flex: none; transition: background 0.4s, box-shadow 0.4s; }
+  .ed-feats li.on { color: var(--paper); }
+  .ed-feats li.on i { background: var(--zera-hi); box-shadow: 0 0 14px var(--zera-hi); }
+  .ed-feats.r li { flex-direction: row; }
+
+  /* the editor, in the app's palette */
+  .ed-scr { display: grid; grid-template-rows: auto 1fr auto auto auto; background: #0e0e11; font-family: var(--body); color: var(--paper); }
+  .ed-top { display: grid; grid-template-columns: 30px 1fr auto; align-items: center; gap: 8px; padding: 11% 5% 3%; font-size: clamp(11px, 1.6svh, 14px); }
+  .ed-back svg { width: 18px; height: 18px; fill: none; stroke: var(--paper); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .ed-export { padding: 6px 12px; border-radius: 999px; background: var(--zera); font-weight: 650; font-size: 0.9em; }
+  .ed-prev { position: relative; display: grid; place-items: center; background: #050506; overflow: hidden; min-height: 0; }
+  .ed-prev video { height: 100%; width: auto; aspect-ratio: 9 / 16; object-fit: cover; }
+  .ed-time { display: flex; justify-content: space-between; align-items: center; padding: 3% 5%; font: 600 clamp(10px, 1.35svh, 12px)/1 var(--mono); color: var(--muted); }
+  .ed-time span:first-child { color: var(--paper); }
+  .ed-play { width: 0; height: 0; border-left: 10px solid var(--paper); border-top: 6px solid transparent; border-bottom: 6px solid transparent; }
+  .ed-tl { position: relative; height: clamp(120px, 23svh, 210px); overflow: hidden; background: #121216; border-block: 1px solid #1d1d23; }
+  .ed-tracks { position: absolute; top: 8%; bottom: 6%; left: 50%; width: 260%; display: grid; grid-template-rows: 1.5fr 1fr 1fr 1fr 1fr; gap: 5%; will-change: transform; }
+  .trk { position: relative; }
+  .trk.v { border-radius: 6px; overflow: hidden; box-shadow: 0 0 0 1.5px #fff inset; }
+  .film { position: absolute; inset: 0; background-size: 100% 100%; filter: saturate(0.9); }
+  .key { position: absolute; top: 50%; width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; background: #fff; transform: rotate(45deg); border-radius: 1.5px; box-shadow: 0 0 0 2px #121216; z-index: 2; }
+  .clip { position: absolute; top: 0; bottom: 0; border-radius: 5px; display: flex; align-items: center; padding: 0 6px; font-size: clamp(8px, 1.05svh, 10px); font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; }
+  .clip.t { background: #1d74d9; }
+  .clip.f { background: #7a5af8; }
+  .clip.o { background: #0ea5a3; }
+  .trk.m { border-radius: 5px; background: #23232b; overflow: hidden; }
+  .wave { position: absolute; inset: 12% 0; display: flex; align-items: center; gap: 1px; }
+  .wave i { flex: 1; background: #5f5f70; border-radius: 1px; }
+  .ed-head { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; margin-left: -1px; background: #fff; z-index: 3; box-shadow: 0 0 10px rgba(255,255,255,0.5); }
+  .ed-head::before { content: ""; position: absolute; top: 0; left: -5px; width: 12px; height: 12px; background: #fff; clip-path: polygon(0 0, 100% 0, 50% 100%); }
+  .ed-tools { display: flex; justify-content: space-around; padding: 3.5% 3% 8%; }
+  .ed-tools span { display: grid; justify-items: center; gap: 5px; font-size: clamp(8px, 1.1svh, 10px); color: var(--muted); }
+  .ed-tools span i { width: 18px; height: 18px; border-radius: 6px; background: #26262e; }
+  .ed-tools span.on { color: var(--paper); }
+  .ed-tools span.on i { background: var(--zera); }
+
+  @media (min-width: 1000px) {
+    .ed-grid { grid-template-columns: 1fr auto 1fr; align-items: center; gap: clamp(30px, 4vw, 80px); }
+    .ed-feats.l { justify-self: end; text-align: right; }
+    .ed-feats.l li { flex-direction: row-reverse; }
+    .ed-feats.r { justify-self: start; }
+  }
+  @media (max-width: 999px) {
+    .ed-pin { height: auto; min-height: 100svh; padding: calc(var(--nav-h) + 8px) 0 24px; align-items: start; }
+    .ed-phone { height: min(70svh, 640px); }
+    .ed-feats { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+    .ed-feats li { font-size: 14px; padding: 8px 12px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line-2); font-family: var(--body); font-weight: 600; letter-spacing: -0.01em; }
+    .ed-feats li i { display: none; }
+    .ed-feats.l { order: 2; }
+    .ed-feats.r { order: 3; }
+  }
+</style>
+
+<script>
+  import { gsap, ScrollTrigger, reduce } from "@/scripts/site/core";
+  const vid = document.getElementById("edVid") as HTMLVideoElement;
+  const tracks = document.getElementById("edTracks")!, tc = document.getElementById("edTc")!;
+  const feats = Array.from(document.querySelectorAll<HTMLElement>(".ed-feats li")).sort((a, b) => Number(a.style.getPropertyValue("--i")) - Number(b.style.getPropertyValue("--i")));
+
+  // The clip loads once the section is near, then belongs to the scroll.
+  new IntersectionObserver(([e], io) => {
+    if (!e.isIntersecting) return;
+    vid.src = vid.dataset.src!; vid.preload = "auto"; vid.load();
+    io.disconnect();
+  }, { rootMargin: "600px" }).observe(vid);
+
+  let want = 0, seeking = false;
+  const seek = () => {
+    if (seeking || !vid.duration) return;
+    const t = want * (vid.duration - 0.05);
+    if (Math.abs(vid.currentTime - t) < 1 / 30) return;
+    seeking = true;
+    vid.currentTime = t;
+  };
+  vid.addEventListener("seeked", () => { seeking = false; seek(); });
+  vid.addEventListener("loadedmetadata", seek);
+
+  const place = (p: number) => {
+    want = p;
+    seek();
+    tracks.style.transform = `translateX(${-p * tracks.offsetWidth}px)`;
+    const s = p * 10;
+    tc.textContent = `00:${String(Math.floor(s)).padStart(2, "0")}`;
+    const lit = Math.floor(p * (feats.length + 0.999));
+    feats.forEach((f, i) => f.classList.toggle("on", i < lit));
+  };
+  place(0);
+
+  if (reduce) place(1);
+  else {
+    ScrollTrigger.create({
+      trigger: "#edPin", start: "top top", end: "+=220%", pin: true, anticipatePin: 1, scrub: true,
+      onUpdate: (s) => place(s.progress),
+    });
+    gsap.from(".ed-phone", { yPercent: 10, rotateX: 18, transformPerspective: 1200, ease: "none", scrollTrigger: { trigger: "#edPin", start: "top bottom", end: "top top", scrub: true } });
+  }
+</script>

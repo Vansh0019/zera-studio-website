@@ -1,0 +1,32 @@
+---
+// A note from the founder, in hand (landonorris.com's "Message from Lando"). His words, to approve before going live.
+import { siteConfig } from "@/config/site";
+---
+<section class="note" data-doodle-trigger>
+  <div class="wrap note-in">
+    <p class="label">A note from the founder</p>
+    <div class="note-body hand" data-reveal>
+      <p>Hi, I'm Yuvansh.</p>
+      <p>I'm building Zera for creators who make <span class="circ">everything on their phone.<svg class="doodle circ-d" viewBox="0 0 300 90" preserveAspectRatio="none" aria-hidden="true"><path d="M150 8 C 70 4, 10 22, 12 46 C 14 74, 110 86, 190 80 C 270 74, 296 50, 280 28 C 262 6, 190 4, 128 10" /></svg></span></p>
+      <p>You talk. The cutting, the B-roll, the captions, the zoom on the beat, that's Zera's job.</p>
+      <p>If something breaks, or an edit isn't right, write to me. I read every one.</p>
+    </div>
+    <div class="sign">
+      <span class="hand sign-name">— Yuvansh, founder</span>
+      <a class="sign-mail" href={`mailto:${siteConfig.founder.email}`}>{siteConfig.founder.email}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .note { padding: clamp(110px, 14vw, 220px) 0 clamp(40px, 6vw, 90px); }
+  .note-body { margin-top: 30px; font-size: clamp(34px, 5vw, 84px); line-height: 1.06; color: var(--paper); font-weight: 600; max-width: 21ch; }
+  .note-body p + p { margin-top: 0.45em; }
+  .circ { position: relative; display: inline-block; color: var(--zera-hi); }
+  .circ-d { position: absolute; left: -5%; top: -16%; width: 110%; height: 134%; }
+  .sign { display: flex; align-items: baseline; gap: 22px; margin-top: 40px; flex-wrap: wrap; }
+  .sign-name { font-size: clamp(26px, 2.6vw, 38px); }
+  .sign-mail { color: var(--muted); font-size: 15px; border-bottom: 1px solid var(--line-2); padding-bottom: 2px; transition: color 0.3s; }
+  .sign-mail:hover { color: var(--paper); }
+  @media (min-width: 1000px) { .note-in { padding-left: calc(var(--gutter) + 22vw); } }
+</style>

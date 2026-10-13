@@ -1,0 +1,218 @@
+---
+// 01 · AI B-roll, as a pinned story in four steps beside a phone. The phone plays one clip throughout, so every step
+// is about the same moment: the upload, the transcript (lit word by word on the clip's own timing), the plan (the
+// edit's beats on a timeline), and the edit itself. Timings come from the Remotion reel the edit was rendered from
+// (`ad/src/creator/reels.ts`, `webSigninReel`, 30 fps).
+const M = "/media/site";
+const words: [string, number][] = [
+  ["today", 44], ["I", 54], ["show", 60], ["you", 70], ["how", 78], ["a", 86], ["viral", 92], ["reel", 102], ["gets", 110],
+  ["made", 118], ["just", 128], ["upload", 138], ["AI", 160], ["adds", 168], ["B-roll", 176], ["export!", 196],
+];
+const plan = [
+  { from: 4, to: 40, label: "Sticker", c: "#ff9f0a" },
+  { from: 44, to: 120, label: "Title", c: "#1d74d9" },
+  { from: 126, to: 206, label: "Checklist", c: "#7a5af8" },
+  { from: 208, to: 290, label: "Chart", c: "#0ea5a3" },
+];
+const zooms = [44, 124];
+const TOTAL = 300;
+const steps = [
+  { t: "Drop in a talking video", d: "Anything up to three minutes, straight from your camera roll. One take is enough." },
+  { t: "Zera listens to every word", d: "It transcribes what you say and works out what each line is about." },
+  { t: "It plans the edit", d: "Which lines get B-roll, which get a graphic, where to punch in, where captions land." },
+  { t: "You get the edit, not a template", d: "Everything lands on a real timeline in the editor. Change any of it, then export." },
+];
+---
+<section class="chap br" id="broll">
+  <div class="wrap chap-head">
+    <p class="chap-idx"><b>01</b><i></i><span class="label">AI B-roll</span></p>
+    <h2 class="chap-title d" data-split>You talk.<br /><span class="b">Zera shows it.</span></h2>
+  </div>
+
+  <div class="br-pin" id="brPin">
+    <div class="wrap br-grid">
+      <ol class="br-steps" id="brSteps">
+        {steps.map((s, i) => (
+          <li class={i === 0 ? "on" : ""}>
+            <span class="br-n num">{String(i + 1).padStart(2, "0")}</span>
+            <div><h3 class="d-x">{s.t}</h3><p>{s.d}</p></div>
+          </li>
+        ))}
+        <span class="br-rail" aria-hidden="true"><i id="brRail"></i></span>
+      </ol>
+
+      <div class="br-phone-wrap">
+        <div class="phone fit br-phone s0" id="brPhone">
+          <div class="scr">
+            <video class="br-raw" id="brRaw" data-lazy data-src={`${M}/broll_raw.mp4`} poster={`${M}/broll_raw.webp`} muted playsinline loop></video>
+            <video class="br-edit" id="brEdit" data-lazy data-src={`${M}/broll_edit.mp4`} poster={`${M}/broll_edit.webp`} muted playsinline loop></video>
+
+            <div class="ov ov-up" aria-hidden="true">
+              <div class="up-card">
+                <span class="up-ic"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0-5 5m5-5 5 5M5 20h14" /></svg></span>
+                <div><b>talk.mp4</b><small>0:10 · 1080p</small></div>
+                <span class="up-pct num" id="upPct">0%</span>
+              </div>
+              <span class="up-bar"><i id="upBar"></i></span>
+            </div>
+
+            <div class="ov ov-tx" aria-hidden="true">
+              <span class="ov-k"><i></i>Listening</span>
+              <p id="brWords">{words.map(([w, at]) => <span data-at={at}>{w} </span>)}</p>
+            </div>
+
+            <div class="ov ov-plan" aria-hidden="true">
+              <span class="ov-k">Edit plan</span>
+              <div class="plan">
+                {plan.map((p) => (
+                  <span class="seg" style={`left:${(p.from / TOTAL) * 100}%;width:${((p.to - p.from) / TOTAL) * 100}%;--c:${p.c}`}><b>{p.label}</b></span>
+                ))}
+                {zooms.map((z) => <span class="zm" style={`left:${(z / TOTAL) * 100}%`} title="Zoom"></span>)}
+                <span class="ph" id="brHead"></span>
+              </div>
+              <span class="plan-legend"><i></i> zoom</span>
+            </div>
+          </div>
+        </div>
+        <span class="hand br-note" aria-hidden="true">same clip,<br />every step</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <ul class="facts br-facts" data-reveal>
+      <li><b>Up to 3 min</b> per video</li>
+      <li><b>30 credits</b> a minute</li>
+      <li><b>Price shown</b> before it starts</li>
+      <li><b>Credits back</b> if a run fails</li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .br-pin { position: relative; height: 100svh; display: grid; align-items: center; margin-top: clamp(30px, 4vw, 60px); }
+  .br-grid { display: grid; grid-template-columns: 1fr; gap: 28px; align-items: center; }
+  .br-steps { position: relative; list-style: none; display: grid; gap: 4px; padding-left: 26px; }
+  .br-steps li { display: grid; grid-template-columns: 46px 1fr; gap: 10px; padding: 18px 0; color: var(--dim); transition: color 0.5s var(--out); }
+  .br-steps li.on { color: var(--paper); }
+  .br-n { font: 600 13px/1.9 var(--mono); }
+  .br-steps h3 { font-size: clamp(22px, 2.1vw, 36px); line-height: 1.05; }
+  .br-steps p { margin-top: 8px; font-size: 16px; line-height: 1.5; max-width: 38ch; color: var(--muted); opacity: 0.35; transition: opacity 0.5s; }
+  .br-steps li.on p { opacity: 1; }
+  .br-rail { position: absolute; left: 0; top: 18px; bottom: 18px; width: 2px; background: var(--line); border-radius: 2px; }
+  .br-rail i { position: absolute; inset: 0; transform-origin: top; transform: scaleY(0); background: var(--zera); border-radius: inherit; }
+
+  .br-phone-wrap { position: relative; justify-self: center; }
+  .br-phone { width: min(330px, 31svh * 1.0); }
+  .br-phone .scr > video { position: absolute; inset: 0; }
+  .br-edit { clip-path: inset(100% 0 0 0); transition: clip-path 1s var(--io); }
+  .br-phone.s3 .br-edit { clip-path: inset(0 0 0 0); }
+  .br-note { position: absolute; top: 18%; left: calc(100% + 20px); font-size: 26px; white-space: nowrap; }
+
+  .ov { position: absolute; left: 7%; right: 7%; z-index: 3; opacity: 0; transform: translateY(14px); transition: opacity 0.5s var(--out), transform 0.7s var(--out); pointer-events: none; }
+  .s0 .ov-up, .s1 .ov-tx, .s2 .ov-plan { opacity: 1; transform: none; }
+  .ov-k { display: inline-flex; align-items: center; gap: 6px; font: 600 10px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--zera-hi); }
+  .ov-k i { width: 6px; height: 6px; border-radius: 50%; background: var(--rec); animation: rec 1.4s steps(2) infinite; }
+  @keyframes rec { 50% { opacity: 0.25; } }
+
+  .ov-up { bottom: 12%; display: grid; gap: 10px; }
+  .up-card { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; padding: 12px; border-radius: 16px; background: rgba(23, 23, 28, 0.82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 0 0 1px rgba(255,255,255,0.08); }
+  .up-ic { width: 36px; height: 36px; border-radius: 10px; display: grid; place-content: center; background: var(--zera); }
+  .up-ic svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .up-card b { display: block; font-size: 13px; }
+  .up-card small { font-size: 11px; color: var(--muted); }
+  .up-pct { font: 600 12px/1 var(--mono); color: var(--zera-hi); }
+  .up-bar { position: relative; height: 3px; border-radius: 3px; background: rgba(255,255,255,0.12); overflow: hidden; }
+  .up-bar i { position: absolute; inset: 0; transform-origin: left; transform: scaleX(0); background: var(--zera-hi); }
+
+  .ov-tx { bottom: 9%; padding: 14px; border-radius: 16px; background: rgba(14, 14, 17, 0.78); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 0 0 1px rgba(255,255,255,0.08); }
+  .ov-tx p { margin-top: 8px; font-size: 15px; font-weight: 650; line-height: 1.35; letter-spacing: -0.01em; }
+  .ov-tx p span { color: rgba(244, 244, 246, 0.28); transition: color 0.2s; }
+  .ov-tx p span.lit { color: var(--paper); }
+  .ov-tx p span.now { color: var(--zera-hi); }
+
+  .ov-plan { bottom: 9%; padding: 14px 14px 12px; border-radius: 16px; background: rgba(14, 14, 17, 0.8); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 0 0 1px rgba(255,255,255,0.08); }
+  .plan { position: relative; height: 44px; margin-top: 10px; border-radius: 8px; background: rgba(255,255,255,0.05); }
+  .seg { position: absolute; top: 5px; bottom: 5px; border-radius: 6px; background: var(--c); display: grid; place-content: center; overflow: hidden; transform-origin: left; transform: scaleX(0); transition: transform 0.7s var(--out); }
+  .s2 .seg { transform: none; }
+  .s2 .seg:nth-child(2) { transition-delay: 0.08s; } .s2 .seg:nth-child(3) { transition-delay: 0.16s; } .s2 .seg:nth-child(4) { transition-delay: 0.24s; }
+  .seg b { font-size: 9.5px; font-weight: 700; color: #fff; white-space: nowrap; }
+  .zm { position: absolute; top: -4px; width: 8px; height: 8px; margin-left: -4px; background: #fff; transform: rotate(45deg); border-radius: 1px; }
+  .ph { position: absolute; top: -6px; bottom: -6px; left: 0; width: 2px; background: var(--paper); border-radius: 2px; }
+  .plan-legend { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 10px; color: var(--muted); }
+  .plan-legend i { width: 7px; height: 7px; background: #fff; transform: rotate(45deg); }
+
+  .br-facts { margin-top: clamp(30px, 4vw, 60px); }
+
+  @media (min-width: 900px) {
+    .br-grid { grid-template-columns: minmax(0, 1fr) auto minmax(0, 0.5fr); }
+    .br-phone { width: auto; height: min(80svh, 760px); }
+  }
+  @media (max-width: 899px) {
+    .br-pin { height: auto; min-height: 100svh; padding: calc(var(--nav-h) + 8px) 0 24px; align-items: start; }
+    .br-grid { gap: 18px; }
+    .br-phone-wrap { order: -1; }
+    .br-phone { height: min(58svh, 520px); width: auto; }
+    .br-note { display: none; }
+    .br-steps { padding-left: 0; min-height: 132px; }
+    .br-steps li { position: absolute; inset: 0 0 auto; opacity: 0; transform: translateY(16px); transition: opacity 0.5s, transform 0.6s var(--out); padding: 0; }
+    .br-steps li.on { opacity: 1; transform: none; }
+    .br-rail { display: none; }
+  }
+</style>
+
+<script>
+  import { gsap, ScrollTrigger, reduce } from "@/scripts/site/core";
+  const phone = document.getElementById("brPhone")!;
+  const items = Array.from(document.querySelectorAll<HTMLElement>("#brSteps li"));
+  const raw = document.getElementById("brRaw") as HTMLVideoElement, edit = document.getElementById("brEdit") as HTMLVideoElement;
+  const rail = document.getElementById("brRail")!, head = document.getElementById("brHead")!;
+  const pct = document.getElementById("upPct")!, upBar = document.getElementById("upBar")!;
+  const words = Array.from(document.querySelectorAll<HTMLElement>("#brWords span"));
+  const FPS = 30, TOTAL = 300;
+
+  let step = -1;
+  const setStep = (i: number) => {
+    if (i === step) return;
+    step = i;
+    phone.className = phone.className.replace(/\bs\d\b/g, "").trim() + ` s${i}`;
+    items.forEach((li, n) => li.classList.toggle("on", n === i));
+  };
+  setStep(0);
+
+  // The edit plays under the raw clip from the start, on the same frame, so step 4 can wipe straight to it.
+  const sync = () => { if (Math.abs(edit.currentTime - raw.currentTime) > 0.1) edit.currentTime = raw.currentTime; if (!raw.paused && edit.paused) edit.play().catch(() => {}); };
+  setInterval(sync, 1000);
+  raw.addEventListener("play", sync);
+
+  // Transcript and plan playhead, on the clip's clock.
+  let upload = 0;
+  gsap.ticker.add(() => {
+    if (step < 0) return;
+    const f = raw.currentTime * FPS;
+    if (step === 1) {
+      let cur = -1;
+      words.forEach((w, n) => { const lit = Number(w.dataset.at) <= f; w.classList.toggle("lit", lit); if (lit) cur = n; });
+      words.forEach((w, n) => w.classList.toggle("now", n === cur));
+    }
+    if (step === 2) head.style.left = `${Math.min(100, (f / TOTAL) * 100)}%`;
+    if (step === 0 && upload < 1) {
+      upload = Math.min(1, upload + 0.006);
+      pct.textContent = `${Math.round(upload * 100)}%`;
+      upBar.style.transform = `scaleX(${upload})`;
+    }
+  });
+
+  const mm = gsap.matchMedia();
+  mm.add("(prefers-reduced-motion: no-preference)", () => {
+    ScrollTrigger.create({
+      trigger: "#brPin", start: "top top", end: "+=260%", pin: true, anticipatePin: 1, scrub: true,
+      onUpdate: (s) => {
+        setStep(Math.min(3, Math.floor(s.progress * 4.0001)));
+        rail.style.transform = `scaleY(${s.progress})`;
+      },
+    });
+    gsap.from(phone, { yPercent: 12, rotate: -4, scale: 0.92, ease: "none", scrollTrigger: { trigger: "#brPin", start: "top bottom", end: "top top", scrub: true } });
+  });
+  if (reduce) setStep(3);
+</script>

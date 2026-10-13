@@ -1,0 +1,114 @@
+/*
+ * zera-ai.com (2026-10-13). His brief: landonorris.com-level motion, matched to the app's work and theme, in English
+ * (the app launched globally). Colours are the app's dark palette (`lib/theme/app_theme.dart`): canvas #0E0E11,
+ * surfaces #17171C/#212128, text #F4F4F6, one accent, Zera blue #1D74D9. A lighter blue only where #1D74D9 is too
+ * dark to read on the canvas (strokes, small type). Display: Mona Sans (variable width, condensed for headlines);
+ * body: Inter, the app's own font; notes: Caveat.
+ */
+:root {
+  --ink: #0e0e11;
+  --ink-2: #17171c;
+  --ink-3: #212128;
+  --line: rgba(244, 244, 246, 0.09);
+  --line-2: rgba(244, 244, 246, 0.16);
+  --paper: #f4f4f6;
+  --muted: #a0a0ac;
+  --dim: #5e5e6a;
+  --zera: #1d74d9;
+  --zera-hi: #4c9aff;
+  --rec: #ff3b30;
+  --bg: var(--ink);
+  --fg: var(--paper);
+
+  --display: "Mona Sans Variable", "Inter Variable", system-ui, sans-serif;
+  --body: "Inter Variable", system-ui, -apple-system, sans-serif;
+  --hand: "Caveat", "Segoe Print", cursive;
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+
+  --gutter: clamp(16px, 3.4vw, 56px);
+  --out: cubic-bezier(0.16, 1, 0.3, 1);
+  --io: cubic-bezier(0.76, 0, 0.24, 1);
+  --nav-h: 68px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; background: var(--bg); color-scheme: dark; transition: background-color 0.6s var(--out); }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+body {
+  background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 17px; line-height: 1.55;
+  overflow-x: clip; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility;
+  transition: background-color 0.6s var(--out), color 0.6s var(--out);
+}
+/* the captions chapter turns the page Zera blue, the way landonorris.com turns lime */
+html.flip { --bg: var(--zera); --fg: var(--ink); }
+img, video, svg, canvas { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--zera); color: #fff; }
+:focus-visible { outline: 2px solid var(--zera-hi); outline-offset: 3px; border-radius: 6px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.wrap { width: 100%; max-width: 1680px; margin-inline: auto; padding-inline: var(--gutter); }
+
+/* type */
+.d { font-family: var(--display); font-weight: 820; font-stretch: 75%; text-transform: uppercase; line-height: 0.84; letter-spacing: -0.012em; }
+.d-x { font-family: var(--display); font-weight: 700; font-stretch: 125%; letter-spacing: -0.02em; }
+.hand { font-family: var(--hand); font-weight: 600; color: var(--zera-hi); line-height: 1; }
+.label { font: 500 12px/1.2 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.lead { font-size: clamp(18px, 1.35vw, 22px); line-height: 1.5; color: var(--muted); max-width: 40ch; text-wrap: pretty; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* buttons: the label rolls on hover (the text is drawn twice, the copy waits below) */
+.btn {
+  --h: 56px; position: relative; display: inline-flex; align-items: center; gap: 12px; height: var(--h); padding: 0 26px;
+  border-radius: 999px; background: var(--zera); color: #fff; font-weight: 650; font-size: 16px; letter-spacing: -0.01em;
+  overflow: hidden; isolation: isolate; will-change: transform;
+}
+.btn::before { content: ""; position: absolute; inset: 0; z-index: -1; background: #fff; border-radius: inherit; transform: translateY(101%); transition: transform 0.55s var(--out); }
+.btn .roll { position: relative; display: block; overflow: hidden; height: 1.3em; line-height: 1.3em; }
+.btn .roll > span { display: block; transition: transform 0.55s var(--out); }
+.btn .roll > span + span { position: absolute; inset: 100% 0 auto; }
+.btn svg { width: 20px; height: 20px; flex: none; }
+.btn.line { background: transparent; color: var(--fg); box-shadow: inset 0 0 0 1px var(--line-2); }
+.btn.line::before { background: var(--paper); }
+/* hover only where there is a real pointer: a tap on a phone would leave it stuck on */
+@media (hover: hover) {
+  .btn:hover::before { transform: none; }
+  .btn:hover { color: var(--ink); }
+  .btn:hover .roll > span { transform: translateY(-100%); }
+}
+
+/* hand-drawn strokes: drawn by GSAP DrawSVG */
+.doodle { pointer-events: none; overflow: visible; }
+.doodle path { fill: none; stroke: var(--zera-hi); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+
+/* split lines: room for descenders under the mask */
+.ln-mask { padding-bottom: 0.1em; margin-bottom: -0.1em; }
+
+/* a phone: the app's own frame, used wherever the site shows the app */
+.phone { position: relative; aspect-ratio: 9 / 19.5; border-radius: 14% / 6.5%; padding: 3.2%; background: linear-gradient(145deg, #2a2a31, #0b0b0d 40%, #1d1d22); box-shadow: 0 0 0 1px rgba(255,255,255,0.08) inset, 0 50px 100px -30px rgba(0,0,0,0.85), 0 30px 60px -40px rgba(29,116,217,0.35); }
+.phone > .scr { position: relative; width: 100%; height: 100%; border-radius: 11.5% / 5.3%; overflow: hidden; background: #000; }
+.phone > .scr::after { content: ""; position: absolute; top: 1.6%; left: 50%; width: 28%; height: 3.4%; transform: translateX(-50%); border-radius: 999px; background: #000; z-index: 5; }
+.phone video, .phone img { width: 100%; height: 100%; object-fit: cover; }
+
+/* chapter headers */
+.chap { position: relative; padding-top: clamp(110px, 14vw, 220px); }
+.chap-head { display: grid; gap: 22px; }
+.chap-idx { display: flex; align-items: center; gap: 14px; }
+.chap-idx b { font: 600 12px/1 var(--mono); color: var(--zera-hi); letter-spacing: 0.06em; }
+.chap-idx i { flex: none; width: 48px; height: 1px; background: var(--line-2); }
+.chap-title { font-size: clamp(64px, 11.5vw, 232px); }
+.chap-title .b { color: var(--zera-hi); }
+.facts { display: flex; flex-wrap: wrap; gap: 10px; }
+.facts li { list-style: none; padding: 10px 16px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line-2); font-size: 14px; font-weight: 550; color: var(--muted); }
+.facts li b { color: var(--fg); font-weight: 650; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+/* a phone whose screen is exactly 9:16, for the site's clips (a 9:19.5 screen would crop their sides) */
+.phone.fit { aspect-ratio: 1 / 1.728; border-radius: 12.5% / 7.2%; }
+.phone.fit > .scr { border-radius: 10% / 5.6%; }

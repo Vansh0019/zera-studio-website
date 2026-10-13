@@ -13,7 +13,7 @@ export const siteConfig = {
   url: "https://zera-ai.com",
 
   description:
-    "Zera Studio is the AI video editor for creators on Android. Drop a talking video and get B-roll, motion graphics, zooms and Hinglish captions, then fine-tune everything in a full editor.",
+    "Zera Studio is the AI video editor for creators on Android. Drop in a talking video and get B-roll, motion graphics, zooms and word-by-word captions, then fine-tune everything in a full editor.",
 
   logo: "/media/logo-256.png",
   logoSmall: "/media/logo-96.png",
