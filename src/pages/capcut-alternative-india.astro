@@ -1,0 +1,263 @@
+---
+// "CapCut alternatives in India": an honest comparison (his go-ahead 2026-10-13, "legally sb kr skte h to pkka").
+//
+// Written to the rules for comparative advertising in India: Trade Marks Act s.30(1) (honest, identifying use only),
+// the courts' line between comparing and disparaging (Reckitt & Colman v Ramachandran, Dabur v Colortek, Pepsi v
+// Hindustan Coca-Cola), and the ASCI Code ch. IV (like-for-like, factual, substantiated, nothing denigrating). So:
+// names in plain text only (no logos, icons, screenshots or brand colours), every fact sourced and dated, Zera's own
+// weak spots stated, nothing said about the other apps beyond what their own listings and pages say, no workaround
+// instructions, and a clear statement of who wrote the page. Facts checked on 2026-10-13 (research brief in this
+// session); recheck them before changing the date.
+//
+// CapCut's status is described only as it can be checked: not on Google Play or the App Store in India, capcut.com
+// unavailable from India, reported among the apps blocked in 2020. It was NOT in the 29 June 2020 PIB list of 59, so
+// the page never says it was.
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import Footer from "@/components/site/Footer.astro";
+import Faq from "@/components/site/Faq.astro";
+import { playUrl, pricing, siteConfig } from "@/config/site";
+
+const CHECKED = "13 October 2026";
+const CHECKED_ISO = "2026-10-13";
+const url = `${siteConfig.url}/capcut-alternative-india/`;
+
+const sources = [
+  { n: 1, t: "Inc42, 5 Aug 2020: CapCut among 47 apps reported blocked in July 2020", u: "https://inc42.com/buzz/xiaomi-browser-bytedances-capcut-among-47-chinese-apps-banned-by-india-last-week/" },
+  { n: 2, t: "CapCut on Google Play (not available in India)", u: "https://play.google.com/store/apps/details?id=com.lemon.lvoverseas" },
+  { n: 3, t: "PIB, 29 Jun 2020: the first order, blocking 59 apps", u: "https://pib.gov.in/PressReleasePage.aspx?PRID=1635206" },
+  { n: 4, t: "VN on Google Play", u: "https://play.google.com/store/apps/details?id=com.frontrow.vlog" },
+  { n: 5, t: "VN help: export (4K HDR export is free)", u: "https://www.vlognow.me/help/getting-started/export/" },
+  { n: 6, t: "VN blog: auto captions (43 languages)", u: "https://www.vlognow.me/blog/features/auto-captions/" },
+  { n: 7, t: "InShot on Google Play", u: "https://play.google.com/store/apps/details?id=com.camerasideas.instashot" },
+  { n: 8, t: "InShot on the App Store (India): Pro removes the watermark", u: "https://apps.apple.com/in/app/inshot-ai-video-editor/id997362197" },
+  { n: 9, t: "KineMaster on Google Play", u: "https://play.google.com/store/apps/details?id=com.nexstreaming.app.kinemasterfree" },
+  { n: 10, t: "KineMaster: subscription removes the watermark", u: "https://www.kinemaster.com/payment" },
+  { n: 11, t: "KineMaster: auto captions in 36 languages, Hindi included", u: "https://kinemaster.com/features/auto-captions" },
+  { n: 12, t: "YouCut on Google Play", u: "https://play.google.com/store/apps/details?id=com.camerasideas.trimmer" },
+  { n: 13, t: "Edits on Google Play", u: "https://play.google.com/store/apps/details?id=com.instagram.basel" },
+  { n: 14, t: "Indian Television, Jul 2026: Edits adds bilingual captions", u: "https://indiantelevision.com/iworld/instagram-expands-edits-app-with-bilingual-captions-and-new-ai-tools/" },
+];
+const ref = (...n: number[]) => n.map((x) => `<a class="ref" href="#src-${x}">[${x}]</a>`).join("");
+
+type Row = { app: string; by: string; watermark: string; ads: string; hindi: string; hinglish: string; out: string; iphone: string; zera?: boolean };
+const rows: Row[] = [
+  { app: "Zera Studio", by: "ZERA AI, India", watermark: "No", ads: "Yes; none on paid plans", hindi: "Yes", hinglish: "Yes, in Roman letters", out: "4K, 60 fps", iphone: "No (Android only)", zera: true },
+  { app: "VN", by: "Ubiquiti Labs, US", watermark: `No ${ref(4)}`, ads: `Yes ${ref(4)}`, hindi: `Not stated (auto captions in 43 languages) ${ref(6)}`, hinglish: "Not stated", out: `4K, 60 fps ${ref(5)}`, iphone: "Yes" },
+  { app: "InShot", by: "InShot, Singapore", watermark: `Yes; removed with Pro ${ref(8)}`, ads: `Yes ${ref(7)}`, hindi: `Yes ${ref(7)}`, hinglish: "Not stated", out: `4K, 60 fps ${ref(8)}`, iphone: "Yes" },
+  { app: "KineMaster", by: "KineMaster Corp., South Korea", watermark: `Yes; removed with a subscription ${ref(10)}`, ads: `Yes ${ref(9)}`, hindi: `Yes ${ref(11)}`, hinglish: "Not stated", out: `4K, 60 fps ${ref(9)}`, iphone: "Yes" },
+  { app: "YouCut", by: "InShot, Singapore", watermark: `No ${ref(12)}`, ads: `Yes ${ref(12)}`, hindi: `Yes ${ref(12)}`, hinglish: "Not stated", out: `Up to 4K ${ref(12)}`, iphone: "Yes" },
+  { app: "Edits (Instagram)", by: "Meta, US", watermark: `No ${ref(13)}`, ads: `Not labelled ${ref(13)}`, hindi: `Yes, as bilingual captions ${ref(14)}`, hinglish: "Not stated", out: `4K ${ref(13)}`, iphone: "Yes" },
+];
+
+const notes = [
+  { app: "VN", good: "A free editor with no watermark and free 4K HDR export, plus a long list of AI tools and templates.", mind: "The free version shows ads." },
+  { app: "InShot", good: "Simple, very popular, with Hindi among its caption languages.", mind: "The free version adds a watermark; Pro removes it." },
+  { app: "KineMaster", good: "A layered editor with many pro tools, and free auto captions in 36 languages including Hindi.", mind: "The free version adds a watermark; a subscription removes it." },
+  { app: "YouCut", good: "No watermark and Hindi captions, from the same developer as InShot.", mind: "The free version shows ads." },
+  { app: "Edits", good: "Meta's free editor for Instagram: 4K export with no watermark, and bilingual captions.", mind: "Built around Instagram, and newer than most here." },
+];
+
+const faqs = [
+  { q: "Is CapCut available in India?", a: `No. As of ${CHECKED}, CapCut is not on Google Play or the App Store in India, and capcut.com is unavailable from India. It was reported among the apps India blocked in 2020.` },
+  { q: "Which video editors have no watermark on the free version?", a: "Going by their own listings and pages: VN, YouCut, Edits and Zera Studio export without a watermark for free. InShot and KineMaster add one until you pay." },
+  { q: "Which app writes Hinglish captions in Roman letters?", a: "Zera Studio has a Hinglish option that writes Hindi and Hindi-English speech in Roman letters, the way people type it. We found no mention of Roman Hinglish captions on the official pages of the other apps here; several offer Hindi captions in Devanagari." },
+  { q: "Can any of these copy a reel's editing style?", a: "Zera Studio's reference edit takes any reel you like plus your own clips and copies the cuts, pacing, transitions and effects onto your footage, on the beat. Template libraries in other apps work differently: you fill a fixed template." },
+  { q: "Is Zera Studio free?", a: `The editor and export are free, with ads, and carry no watermark. The AI features use credits: every new phone gets ${pricing.welcomeCredits} free credits once, and plans start at ${pricing.basic.price} a month.` },
+  { q: "Who wrote this page?", a: "ZERA AI, the company that makes Zera Studio. We have tried to be fair: every fact about another app links to that app's own listing or page, and Zera's weak spots are listed too. If something is out of date, tell us and we will fix it." },
+];
+
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": `${url}#article`,
+      headline: "CapCut alternatives in India, compared honestly",
+      description: "How VN, InShot, KineMaster, YouCut, Instagram's Edits and Zera Studio compare on watermark, ads, Hindi and Hinglish captions and export.",
+      datePublished: CHECKED_ISO,
+      dateModified: CHECKED_ISO,
+      inLanguage: "en",
+      mainEntityOfPage: url,
+      author: { "@type": "Organization", name: siteConfig.companyLegalName, url: siteConfig.url },
+      publisher: { "@type": "Organization", name: siteConfig.companyLegalName, logo: { "@type": "ImageObject", url: `${siteConfig.url}${siteConfig.logo}` } },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: siteConfig.shortName, item: `${siteConfig.url}/` },
+        { "@type": "ListItem", position: 2, name: "CapCut alternatives in India", item: url },
+      ],
+    },
+    { "@type": "FAQPage", mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) },
+  ],
+});
+---
+<SiteLayout
+  title="CapCut Alternatives in India (2026): An Honest Comparison"
+  description="CapCut isn't available in India. How VN, InShot, KineMaster, YouCut, Instagram's Edits and Zera compare on watermark, ads, Hindi captions and export."
+  jsonLd={jsonLd}
+  loader={false}
+>
+  <main>
+    <section class="cmp-hero wrap">
+      <nav class="crumbs label" aria-label="Breadcrumb"><a href="/">Zera Studio</a><span aria-hidden="true">/</span><span aria-current="page">CapCut alternatives in India</span></nav>
+      <h1 class="d cmp-h1" data-split>CapCut alternatives in India, compared honestly</h1>
+      <p class="lead cmp-lead">
+        CapCut is not on Google Play or the App Store in India, and capcut.com is unavailable from India<Fragment set:html={ref(2)} />. It was reported among the apps India blocked in 2020<Fragment set:html={ref(1)} />. If you made Reels or Shorts with it, here is how the editors you can install today compare on the things people ask about most: watermark, ads, captions in Hindi and Hinglish, and export quality.
+      </p>
+      <p class="cmp-meta"><span class="chip-date">Last checked {CHECKED}</span><span>Written by ZERA AI, the makers of Zera Studio. Zera's weak spots are listed too.</span></p>
+    </section>
+
+    <section class="wrap cmp-sec">
+      <p class="chap-idx"><b>01</b><i></i><span class="label">The short answer</span></p>
+      <ul class="cmp-short" data-reveal>
+        <li><b>Free, no watermark, general editing:</b> VN, YouCut, Edits and Zera Studio export without a watermark on their free versions.</li>
+        <li><b>Hindi captions:</b> InShot, KineMaster, YouCut, Edits and Zera Studio list Hindi.</li>
+        <li><b>Hinglish captions in Roman letters, AI B-roll, or copying a reel's edit:</b> Zera Studio is the one here built for these.</li>
+        <li><b>On an iPhone:</b> every app here except Zera Studio, which is Android only for now.</li>
+      </ul>
+    </section>
+
+    <section class="cmp-sec">
+      <div class="wrap">
+        <p class="chap-idx"><b>02</b><i></i><span class="label">Side by side</span></p>
+        <h2 class="d cmp-h2" data-split>The comparison.</h2>
+        <p class="cmp-note">From each app's Google Play listing, App Store listing or official pages, checked {CHECKED}. "Not stated" means we found no mention on the app's official pages, not that it is missing.</p>
+      </div>
+      <div class="cmp-scroll" tabindex="0" role="region" aria-label="Comparison table, scrolls sideways">
+        <table class="cmp-table">
+          <thead>
+            <tr><th scope="col">App</th><th scope="col">Watermark on the free version</th><th scope="col">Ads on the free version</th><th scope="col">Hindi auto captions</th><th scope="col">Hinglish captions (Roman)</th><th scope="col">Max export</th><th scope="col">On iPhone</th></tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr class={r.zera ? "zera" : ""}>
+                <th scope="row"><b>{r.app}</b><small>{r.by}</small></th>
+                <td set:html={r.watermark}></td>
+                <td set:html={r.ads}></td>
+                <td set:html={r.hindi}></td>
+                <td set:html={r.hinglish}></td>
+                <td set:html={r.out}></td>
+                <td set:html={r.iphone}></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="wrap cmp-sec">
+      <p class="chap-idx"><b>03</b><i></i><span class="label">App by app</span></p>
+      <div class="cmp-cards">
+        {notes.map((n) => (
+          <article data-reveal>
+            <h3 class="d-x">{n.app}</h3>
+            <p><span class="label">Good for</span>{n.good}</p>
+            <p><span class="label">Keep in mind</span>{n.mind}</p>
+          </article>
+        ))}
+        <article class="zera" data-reveal>
+          <h3 class="d-x">Zera Studio</h3>
+          <p><span class="label">Good for</span>AI B-roll for talking videos, copying any reel's edit onto your own clips, and Hinglish captions in Roman letters. Editing and export are free, up to 4K, with no watermark.</p>
+          <p><span class="label">Keep in mind</span>See below: we would rather you knew before you install.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="wrap cmp-sec">
+      <p class="chap-idx"><b>04</b><i></i><span class="label">Where Zera falls short</span></p>
+      <h2 class="d cmp-h2" data-split>Honestly.</h2>
+      <ul class="cmp-short cmp-minus" data-reveal>
+        <li><b>Android only.</b> There is no iPhone version yet.</li>
+        <li><b>The AI features use credits.</b> Every new phone gets {pricing.welcomeCredits} free credits once; after that, AI B-roll, reference edits and captions need a plan from {pricing.basic.price} a month. The editor and export stay free.</li>
+        <li><b>The free version shows ads.</b> Paid plans have none.</li>
+        <li><b>No template library.</b> Instead of fixed templates, the reference edit copies any reel you give it, which is different from browsing ready-made templates.</li>
+        <li><b>A young app.</b> Smaller than the others here, and still growing.</li>
+      </ul>
+    </section>
+
+    <section class="wrap cmp-sec">
+      <p class="chap-idx"><b>05</b><i></i><span class="label">What to look for</span></p>
+      <div class="cmp-cards cmp-look">
+        <article data-reveal><h3 class="d-x">No watermark</h3><p>Check the free version's export, not just the store page's headline.</p></article>
+        <article data-reveal><h3 class="d-x">Captions in your language</h3><p>Hindi in Devanagari and Hinglish in Roman letters read very differently on screen. Try both on your own video.</p></article>
+        <article data-reveal><h3 class="d-x">Export quality</h3><p>1080p is enough for most Reels; 4K and 60 fps matter for sharp, fast footage.</p></article>
+        <article data-reveal><h3 class="d-x">Runs on your phone</h3><p>Try a real project on the phone you film with, especially if it is a budget one.</p></article>
+      </div>
+    </section>
+
+    <Faq items={faqs} idx="06" />
+
+    <section class="wrap cmp-sec cmp-end">
+      <div class="cmp-cta">
+        <p class="d">Try Zera free</p>
+        <a class="btn" href={playUrl("capcut-alternative-india")} data-magnetic><span class="roll"><span>Get it on Google Play</span><span aria-hidden="true">Get it on Google Play</span></span></a>
+        <a class="chap-more" href="/">See everything Zera does <span aria-hidden="true">→</span></a>
+      </div>
+
+      <p class="chap-idx cmp-src-h"><b>07</b><i></i><span class="label">Sources</span></p>
+      <ol class="cmp-src">
+        {sources.map((s) => <li id={`src-${s.n}`}><a href={s.u} target="_blank" rel="noopener nofollow">{s.t}</a></li>)}
+      </ol>
+      <p class="cmp-legal">
+        CapCut, VN, InShot, KineMaster, YouCut, Edits, Instagram and the other names on this page are trademarks of their respective owners. ZERA AI is not affiliated with, sponsored by or endorsed by any of them. Facts about other apps come from the sources above and were checked on {CHECKED}; apps change, so check the current listing before you decide. Found something out of date? Write to <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a>.
+      </p>
+    </section>
+  </main>
+  <Footer />
+</SiteLayout>
+
+<style>
+  .cmp-hero { padding-top: calc(var(--nav-h) + clamp(24px, 4vw, 60px)); }
+  .crumbs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 22px; }
+  .crumbs a:hover { color: var(--paper); }
+  .cmp-h1 { font-size: clamp(54px, 8.4vw, 160px); max-width: 14ch; }
+  .cmp-lead { margin-top: 28px; max-width: 64ch; }
+  .cmp-lead :global(.ref), .cmp-table :global(.ref) { font: 600 0.72em/1 var(--mono); color: var(--zera-hi); vertical-align: super; margin-left: 2px; }
+  .cmp-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 22px; color: var(--dim); font-size: 14px; }
+  .chip-date { padding: 8px 12px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line-2); color: var(--paper); font-weight: 600; }
+
+  .cmp-sec { padding-top: clamp(80px, 10vw, 150px); }
+  .cmp-h2 { font-size: clamp(54px, 8vw, 150px); margin-top: 16px; }
+  .cmp-note { margin-top: 18px; max-width: 70ch; color: var(--muted); font-size: 15px; }
+  .cmp-short { list-style: none; margin-top: 24px; border-top: 1px solid var(--line); }
+  .cmp-short li { padding: 20px 0; border-bottom: 1px solid var(--line); font-size: clamp(17px, 1.35vw, 21px); line-height: 1.5; max-width: 80ch; }
+  .cmp-short b { color: var(--paper); }
+  .cmp-minus li { color: var(--muted); }
+
+  .cmp-scroll { margin-top: clamp(30px, 4vw, 50px); overflow-x: auto; padding-inline: var(--gutter); scrollbar-width: thin; }
+  .cmp-scroll:focus-visible { outline-offset: -2px; }
+  .cmp-table { width: 100%; min-width: 940px; max-width: 1580px; margin-inline: auto; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+  .cmp-table th, .cmp-table td { padding: 16px 14px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  .cmp-table thead th { font: 600 11px/1.3 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); border-bottom-color: var(--line-2); }
+  .cmp-table tbody th { position: sticky; left: 0; z-index: 1; background: var(--bg); min-width: 170px; }
+  .cmp-table tbody th b { display: block; font-family: var(--display); font-weight: 700; font-size: 18px; letter-spacing: -0.02em; }
+  .cmp-table tbody th small { display: block; margin-top: 4px; color: var(--dim); font-size: 12.5px; font-weight: 500; }
+  .cmp-table td { color: var(--muted); }
+  .cmp-table tr.zera th, .cmp-table tr.zera td { background: rgba(29, 116, 217, 0.12); color: var(--paper); }
+  .cmp-table tr.zera th b { color: var(--zera-hi); }
+
+  .cmp-cards { display: grid; gap: 1px; margin-top: 26px; background: var(--line); border-radius: 22px; overflow: hidden; }
+  .cmp-cards article { display: grid; gap: 12px; align-content: start; padding: 26px; background: var(--ink-2); }
+  .cmp-cards h3 { font-size: clamp(22px, 1.8vw, 30px); }
+  .cmp-cards p { color: var(--muted); }
+  .cmp-cards p .label { display: block; margin-bottom: 6px; color: var(--dim); }
+  .cmp-cards article.zera { background: #13243b; }
+  .cmp-cards article.zera h3 { color: var(--zera-hi); }
+
+  .cmp-end { padding-bottom: 20px; }
+  .cmp-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 26px; padding: clamp(28px, 4vw, 50px); border-radius: 26px; background: var(--ink-2); box-shadow: inset 0 0 0 1px var(--line); }
+  .cmp-cta .d { font-size: clamp(44px, 6vw, 100px); width: 100%; }
+  .cmp-src-h { margin-top: clamp(60px, 8vw, 100px); }
+  .cmp-src { margin-top: 18px; padding-left: 22px; display: grid; gap: 8px; color: var(--dim); font-size: 14px; }
+  .cmp-src a { color: var(--muted); text-decoration: underline; text-decoration-color: var(--line-2); text-underline-offset: 3px; }
+  .cmp-src a:hover { color: var(--paper); }
+  .cmp-src li:target { color: var(--zera-hi); }
+  .cmp-legal { margin-top: 26px; max-width: 90ch; color: var(--dim); font-size: 13.5px; line-height: 1.6; }
+  .cmp-legal a { color: var(--muted); text-decoration: underline; }
+
+  @media (min-width: 1000px) {
+    .cmp-cards { grid-template-columns: repeat(3, 1fr); }
+    .cmp-look { grid-template-columns: repeat(4, 1fr); }
+  }
+</style>
