@@ -1,27 +1,33 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import Footer from "@/components/site/Footer.astro";
 ---
 
-<BaseLayout
+<SiteLayout
+  loader={false}
+  noindex
   title="Page Not Found — Zera Studio"
   description="The page you are looking for does not exist."
-  noindex
 >
-  <Navbar client:load />
-
-  <main class="pt-[110px] pb-20 sm:pt-[130px] sm:pb-28 min-h-screen flex items-center justify-center">
-    <div class="container-x flex flex-col items-center justify-center text-center space-y-6">
-      <h1 class="text-8xl sm:text-9xl font-black">404</h1>
-      <p class="text-white/60 max-w-md mx-auto text-lg sm:text-xl">
+  <main class="nf">
+    <div class="wrap nf-in">
+      <h1 class="d nf-h">404</h1>
+      <p class="lead nf-lead">
         The page you are looking for doesn't exist or has been moved.
       </p>
-      <a href="/" class="cta-primary focus-ring mt-4">
+      <a href="/" class="btn nf-btn" data-magnetic>
         Back to Zera Studio
       </a>
     </div>
   </main>
 
   <Footer />
-</BaseLayout>
+</SiteLayout>
+
+<style>
+  .nf { min-height: 100svh; display: grid; align-items: center; padding: calc(var(--nav-h) + 40px) 0 40px; }
+  .nf-in { display: grid; justify-items: center; text-align: center; gap: 26px; }
+  .nf-h { font-size: clamp(160px, 34vw, 520px); color: var(--zera-hi); }
+  .nf-lead { max-width: 34ch; }
+  .nf-btn { margin-top: 6px; }
+</style>

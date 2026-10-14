@@ -51,7 +51,7 @@ const jsonLd = JSON.stringify({
 });
 const playIcon = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 1.8c-.3.3-.4.7-.4 1.2v18c0 .5.1.9.4 1.2l.1.1L13.8 12.2v-.3L3.7 1.7l-.1.1Zm13.6 13.8-3.4-3.4v-.3l3.4-3.4.1.1 4 2.3c1.1.6 1.1 1.7 0 2.4l-4 2.3h-.1Zm-.1.1L13.6 12 3.6 22.2c.4.4 1 .4 1.7.1l11.8-6.6M17.1 8.3 5.3 1.6C4.6 1.2 4 1.3 3.6 1.7L13.6 12l3.5-3.7Z"/></svg>`;
 ---
-<SiteLayout title={f.title} description={f.description} jsonLd={jsonLd} loader={false} preload={[firstPoster]}>
+<SiteLayout title={f.title} description={f.description} image={`/og/${f.slug}.png`} jsonLd={jsonLd} loader={false} preload={[firstPoster]}>
   <main>
     <section class="fp-hero">
       <div class="wrap fp-grid">

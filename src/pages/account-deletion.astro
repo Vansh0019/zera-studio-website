@@ -1,24 +1,22 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import Footer from "@/components/site/Footer.astro";
 import { siteConfig } from "@/config/site";
 ---
 
-<BaseLayout
-  light
+<SiteLayout
+  loader={false}
+  image="/og/account-deletion.png"
   title={`Account Deletion Policy & Instructions — ${siteConfig.shortName}`}
   description={`Step-by-step instructions and policy for requesting deletion of your ${siteConfig.shortName} account and associated data.`}
 >
-  <Navbar client:load />
-
-  <main class="pt-[110px] pb-20 sm:pt-[130px] sm:pb-28">
-    <div class="container-x max-w-4xl">
+  <main class="doc">
+    <div class="wrap doc-wrap">
       <!-- Back Link -->
-      <div class="mb-8">
+      <div class="doc-back">
         <a
           href="/"
-          class="focus-ring inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-black/60 transition-colors hover:text-black"
+          class="label"
         >
           <svg
             width="14"
@@ -38,22 +36,22 @@ import { siteConfig } from "@/config/site";
       </div>
 
       <!-- Header -->
-      <header class="mb-12 border-b border-black/10 pb-8">
-        <span class="eyebrow block mb-3">User Rights & Data Controls</span>
-        <h1 class="text-3.5xl sm:text-5xl font-black tracking-tight text-black leading-tight">
+      <header class="doc-head">
+        <span class="doc-eyebrow">User Rights & Data Controls</span>
+        <h1 class="d doc-h1">
           Account Deletion Policy & Instructions
         </h1>
-        <div class="mt-4 flex flex-wrap items-center gap-3 text-xs sm:text-sm font-semibold text-black/60">
-          <span>Effective Date: August 11, 2026</span>
+        <div class="doc-meta label">
+          <span>Effective Date: October 14, 2026</span>
           <span>•</span>
           <span>Applies to: {siteConfig.shortName} for Android</span>
         </div>
       </header>
 
       <!-- Content -->
-      <article class="space-y-10 text-[0.98rem] leading-relaxed text-black/80">
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">1. Overview</h2>
+      <article class="doc-body">
+        <section>
+          <h2>1. Overview</h2>
           <p>
             Users of {siteConfig.shortName} for Android have the right to request the deletion of their account and associated personal information.
           </p>
@@ -62,94 +60,103 @@ import { siteConfig } from "@/config/site";
           </p>
         </section>
 
-        <section class="space-y-6">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">2. How to Request Account Deletion</h2>
+        <section>
+          <h2>2. How to Request Account Deletion</h2>
 
           <!-- Option 1: In-App -->
-          <div class="bg-white p-6 rounded-xl border border-black/10 shadow-sm space-y-3">
-            <div class="inline-block px-2.5 py-1 bg-plum/10 text-plum font-bold text-xs rounded-md uppercase tracking-wide">
+          <div class="doc-card doc-option">
+            <div class="doc-tag label">
               Option 1: In-App Account Deletion (Recommended)
             </div>
-            <h3 class="text-lg font-bold text-black">Initiate deletion within the Android app</h3>
-            <ol class="list-decimal pl-6 space-y-2 text-black/80">
+            <h3>Initiate deletion within the Android app</h3>
+            <ol>
               <li>Open the <strong>{siteConfig.shortName}</strong> app on your Android device.</li>
               <li>Sign in to the account you wish to delete.</li>
               <li>Go to <strong>Settings</strong> or your <strong>Account Profile</strong> page.</li>
               <li>Select <strong>Delete Account</strong>.</li>
               <li>Confirm the account deletion request when prompted.</li>
             </ol>
-            <p class="text-xs text-black/60 pt-2 border-t border-black/5">
+            <p class="doc-note">
               Upon confirmation, your session will end and account data will be scheduled for permanent removal.
             </p>
           </div>
 
           <!-- Option 2: Web / Email Request -->
-          <div class="bg-white p-6 rounded-xl border border-black/10 shadow-sm space-y-3">
-            <div class="inline-block px-2.5 py-1 bg-black/10 text-black font-bold text-xs rounded-md uppercase tracking-wide">
+          <div class="doc-card doc-option">
+            <div class="doc-tag alt label">
               Option 2: Web & Email Support Request
             </div>
-            <h3 class="text-lg font-bold text-black">Request deletion if you cannot access the app</h3>
-            <p class="text-black/80">
+            <h3>Request deletion if you cannot access the app</h3>
+            <p>
               If you have uninstalled the application or cannot access your Android device, you may submit a manual account deletion request via email:
             </p>
-            <ol class="list-decimal pl-6 space-y-2 text-black/80">
+            <ol>
               <li>Send an email from the address registered with your {siteConfig.shortName} account.</li>
-              <li>Recipient: <a href={`mailto:${siteConfig.supportEmail}`} class="text-plum font-bold underline">{siteConfig.supportEmail}</a></li>
-              <li>Subject line: <code class="bg-bone px-2 py-0.5 rounded text-xs font-mono text-black font-bold">Account Deletion Request - {siteConfig.shortName}</code></li>
+              <li>Recipient: <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a></li>
+              <li>Subject line: <code>Account Deletion Request - {siteConfig.shortName}</code></li>
               <li>Provide your registered email address and display name or User ID in the message body.</li>
             </ol>
-            <p class="text-xs text-black/60 pt-2 border-t border-black/5">
+            <p class="doc-note">
               Support requests will be verified to confirm account ownership and processed promptly (typically within 7 to 30 days depending on identity verification).
             </p>
           </div>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">3. Data Deleted vs. Retained</h2>
-          <p>Understanding what happens when your account deletion request is completed:</p>
+        <section>
+          <h2>3. Data Deleted vs. Retained</h2>
+          <p>Understanding what happens when your account deletion request is completed. Below, "account ID" means the random code that identified your account in our systems; it is not your email address or phone number.</p>
           
-          <div class="grid gap-4 sm:grid-cols-2">
-            <div class="bg-bone p-4.5 rounded-lg border border-black/10">
-              <p class="font-bold text-black text-sm text-rose">Permanently Erased Data</p>
-              <ul class="text-xs text-black/70 mt-2 space-y-1.5 list-disc pl-4">
-                <li>Account profile (email, user ID, auth tokens, display name)</li>
-                <li>Uploaded media files and timeline configurations</li>
-                <li>Saved draft projects and AI prompt history</li>
-                <li>Account preferences and user configuration data</li>
+          <div class="doc-grid">
+            <div class="doc-card">
+              <p class="doc-strong doc-erase">Permanently Erased Data</p>
+              <ul class="doc-small">
+                <li>Your sign-in account: email address or phone number, name and sign-in details</li>
+                <li>Your account profile, credit balance and plan status on our servers</li>
+                <li>Videos, audio and images uploaded for AI editing, and the files the AI made from them</li>
+                <li>Our records of each AI edit you ran, and the debug copies of what was sent to the AI and what it returned (except the AI edit plans listed under Data Retained)</li>
+                <li>Our record of the product emails sent to you, including your email address</li>
+                <li>Your email address or phone number in our daily usage records, and your row in the internal reports we rebuild every day (removed at their next daily update)</li>
               </ul>
             </div>
             
-            <div class="bg-bone p-4.5 rounded-lg border border-black/10">
-              <p class="font-bold text-black text-sm text-black/80">Data Retained (If Applicable)</p>
-              <ul class="text-xs text-black/70 mt-2 space-y-1.5 list-disc pl-4">
-                <li>Records retained strictly to comply with legal or tax obligations (if any)</li>
-                <li>Fully anonymized operational metrics that cannot be linked back to an individual user or device</li>
+            <div class="doc-card">
+              <p class="doc-strong">Data Retained</p>
+              <ul class="doc-small">
+                <li>Credit and purchase records: the log of credits granted, spent, refunded and expired, and the Google Play purchase records for anything you bought. We keep them as financial records and so that a purchase cannot be used twice. They stay linked to your account ID, but contain no email address or phone number.</li>
+                <li>A one-way, salted hash of your phone's device ID and, if your account received the welcome credits on that phone, your account ID, so that welcome credits cannot be claimed again on the same phone</li>
+                <li>AI cost records: for each AI request, the feature, the AI model, how much processing it used and when, linked to your account ID</li>
+                <li>AI edit plans from edits made in the style of a reference video, kept to improve our editing: the plan the AI produced and its analysis of the reference video. They contain no videos, file names, email address or text you typed, but they carry a code derived from your account ID, so they are pseudonymous rather than anonymous.</li>
+                <li>App usage analytics linked to your account ID, such as screens and features used and time spent in the app. Google Analytics deletes them within 14 months of your last use of the app. Our copy of these analytics in Google BigQuery and our daily usage records are not currently deleted automatically.</li>
+                <li>Crash reports (Firebase Crashlytics) and session recordings of the app's screens (Microsoft Clarity) linked to your account ID, which expire on Google's and Microsoft's own retention schedules</li>
+                <li>Rows in our internal daily usage spreadsheet that were written before you deleted your account, which show your email address or phone number next to that day's app usage. Rows written afterwards show the account as deleted.</li>
+                <li>Emails between you and us, which stay in our mailbox</li>
+                <li>Server logs, which can include your account ID and sometimes your email address, until they are deleted automatically at the end of Google Cloud's log retention period</li>
               </ul>
             </div>
           </div>
         </section>
 
-        <section class="space-y-4">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">4. Important Notes</h2>
-          <ul class="list-disc pl-6 space-y-2">
+        <section>
+          <h2>4. Important Notes</h2>
+          <ul>
             <li><strong>Permanence:</strong> Account deletion is permanent. Once completed, your saved projects and account settings cannot be recovered.</li>
             <li><strong>Unsubscribing:</strong> Uninstalling the app does not automatically delete your account; you must initiate deletion in-app or submit an email request.</li>
           </ul>
         </section>
 
-        <section class="space-y-4 border-t border-black/10 pt-8">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-black tracking-tight">5. Contact Support</h2>
+        <section class="doc-end">
+          <h2>5. Contact Support</h2>
           <p>
             If you have questions regarding account deletion or need assistance, contact:
           </p>
-          <div class="bg-bone p-5 rounded-lg border border-black/10">
-            <p class="font-bold text-black">{siteConfig.companyLegalName}</p>
-            <p class="mt-1">Support: <a href={`mailto:${siteConfig.supportEmail}`} class="text-plum font-semibold hover:underline">{siteConfig.supportEmail}</a></p>
-            <p class="mt-1">General contact: <a href={`mailto:${siteConfig.contactEmail}`} class="text-plum font-semibold hover:underline">{siteConfig.contactEmail}</a></p>
-            <p class="mt-1 text-xs text-black/60">
-              <a href="/privacy-policy" class="text-plum hover:underline font-semibold">Privacy Policy</a>
-              <span class="mx-1.5 text-black/30">·</span>
-              <a href="/terms" class="text-plum hover:underline font-semibold">Terms of Service</a>
+          <div class="doc-card">
+            <p class="doc-strong">{siteConfig.companyLegalName}</p>
+            <p>Support: <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a></p>
+            <p>General contact: <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a></p>
+            <p class="doc-links">
+              <a href="/privacy-policy">Privacy Policy</a>
+              <span class="doc-sep">·</span>
+              <a href="/terms">Terms of Service</a>
             </p>
           </div>
         </section>
@@ -158,4 +165,4 @@ import { siteConfig } from "@/config/site";
   </main>
 
   <Footer />
-</BaseLayout>
+</SiteLayout>
