@@ -42,7 +42,7 @@ import { siteConfig } from "@/config/site";
           Account Deletion Policy & Instructions
         </h1>
         <div class="doc-meta label">
-          <span>Effective Date: August 11, 2026</span>
+          <span>Effective Date: October 14, 2026</span>
           <span>•</span>
           <span>Applies to: {siteConfig.shortName} for Android</span>
         </div>
@@ -104,24 +104,33 @@ import { siteConfig } from "@/config/site";
 
         <section>
           <h2>3. Data Deleted vs. Retained</h2>
-          <p>Understanding what happens when your account deletion request is completed:</p>
+          <p>Understanding what happens when your account deletion request is completed. Below, "account ID" means the random code that identified your account in our systems; it is not your email address or phone number.</p>
           
           <div class="doc-grid">
             <div class="doc-card">
               <p class="doc-strong doc-erase">Permanently Erased Data</p>
               <ul class="doc-small">
-                <li>Account profile (email, user ID, auth tokens, display name)</li>
-                <li>Uploaded media files and timeline configurations</li>
-                <li>Saved draft projects and AI prompt history</li>
-                <li>Account preferences and user configuration data</li>
+                <li>Your sign-in account: email address or phone number, name and sign-in details</li>
+                <li>Your account profile, credit balance and plan status on our servers</li>
+                <li>Videos, audio and images uploaded for AI editing, and the files the AI made from them</li>
+                <li>Our records of each AI edit you ran, and the debug copies of what was sent to the AI and what it returned (except the AI edit plans listed under Data Retained)</li>
+                <li>Our record of the product emails sent to you, including your email address</li>
+                <li>Your email address or phone number in our daily usage records, and your row in the internal reports we rebuild every day (removed at their next daily update)</li>
               </ul>
             </div>
             
             <div class="doc-card">
-              <p class="doc-strong">Data Retained (If Applicable)</p>
+              <p class="doc-strong">Data Retained</p>
               <ul class="doc-small">
-                <li>Records retained strictly to comply with legal or tax obligations (if any)</li>
-                <li>Fully anonymized operational metrics that cannot be linked back to an individual user or device</li>
+                <li>Credit and purchase records: the log of credits granted, spent, refunded and expired, and the Google Play purchase records for anything you bought. We keep them as financial records and so that a purchase cannot be used twice. They stay linked to your account ID, but contain no email address or phone number.</li>
+                <li>A one-way, salted hash of your phone's device ID and, if your account received the welcome credits on that phone, your account ID, so that welcome credits cannot be claimed again on the same phone</li>
+                <li>AI cost records: for each AI request, the feature, the AI model, how much processing it used and when, linked to your account ID</li>
+                <li>AI edit plans from edits made in the style of a reference video, kept to improve our editing: the plan the AI produced and its analysis of the reference video. They contain no videos, file names, email address or text you typed, but they carry a code derived from your account ID, so they are pseudonymous rather than anonymous.</li>
+                <li>App usage analytics linked to your account ID, such as screens and features used and time spent in the app. Google Analytics deletes them within 14 months of your last use of the app. Our copy of these analytics in Google BigQuery and our daily usage records are not currently deleted automatically.</li>
+                <li>Crash reports (Firebase Crashlytics) and session recordings of the app's screens (Microsoft Clarity) linked to your account ID, which expire on Google's and Microsoft's own retention schedules</li>
+                <li>Rows in our internal daily usage spreadsheet that were written before you deleted your account, which show your email address or phone number next to that day's app usage. Rows written afterwards show the account as deleted.</li>
+                <li>Emails between you and us, which stay in our mailbox</li>
+                <li>Server logs, which can include your account ID and sometimes your email address, until they are deleted automatically at the end of Google Cloud's log retention period</li>
               </ul>
             </div>
           </div>
