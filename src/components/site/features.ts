@@ -70,11 +70,10 @@ export const features: Feature[] = [
     limits: [
       ["Your video", "A talking video up to 3 minutes"],
       ["Cost", "30 credits a minute, charged by the second"],
-      ["Daily limit", "3 AI B-roll runs a day"],
       ["If it fails", "The credits come back"],
       ["Result", "Opens in the editor; export from 480p to 4K"],
     ],
-    example: `A 90-second video costs 45 credits. The ${W} free credits every new phone gets cover a little over three minutes of AI B-roll.`,
+    example: `A 90-second video costs 45 credits. The ${W} free credits every new phone gets cover ${Math.floor((W / 30) * 60)} seconds of AI B-roll.`,
     who: [
       { t: "Talking-head creators", d: "Tips, explainers and opinions that need visuals between the words." },
       { t: "Coaches and teachers", d: "Lessons that land better when the screen shows what you describe." },
@@ -125,7 +124,7 @@ export const features: Feature[] = [
       ["Charged", "By the second, shown before it starts"],
       ["Editing captions", "Free"],
     ],
-    example: `A one-minute Reel with Hinglish captions costs 3 credits, so the ${W} free credits on a new phone cover more than half an hour of Hinglish captioning.`,
+    example: `A one-minute Reel with Hinglish captions costs 3 credits, so the ${W} free credits on a new phone cover ${Math.floor(W / 3)} minutes of Hinglish captioning.`,
     who: [
       { t: "Indian creators", d: "Reels and Shorts in the language your audience actually speaks." },
       { t: "Educators", d: "Hindi-English explainers that viewers can follow with the sound off." },
@@ -174,7 +173,7 @@ export const features: Feature[] = [
       ["Charged", "By the second, shown before it starts"],
       ["Restyling and editing", "Free"],
     ],
-    example: `A 45-second Reel with English captions costs 1 credit. The ${W} free credits on a new phone caption more than an hour and a half of video.`,
+    example: `A 45-second Reel with English captions costs 1 credit. The ${W} free credits on a new phone caption ${W} minutes of video.`,
     who: [
       { t: "Reels and Shorts creators", d: "Captions that keep viewers watching with the sound off." },
       { t: "Podcast and interview clips", d: "Readable, timed text for every line spoken." },
@@ -194,12 +193,12 @@ export const features: Feature[] = [
     menu: "Reference edit",
     title: "Copy a Reel's Editing Style Onto Your Clips | Zera",
     description:
-      "Give Zera a reel you like and your own clips. It copies the cuts, pacing, transitions and effects onto your footage, on the beat. 5 credits an edit.",
+      "Give Zera a reel you like and your own clips. It copies the cuts, pacing, transitions and effects onto your footage, on the beat. 15 credits an edit.",
     kicker: "Reference to edit",
     h1: "Copy any reel's edit onto your own clips",
     lead:
       "Found a reel whose editing you love? Give Zera that reel and your own clips. It reads where the reference cuts, how long each shot holds, which transitions and effects it uses and where the beat lands, then builds the same edit from your footage, cut to the reference's music. The result opens in the editor, so you can change anything.",
-    facts: [["Cuts, pacing", "transitions and effects"], ["On the beat", "of the reference's music"], ["1–15 clips", "or photos"], ["5 credits", "an edit"]],
+    facts: [["Cuts, pacing", "transitions and effects"], ["On the beat", "of the reference's music"], ["1–15 clips", "or photos"], ["15 credits", "an edit"]],
     steps: [
       { t: "Pick the reference", d: "Any reel or short video whose editing you like, up to 6 minutes long." },
       { t: "Add your clips", d: "1 to 15 of your own videos or photos, up to 30 minutes together. Add a note if you like: keep it fast and punchy, start with my best clip, slow and cinematic." },
@@ -220,11 +219,10 @@ export const features: Feature[] = [
     limits: [
       ["Reference", "Up to 6 minutes"],
       ["Your clips", "1–15 videos or photos, up to 30 minutes together"],
-      ["Cost", "5 credits an edit"],
-      ["Daily limit", "3 reference edits a day"],
+      ["Cost", "15 credits an edit; 20 when your clips run over 9 minutes, 25 over 15"],
       ["If it fails", "The credits come back"],
     ],
-    example: `Each reference edit costs 5 credits, so the ${W} free credits on a new phone are enough for 20 edits.`,
+    example: `Each reference edit costs 15 credits, so the ${W} free credits on a new phone are enough for ${Math.floor(W / 15)} edits.`,
     who: [
       { t: "Travel and event creators", d: "Turn a day of clips into the edit you saw on someone else's reel." },
       { t: "Car, sport and dance edits", d: "Beat-cut montages without placing a single cut by hand." },
@@ -235,7 +233,7 @@ export const features: Feature[] = [
       { q: "Does the edit use the reference's music?", a: "Yes, the reference's audio becomes the soundtrack and your cuts land on its beat. You can replace it with other music in the editor. Make sure you have the right to use a track where you post." },
       { q: "How many clips can I use?", a: "From 1 to 15 videos or photos, up to 30 minutes of footage together. More clips give Zera more moments to choose from." },
       { q: "How long can the reference be?", a: "Up to 6 minutes. Most references are Reels or Shorts under a minute." },
-      { q: "How much does it cost?", a: `5 credits an edit, shown before it starts, and given back if the edit fails. New phones get ${W} free credits once.` },
+      { q: "How much does it cost?", a: `15 credits an edit, or 20 when your clips run over 9 minutes and 25 over 15 minutes. The price is shown before it starts and given back if the edit fails. New phones get ${W} free credits once.` },
       { q: "Is this the same as a template?", a: "No. A template fixes the slots and you fill them. Here any video can be the reference, and Zera chooses which part of your footage goes where." },
     ],
   },
