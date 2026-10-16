@@ -1,11 +1,12 @@
 ---
+import { pricing } from "@/config/site";
 // The app itself: three real screens, rendered from the app's own widgets (`test/ui_render_tool.dart`, dark palette,
 // full phone resolution), set in phones that drift at different speeds as the page moves.
 const M = "/media/site";
 const screens = [
   { src: "app_home", title: "Home", text: "Start a new video, or hand one to the AI." },
   { src: "app_hub", title: "Zera AI", text: "Pick B-roll or a reference edit, add a note if you like." },
-  { src: "app_welcome", title: "Day one", text: "100 credits on the house, once per phone." },
+  { src: "app_welcome", title: "Day one", text: `${pricing.welcomeCredits} credits on the house, once per phone.` },
 ];
 ---
 <section class="chap scr-sec" id="app">

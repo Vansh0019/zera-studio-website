@@ -19,7 +19,7 @@ export const faqs = [
   {
     question: "How many credits does each AI feature use?",
     answer:
-      "AI B-roll uses 30 credits per minute of video, reference to edit uses 5 credits per edit, and auto captions use 1 credit per minute (3 for Hinglish). The price is shown before you start, and a run that fails gives its credits back.",
+      "AI B-roll uses 30 credits per minute of video, reference to edit uses 15 credits per edit (20 when your clips run over 9 minutes, 25 over 15 minutes), and auto captions use 1 credit per minute (3 for Hinglish). The price is shown before you start, and a run that fails gives its credits back.",
   },
   {
     question: "Do Hinglish captions come out in Hindi script?",
