@@ -32,7 +32,6 @@ function InstagramIcon({ size = 15 }: { size?: number }) {
 const productLinks = [
   { label: "AI B-roll", href: "/#broll" },
   { label: "Auto captions", href: "/#captions" },
-  { label: "Reference to edit", href: "/#reference" },
   { label: "The editor", href: "/#editor" },
   { label: "Pricing", href: "/#pricing" }
 ];

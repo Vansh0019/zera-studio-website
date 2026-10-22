@@ -4,7 +4,7 @@ export const faqs = [
   {
     question: "What is Zera Studio?",
     answer:
-      "Zera Studio is an AI video editor for Android. Upload a talking video and the AI adds B-roll, motion graphics, zooms, beat effects and word-by-word captions; or show it a reel you like and it edits your clips in that style. Every AI edit opens in a full multi-track editor where you can change anything."
+      "Zera Studio is an AI video editor for Android, made for creators who talk to the camera. Pick a video of you talking and the AI adds B-roll, motion graphics, zooms and word-by-word captions, timed to your words. Every AI edit opens in a full multi-track editor where you can change anything."
   },
   {
     question: "Is it free?",
@@ -13,7 +13,7 @@ export const faqs = [
   {
     question: "How many credits does each AI feature use?",
     answer:
-      "AI B-roll uses 30 credits per minute of video, reference to edit uses 15 credits per edit (20 when your clips run over 9 minutes, 25 over 15 minutes), and auto captions use 1 credit per minute for Auto, Hindi or English and 3 credits per minute for Hinglish. The price is shown before you start, and a run that fails gives its credits back."
+      "AI B-roll uses 30 credits per minute of video and auto captions use 1 credit per minute for Auto, Hindi or English and 3 credits per minute for Hinglish. The price is shown before you start, and a run that fails gives its credits back."
   },
   {
     question: "Do Hinglish captions come out in Hindi script?",
@@ -23,7 +23,7 @@ export const faqs = [
   {
     question: "How long can my video be?",
     answer:
-      "AI B-roll works on talking videos up to 3 minutes. For reference to edit, the reference can be up to 6 minutes and your clips up to 30 minutes together."
+      "AI B-roll works on talking videos from 4 seconds up to 3 minutes. For a longer recording, cut the part you want in the editor first, then run AI B-roll on it."
   },
   {
     question: "Can I edit videos on this website?",
