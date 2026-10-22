@@ -62,10 +62,17 @@ export const siteConfig = {
  * `.ai/PRICING.md` §0). Prices are what he set on Google Play for India; Play shows local prices elsewhere.
  * When a number changes there, change it here.
  */
+/**
+ * B-roll is sold in reels (his call, 2026-10-23, the same as the app's store): a reel is a 30-second talking video, so
+ * one costs half the server's 30 credits a minute. Amounts read "≈ 20 reels a month", never a price per minute.
+ */
+export const reel = { seconds: 30, credits: 15 } as const;
+export const reelsFor = (credits: number) => Math.floor(credits / reel.credits);
+
 export const pricing = {
   welcomeCredits: 50,
   costs: [
-    { feature: "AI B-roll", amount: "30", unit: "credits / min of video" },
+    { feature: "AI B-roll", amount: String(reel.credits), unit: `credits / ${reel.seconds}-second reel` },
     { feature: "Auto captions (Auto, Hindi, English)", amount: "1", unit: "credit / min" },
     { feature: "Hinglish captions (Roman script)", amount: "3", unit: "credits / min" },
     { feature: "Manual editor, effects, export", amount: "0", unit: "free, forever" }

@@ -1,4 +1,4 @@
-import { pricing, siteConfig } from "@/config/site";
+import { pricing, reel, reelsFor, siteConfig } from "@/config/site";
 
 /**
  * Words on the site, in one place. Facts here must match the app and the server
@@ -19,7 +19,7 @@ export const faqs = [
   {
     question: "How many credits does each AI feature use?",
     answer:
-      "AI B-roll uses 30 credits per minute of video and auto captions use 1 credit per minute (3 for Hinglish), both charged by the second. The price is shown before you start, and a run that fails gives its credits back.",
+      `AI B-roll uses ${reel.credits} credits for a ${reel.seconds}-second reel, so the Basic plan's ${pricing.basic.credits} credits make about ${reelsFor(pricing.basic.credits)} reels a month. Auto captions use 1 credit per minute (3 for Hinglish). Both are charged by the second. The price is shown before you start, and a run that fails gives its credits back.`,
   },
   {
     question: "Do Hinglish captions come out in Hindi script?",
@@ -54,7 +54,7 @@ export const captionStyles = [
 ];
 
 export const plans = [
-  { name: "Free", price: "₹0", per: "", lines: [`${pricing.welcomeCredits} credits once, per phone`, "Full editor and export, forever", "With ads"], cta: "Download" },
-  { name: pricing.basic.name, price: pricing.basic.price, per: "/ month", lines: [`${pricing.basic.credits} credits every month`, "Every AI feature", "No ads"], cta: "Get Basic" },
-  { name: "Pro", price: pricing.pro[0].price, per: "/ month", lines: [`${pricing.pro[0].credits} credits every month`, `or ${pricing.pro[1].credits} for ${pricing.pro[1].price}`, "No ads"], cta: "Get Pro", hot: true },
+  { name: "Free", price: "₹0", per: "", lines: [`${pricing.welcomeCredits} credits once, about ${reelsFor(pricing.welcomeCredits)} reels`, "Full editor and export, forever", "With ads"], cta: "Download" },
+  { name: pricing.basic.name, price: pricing.basic.price, per: "/ month", lines: [`About ${reelsFor(pricing.basic.credits)} reels a month`, `${pricing.basic.credits} credits, every AI feature`, "No ads"], cta: "Get Basic" },
+  { name: "Pro", price: pricing.pro[0].price, per: "/ month", lines: [`About ${reelsFor(pricing.pro[0].credits)} reels a month`, `or about ${reelsFor(pricing.pro[1].credits)} for ${pricing.pro[1].price}`, "No ads"], cta: "Get Pro", hot: true },
 ];

@@ -1,4 +1,4 @@
-import { pricing } from "@/config/site";
+import { pricing, reel, reelsFor } from "@/config/site";
 
 /**
  * The feature pages (2026-10-13, his ask: rank for every feature, "AI video editor" above all). One entry per page,
@@ -53,7 +53,7 @@ export const features: Feature[] = [
     h1: "Add B-roll to talking videos, automatically",
     lead:
       "Record yourself talking and drop the clip into Zera. The AI does the part that usually takes hours: it listens to every line, finds the moments that need something to look at, and cuts in B-roll, motion graphics, punch-in zooms and word-by-word captions. The edit opens on a real timeline, so every choice it made is yours to change.",
-    facts: [["Up to 3 min", "per video"], ["30 credits", "a minute"], ["English, Hindi", "and Hinglish speech"], ["No watermark", "on export"]],
+    facts: [["Up to 3 min", "per video"], [`${reel.credits} credits`, `a ${reel.seconds}-second reel`], ["English, Hindi", "and Hinglish speech"], ["No watermark", "on export"]],
     steps: [
       { t: "Pick a talking video", d: "Any clip up to three minutes from your gallery: a tip, a review, a story, a vlog. One take is enough." },
       { t: "Zera listens and plans", d: "It transcribes what you say, works out what each line is about, and plans where B-roll, graphics, zooms and captions go." },
@@ -73,11 +73,11 @@ export const features: Feature[] = [
     ],
     limits: [
       ["Your video", "A talking video, from 4 seconds up to 3 minutes"],
-      ["Cost", "30 credits a minute, charged by the second"],
+      ["Cost", `${reel.credits} credits for a ${reel.seconds}-second reel, charged by the second`],
       ["If it fails", "The credits come back"],
       ["Result", "Opens in the editor; export from 480p to 4K"],
     ],
-    example: `A 90-second video costs 45 credits. The ${W} free credits every new phone gets cover ${Math.floor((W / 30) * 60)} seconds of AI B-roll.`,
+    example: `A ${reel.seconds}-second reel costs ${reel.credits} credits, so the ${W} free credits every new phone gets make about ${reelsFor(W)} reels, and the Basic plan makes about ${reelsFor(pricing.basic.credits)} a month.`,
     who: [
       { t: "Talking-head creators", d: "Tips, explainers and opinions that need visuals between the words." },
       { t: "Coaches and teachers", d: "Lessons that land better when the screen shows what you describe." },
