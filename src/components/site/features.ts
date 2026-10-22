@@ -4,12 +4,16 @@ import { pricing } from "@/config/site";
  * The feature pages (2026-10-13, his ask: rank for every feature, "AI video editor" above all). One entry per page,
  * rendered by `FeaturePage.astro` at `/<slug>/`. The home page targets "AI video editor (for Android)"; each page
  * here targets one feature's searches, picked from the keyword research of 2026-10-13: winnable long-tail queries
- * with real intent (Hinglish captions for reels, copying a reel's editing style, auto B-roll on Android).
+ * with real intent (Hinglish captions for reels, auto B-roll on Android).
  *
  * Every fact must be true of the app today. Sources: `functions/src/config/credits/config.ts` (prices, pro-rata by the
- * second), `brollPlan.function.ts` (3 min, Pexels, 3 a day), `videoEditReference.function.ts` (3 a day),
- * `upload_provider.dart` (1–15 clips, the reference supplies the soundtrack), `engine/export/ExportSettings.kt`
- * (480p–4K, 30/60 fps), no watermark anywhere in the export path. Change a number there, change it here.
+ * second), `brollPlan.function.ts` (3 min, Pexels, 3 a day), `ai_hub_screen.dart` (B-roll needs at least 4 s),
+ * `engine/export/ExportSettings.kt` (480p–4K, 30/60 fps), no watermark anywhere in the export path. Change a number
+ * there, change it here.
+ *
+ * The reference edit ("copy a reel's editing style") was retired from the app in 1.0.11 (2026-10-22); its page,
+ * `/copy-reel-editing-style/`, now redirects to `/auto-b-roll/` (`firebase.json`). It comes back rebuilt, with beat
+ * sync, in a future update: say no more than that, and never a date.
  */
 
 export interface Feature {
@@ -68,7 +72,7 @@ export const features: Feature[] = [
       "Export at 480p, 720p, 1080p, 2K or 4K, at 30 or 60 fps",
     ],
     limits: [
-      ["Your video", "A talking video up to 3 minutes"],
+      ["Your video", "A talking video, from 4 seconds up to 3 minutes"],
       ["Cost", "30 credits a minute, charged by the second"],
       ["If it fails", "The credits come back"],
       ["Result", "Opens in the editor; export from 480p to 4K"],
@@ -85,7 +89,7 @@ export const features: Feature[] = [
       { q: "Where does the B-roll come from?", a: "From Pexels, a library of stock footage that is free to use. Zera searches it for each moment it picks, so the clips follow what you say." },
       { q: "Can I replace a clip I don't like?", a: "Yes. Every piece of the edit is a separate item on the timeline, so you can swap a B-roll clip for your own footage, trim it, move it, or delete it." },
       { q: "Does it work for Hindi or Hinglish videos?", a: "Yes. Zera transcribes English, Hindi and Hinglish speech and plans the edit from it. Captions can be written in English, in Hindi (Devanagari) or in Hinglish (Roman letters)." },
-      { q: "How long can my video be?", a: "Up to three minutes for AI B-roll. For longer recordings, cut the part you want first in the editor, then run AI B-roll on it." },
+      { q: "How long can my video be?", a: "From 4 seconds up to three minutes for AI B-roll. For longer recordings, cut the part you want first in the editor, then run AI B-roll on it." },
       { q: "Is there a watermark?", a: "No. Exports have no watermark, on the free plan too." },
       { q: "Is it available on iPhone?", a: "Not yet. Zera Studio is on Android, through Google Play." },
     ],
@@ -189,55 +193,6 @@ export const features: Feature[] = [
     ],
   },
   {
-    slug: "copy-reel-editing-style",
-    menu: "Reference edit",
-    title: "Copy a Reel's Editing Style Onto Your Clips | Zera",
-    description:
-      "Give Zera a reel you like and your own clips. It copies the cuts, pacing, transitions and effects onto your footage, on the beat. 15 credits an edit.",
-    kicker: "Reference to edit",
-    h1: "Copy any reel's edit onto your own clips",
-    lead:
-      "Found a reel whose editing you love? Give Zera that reel and your own clips. It reads where the reference cuts, how long each shot holds, which transitions and effects it uses and where the beat lands, then builds the same edit from your footage, cut to the reference's music. The result opens in the editor, so you can change anything.",
-    facts: [["Cuts, pacing", "transitions and effects"], ["On the beat", "of the reference's music"], ["1–15 clips", "or photos"], ["15 credits", "an edit"]],
-    steps: [
-      { t: "Pick the reference", d: "Any reel or short video whose editing you like, up to 6 minutes long." },
-      { t: "Add your clips", d: "1 to 15 of your own videos or photos, up to 30 minutes together. Add a note if you like: keep it fast and punchy, start with my best clip, slow and cinematic." },
-      { t: "Get the edit", d: "Zera matches each shot of the reference with a moment from your clips and cuts them on the beat. Fine-tune it in the editor and export." },
-    ],
-    does: [
-      "Finds every cut in the reference and how long each shot holds",
-      "Uses the reference's music as the soundtrack and lands your cuts on its beat",
-      "Copies the transitions and effects the reference uses",
-      "Picks the moment from your clips that plays the same role as each reference shot",
-    ],
-    yours: [
-      "Every clip and transition is on the timeline: reorder, trim or swap any of it",
-      "Replace or remove the music",
-      "Add captions, text, filters and overlays",
-      "Export from 480p to 4K, at 30 or 60 fps",
-    ],
-    limits: [
-      ["Reference", "Up to 6 minutes"],
-      ["Your clips", "1–15 videos or photos, up to 30 minutes together"],
-      ["Cost", "15 credits an edit; 20 when your clips run over 9 minutes, 25 over 15"],
-      ["If it fails", "The credits come back"],
-    ],
-    example: `Each reference edit costs 15 credits, so the ${W} free credits on a new phone are enough for ${Math.floor(W / 15)} edits.`,
-    who: [
-      { t: "Travel and event creators", d: "Turn a day of clips into the edit you saw on someone else's reel." },
-      { t: "Car, sport and dance edits", d: "Beat-cut montages without placing a single cut by hand." },
-      { t: "Brands following trends", d: "Ride a trending edit style with your own product footage." },
-    ],
-    faqs: [
-      { q: "What exactly does it copy?", a: "The editing: where the cuts are, how long each shot lasts, the transitions and effects, and the timing against the music. It does not copy the reference's footage; every shot in your edit comes from your own clips." },
-      { q: "Does the edit use the reference's music?", a: "Yes, the reference's audio becomes the soundtrack and your cuts land on its beat. You can replace it with other music in the editor. Make sure you have the right to use a track where you post." },
-      { q: "How many clips can I use?", a: "From 1 to 15 videos or photos, up to 30 minutes of footage together. More clips give Zera more moments to choose from." },
-      { q: "How long can the reference be?", a: "Up to 6 minutes. Most references are Reels or Shorts under a minute." },
-      { q: "How much does it cost?", a: `15 credits an edit, or 20 when your clips run over 9 minutes and 25 over 15 minutes. The price is shown before it starts and given back if the edit fails. New phones get ${W} free credits once.` },
-      { q: "Is this the same as a template?", a: "No. A template fixes the slots and you fill them. Here any video can be the reference, and Zera chooses which part of your footage goes where." },
-    ],
-  },
-  {
     slug: "video-editor",
     menu: "Video editor",
     title: "Free Multi-Track Video Editor for Android | Zera",
@@ -271,10 +226,10 @@ export const features: Feature[] = [
       ["Watermark", "None"],
       ["Ads", "On the free plan; none on paid plans"],
     ],
-    example: "Edit and export as much as you like without spending a credit. Credits are only for the AI features: B-roll, reference edits and captions.",
+    example: "Edit and export as much as you like without spending a credit. Credits are only for the AI features: B-roll and captions.",
     who: [
       { t: "Creators who edit on the go", d: "A full timeline on your phone, no laptop needed." },
-      { t: "AI-edit finishers", d: "Take an AI B-roll or reference edit and make it yours." },
+      { t: "AI-edit finishers", d: "Take an AI B-roll edit and make it yours." },
       { t: "Beginners", d: "Start simple, grow into keyframes and masks." },
     ],
     faqs: [

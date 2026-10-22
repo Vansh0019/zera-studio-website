@@ -3,7 +3,7 @@
 import { faqs as homeFaqs } from "./content";
 type Item = { question?: string; answer?: string; q?: string; a?: string };
 interface Props { items?: Item[]; idx?: string }
-const { items = homeFaqs as Item[], idx = "07" } = Astro.props;
+const { items = homeFaqs as Item[], idx = "06" } = Astro.props;
 const list = items.map((f: Item) => ({ question: f.question ?? f.q ?? "", answer: f.answer ?? f.a ?? "" }));
 ---
 <section class="chap faq" id="faq">

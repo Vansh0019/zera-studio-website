@@ -8,7 +8,7 @@
 #   ad/out/web/web_home.mp4        Remotion `WebHome`: that clip with Zera's edit, English captions
 #   ad/public/creator/signin.mp4   Pexels 8135646, raw (B-roll chapter)
 #   ad/out/web/web_signin.mp4      Remotion `WebSignin`: its edit
-#   ad/reference/car_reference.mp4 the reference reel; ad/out/car_edit.mp4 the same edit from other clips
+#   ad/out/car_edit.mp4            a car edit, cropped for the manifesto's B-roll pill
 # The hero is 1080p on desktop, 720p on phones (`*_m.mp4`); the editor's clip is all keyframes so scroll can scrub it.
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -42,12 +42,6 @@ enc "$AD/public/creator/signin.mp4" "$OUT/broll_raw.mp4" 720 25 -t "$D"
 enc "$AD/out/web/web_signin.mp4" "$OUT/broll_edit.mp4" 720 25
 still "$AD/public/creator/signin.mp4" "$OUT/broll_raw.webp" 1080 0
 still "$AD/out/web/web_signin.mp4" "$OUT/broll_edit.webp" 1080 6
-
-# reference to edit
-enc "$AD/reference/car_reference.mp4" "$OUT/ref_reel.mp4" 720 28
-enc "$AD/out/car_edit.mp4" "$OUT/ref_edit.mp4" 720 28 -t 14
-still "$AD/reference/car_reference.mp4" "$OUT/ref_reel.webp" 720 0.5
-still "$AD/out/car_edit.mp4" "$OUT/ref_edit.webp" 720 0.5
 
 # editor: a scrubbable clip (every 2nd frame a keyframe) and its filmstrip
 ffmpeg -v error -y -i "$AD/out/web/web_signin.mp4" -an -vf "scale=540:-2:flags=lanczos,format=yuv420p" \

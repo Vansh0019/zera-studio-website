@@ -52,6 +52,18 @@
         ]
       }
     ],
+    "redirects": [
+      {
+        "source": "/copy-reel-editing-style",
+        "destination": "/auto-b-roll/",
+        "type": 301
+      },
+      {
+        "source": "/copy-reel-editing-style/",
+        "destination": "/auto-b-roll/",
+        "type": 301
+      }
+    ],
     "rewrites": [
       {
         "source": "/api/hit",

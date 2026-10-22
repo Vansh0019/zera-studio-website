@@ -66,7 +66,6 @@ export const pricing = {
   welcomeCredits: 50,
   costs: [
     { feature: "AI B-roll", amount: "30", unit: "credits / min of video" },
-    { feature: "Reference to edit", amount: "15", unit: "credits / edit (20 over 9 min of clips, 25 over 15 min)" },
     { feature: "Auto captions (Auto, Hindi, English)", amount: "1", unit: "credit / min" },
     { feature: "Hinglish captions (Roman script)", amount: "3", unit: "credits / min" },
     { feature: "Manual editor, effects, export", amount: "0", unit: "free, forever" }
