@@ -1,4 +1,4 @@
-import { pricing, reel, reelsFor, siteConfig } from "@/config/site";
+import { picturesFor, pricing, reel, reelsFor, siteConfig } from "@/config/site";
 
 /**
  * Words on the site, in one place. Facts here must match the app and the server
@@ -55,6 +55,6 @@ export const captionStyles = [
 
 export const plans = [
   { name: "Free", price: "₹0", per: "", lines: [`${pricing.welcomeCredits} credits once, about ${reelsFor(pricing.welcomeCredits)} reels`, "Full editor and export, forever", "With ads"], cta: "Download" },
-  { name: pricing.basic.name, price: pricing.basic.price, per: "/ month", lines: [`About ${reelsFor(pricing.basic.credits)} reels a month`, `${pricing.basic.credits} credits, every AI feature`, "No ads"], cta: "Get Basic" },
-  { name: "Pro", price: pricing.pro[0].price, per: "/ month", lines: [`About ${reelsFor(pricing.pro[0].credits)} reels a month`, `or about ${reelsFor(pricing.pro[1].credits)} for ${pricing.pro[1].price}`, "No ads"], cta: "Get Pro", hot: true },
+  { name: pricing.basic.name, price: pricing.basic.price, per: "/ month", lines: [`About ${reelsFor(pricing.basic.credits)} reels a month`, `Up to ${picturesFor(pricing.basic.credits)} AI images or backgrounds`, `${pricing.basic.credits} credits, every AI feature`, "No ads"], cta: "Get Basic" },
+  { name: "Pro", price: pricing.pro[0].price, per: "/ month", lines: [`About ${reelsFor(pricing.pro[0].credits)} reels a month`, `or about ${reelsFor(pricing.pro[1].credits)} for ${pricing.pro[1].price}`, `Up to ${picturesFor(pricing.pro[0].credits)} AI images or backgrounds (${picturesFor(pricing.pro[1].credits)} on ${pricing.pro[1].price})`, "No ads"], cta: "Get Pro", hot: true },
 ];
