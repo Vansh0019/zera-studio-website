@@ -28,7 +28,6 @@ const PAGES = [
   { id: "auto-b-roll", path: "/auto-b-roll/", label: "AI B-roll", headline: "Add B-roll to|talking videos,|automatically", phone: "broll_edit.webp" },
   { id: "auto-captions", path: "/auto-captions/", label: "Auto captions", headline: "Auto captions,|word by word,|in 28 animations", phone: "broll_raw.webp", caption: "this changed everything" },
   { id: "hinglish-captions", path: "/hinglish-captions/", label: "Hinglish captions", headline: "Hinglish captions|for Reels,|word by word", phone: "hero_raw.webp", caption: "ye trick try karo" },
-  { id: "copy-reel-editing-style", path: "/copy-reel-editing-style/", label: "Reference edit", headline: "Copy any reel's|edit onto|your own clips", phone: "ref_edit.webp" },
   { id: "video-editor", path: "/video-editor/", label: "Video editor", headline: "A free|multi-track editor|for Android", phone: "app_home.webp", app: true },
   { id: "capcut-alternative-india", path: "/capcut-alternative-india/", label: "An honest comparison · 2026", headline: "CapCut|alternatives|in India" },
   { id: "privacy-policy", path: "/privacy-policy/", label: "Legal & Privacy", headline: "Privacy|Policy" },

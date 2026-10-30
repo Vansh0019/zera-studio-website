@@ -281,7 +281,6 @@ const SCENES: Record<string, { c: [Vec3, Vec3, Vec3]; dim: number }> = {
   hero: { c: [hex("#2F6FD6"), hex("#6A4BE0"), hex("#E0784B")], dim: 1 },
   broll: { c: [hex("#3D7BD9"), hex("#2A9C9C"), hex("#E8A04B")], dim: 0.9 },
   captions: { c: [hex("#D9663D"), hex("#B04A8C"), hex("#F2C14E")], dim: 0.9 },
-  reference: { c: [hex("#2A9CB0"), hex("#4A62D9"), hex("#E08A4B")], dim: 0.95 },
   editor: { c: [hex("#3A6FD9"), hex("#4FB0A0"), hex("#D98C3D")], dim: 0.9 },
   pricing: { c: [hex("#5B4BD9"), hex("#2F6FD6"), hex("#E0784B")], dim: 0.75 },
   calm: { c: [hex("#3A4F8A"), hex("#5A4A7E"), hex("#8A6A4A")], dim: 0.72 }

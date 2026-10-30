@@ -62,13 +62,28 @@ export const siteConfig = {
  * `.ai/PRICING.md` §0). Prices are what he set on Google Play for India; Play shows local prices elsewhere.
  * When a number changes there, change it here.
  */
+/**
+ * B-roll is sold in reels (his call, 2026-10-23, the same as the app's store): a reel is a 30-second talking video, so
+ * one costs half the server's 30 credits a minute. Amounts read "≈ 20 reels a month", never a price per minute.
+ */
+export const reel = { seconds: 30, credits: 15 } as const;
+export const reelsFor = (credits: number) => Math.floor(credits / reel.credits);
+
+/**
+ * AI images (the B-roll chat's "Image") and AI backgrounds (Change background) cost the same flat 6 credits each
+ * (`prices.image` / `prices.background` on the server, his decision 2026-10-29). Plans say what their credits buy in
+ * pictures, the same as the app's store (2026-10-30): Basic's 300 credits, "up to 50 AI images or backgrounds".
+ */
+export const picture = { credits: 6 } as const;
+export const picturesFor = (credits: number) => Math.floor(credits / picture.credits);
+
 export const pricing = {
   welcomeCredits: 50,
   costs: [
-    { feature: "AI B-roll", amount: "30", unit: "credits / min of video" },
-    { feature: "Reference to edit", amount: "15", unit: "credits / edit (20 over 9 min of clips, 25 over 15 min)" },
+    { feature: "AI B-roll", amount: String(reel.credits), unit: `credits / ${reel.seconds}-second reel` },
     { feature: "Auto captions (Auto, Hindi, English)", amount: "1", unit: "credit / min" },
     { feature: "Hinglish captions (Roman script)", amount: "3", unit: "credits / min" },
+    { feature: "AI image or AI background", amount: String(picture.credits), unit: "credits each" },
     { feature: "Manual editor, effects, export", amount: "0", unit: "free, forever" }
   ],
   basic: { name: "Basic", price: "₹349", credits: 300 },

@@ -5,7 +5,7 @@ import { pricing, siteConfig } from "@/config/site";
 /** What a number of credits buys, in the units people think in. */
 function buys(credits: number) {
   const n = (v: number) => v.toLocaleString("en-IN");
-  return [`${n(Math.floor(credits / 30))} min of AI B-roll`, `or ${n(Math.floor(credits / 5))} reference edits`, `or ${n(credits)} min of captions`];
+  return [`${n(Math.floor(credits / 30))} min of AI B-roll`, `or ${n(credits)} min of captions`];
 }
 
 /**
@@ -37,7 +37,7 @@ export default function Pricing() {
             price="₹0"
             per=""
             credits={`${pricing.welcomeCredits} credits when you sign up`}
-            items={["Welcome credits, once per phone", "Full editor and export, free forever", "AI B-roll, captions, reference to edit", "With ads"]}
+            items={["Welcome credits, once per phone", "Full editor and export, free forever", "AI B-roll and captions", "With ads"]}
             cta="Get the app"
           />
           <Plan

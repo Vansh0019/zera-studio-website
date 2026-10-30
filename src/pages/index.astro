@@ -6,7 +6,6 @@ import Hero from "@/components/site/Hero.astro";
 import Manifesto from "@/components/site/Manifesto.astro";
 import Marquee from "@/components/site/Marquee.astro";
 import Broll from "@/components/site/Broll.astro";
-import Reference from "@/components/site/Reference.astro";
 import Captions from "@/components/site/Captions.astro";
 import Editor from "@/components/site/Editor.astro";
 import Screens from "@/components/site/Screens.astro";
@@ -93,7 +92,7 @@ const homepageJsonLd = JSON.stringify({
 
 <SiteLayout
   title="Zera Studio: AI Video Editor App for Android"
-  description="Talk to camera and Zera adds B-roll, zooms and word-by-word captions, or copies a reel's edit. Then fine-tune it in a free full editor. Android."
+  description="Talk to the camera and Zera adds B-roll, motion graphics, zooms and word-by-word captions on your words. Change any of it in a free full editor. Android."
   image="/og/home.png"
   jsonLd={homepageJsonLd}
   preload={["/media/site/hero_raw.webp"]}
@@ -103,7 +102,6 @@ const homepageJsonLd = JSON.stringify({
     <Manifesto />
     <Marquee />
     <Broll />
-    <Reference />
     <Captions />
     <Editor />
     <Screens />

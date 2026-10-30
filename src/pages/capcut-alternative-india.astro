@@ -61,7 +61,7 @@ const faqs = [
   { q: "Is CapCut available in India?", a: `No. As of ${CHECKED}, CapCut is not on Google Play or the App Store in India, and capcut.com is unavailable from India. It was reported among the apps India blocked in 2020.` },
   { q: "Which video editors have no watermark on the free version?", a: "According to their own listings and pages, VN, YouCut, Edits and Zera Studio export without a watermark on their free versions. InShot and KineMaster add one until you pay." },
   { q: "Which app writes Hinglish captions in Roman letters?", a: "Zera Studio has a Hinglish option that writes Hindi and Hindi-English speech in Roman letters, the way people type it. We found no mention of Roman Hinglish captions on the official pages of the other apps here; several offer Hindi captions in Devanagari." },
-  { q: "Can any of these copy a reel's editing style?", a: "Zera Studio's reference edit takes any reel you like plus your own clips and copies the cuts, pacing, transitions and effects onto your footage, on the beat. Template-based apps work differently: you pick a template and fill its slots with your clips." },
+  { q: "What does Zera Studio's AI B-roll do?", a: "It is made for videos where you talk to the camera. Pick a talking video up to 3 minutes and Zera adds stock B-roll, motion graphics, zooms and word-by-word captions, timed to what you say. The edit opens on a timeline, so you can change any part of it before you export." },
   { q: "Is Zera Studio free?", a: `Editing and export are free (with ads) and never add a watermark. The AI features use credits: every new phone gets ${pricing.welcomeCredits} free credits once, and plans start at ${pricing.basic.price} a month.` },
   { q: "Who wrote this page?", a: "ZERA AI, the company that makes Zera Studio. We have tried to be fair: every fact about another app links to that app's own listing or page, and Zera's weak spots are listed too. If something is out of date, tell us and we will fix it." },
 ];
@@ -114,7 +114,7 @@ const jsonLd = JSON.stringify({
       <ul class="cmp-short" data-reveal>
         <li><b>Free editing with no watermark:</b> VN, YouCut, Edits and Zera Studio don't add a watermark on their free versions.</li>
         <li><b>Hindi captions:</b> InShot, KineMaster, YouCut, Edits and Zera Studio support Hindi captions.</li>
-        <li><b>Hinglish captions in Roman letters, AI B-roll, or copying a reel's edit:</b> these are what Zera Studio is built for.</li>
+        <li><b>Hinglish captions in Roman letters, or AI B-roll and motion graphics for talking videos:</b> these are what Zera Studio is built for.</li>
         <li><b>On iPhone:</b> every app here except Zera Studio, which is Android-only for now.</li>
       </ul>
     </section>
@@ -159,7 +159,7 @@ const jsonLd = JSON.stringify({
         ))}
         <article class="zera" data-reveal>
           <h3 class="d-x">Zera Studio</h3>
-          <p><span class="label">Good for</span>AI B-roll for talking videos, copying any reel's edit onto your own clips, and Hinglish captions in Roman letters. Editing and export are free, up to 4K, with no watermark.</p>
+          <p><span class="label">Good for</span>Videos where you talk to the camera: AI B-roll, motion graphics and zooms on your words, and Hinglish captions in Roman letters. Editing and export are free, up to 4K, with no watermark.</p>
           <p><span class="label">Keep in mind</span>Android only, and the AI features use credits. The full list is just below.</p>
         </article>
       </div>
@@ -170,9 +170,9 @@ const jsonLd = JSON.stringify({
       <h2 class="d cmp-h2" data-split>Honestly.</h2>
       <ul class="cmp-short cmp-minus" data-reveal>
         <li><b>Android only.</b> There is no iPhone version yet.</li>
-        <li><b>The AI features use credits.</b> Every new phone gets {pricing.welcomeCredits} free credits once; after that, AI B-roll, reference edits and captions need credits from a plan, starting at {pricing.basic.price} a month. Editing and export stay free.</li>
+        <li><b>The AI features use credits.</b> Every new phone gets {pricing.welcomeCredits} free credits once; after that, AI B-roll and captions need credits from a plan, starting at {pricing.basic.price} a month. Editing and export stay free.</li>
         <li><b>The free version shows ads.</b> Paid plans have none.</li>
-        <li><b>No template library.</b> Instead, the reference edit copies the editing of any reel you give it. If you enjoy browsing ready-made templates, that is a different experience.</li>
+        <li><b>No template library.</b> Instead, the AI makes motion graphics for the words in each video you give it. If you enjoy browsing ready-made templates, that is a different experience.</li>
         <li><b>A young app.</b> It is smaller than the others here and still growing.</li>
       </ul>
     </section>
