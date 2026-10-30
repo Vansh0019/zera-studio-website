@@ -69,12 +69,21 @@ export const siteConfig = {
 export const reel = { seconds: 30, credits: 15 } as const;
 export const reelsFor = (credits: number) => Math.floor(credits / reel.credits);
 
+/**
+ * AI images (the B-roll chat's "Image") and AI backgrounds (Change background) cost the same flat 6 credits each
+ * (`prices.image` / `prices.background` on the server, his decision 2026-10-29). Plans say what their credits buy in
+ * pictures, the same as the app's store (2026-10-30): Basic's 300 credits, "up to 50 AI images or backgrounds".
+ */
+export const picture = { credits: 6 } as const;
+export const picturesFor = (credits: number) => Math.floor(credits / picture.credits);
+
 export const pricing = {
   welcomeCredits: 50,
   costs: [
     { feature: "AI B-roll", amount: String(reel.credits), unit: `credits / ${reel.seconds}-second reel` },
     { feature: "Auto captions (Auto, Hindi, English)", amount: "1", unit: "credit / min" },
     { feature: "Hinglish captions (Roman script)", amount: "3", unit: "credits / min" },
+    { feature: "AI image or AI background", amount: String(picture.credits), unit: "credits each" },
     { feature: "Manual editor, effects, export", amount: "0", unit: "free, forever" }
   ],
   basic: { name: "Basic", price: "₹349", credits: 300 },
