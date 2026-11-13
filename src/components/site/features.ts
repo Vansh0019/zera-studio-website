@@ -1,4 +1,4 @@
-import { pricing, reel, reelsFor } from "@/config/site";
+import { pricing, reel, reelCount, reelsFor } from "@/config/site";
 
 /**
  * The feature pages (2026-10-13, his ask: rank for every feature, "AI video editor" above all). One entry per page,
@@ -77,7 +77,7 @@ export const features: Feature[] = [
       ["If it fails", "The credits come back"],
       ["Result", "Opens in the editor; export from 480p to 4K"],
     ],
-    example: `A ${reel.seconds}-second reel costs ${reel.credits} credits, so the ${W} free credits every new phone gets make about ${reelsFor(W)} reels, and the Basic plan makes about ${reelsFor(pricing.basic.credits)} a month.`,
+    example: `A ${reel.seconds}-second reel costs ${reel.credits} credits, so the ${W} free credits every new phone gets make ${reelCount(W)}, and the Basic plan makes about ${reelsFor(pricing.basic.credits)} a month.`,
     who: [
       { t: "Talking-head creators", d: "Tips, explainers and opinions that need visuals between the words." },
       { t: "Coaches and teachers", d: "Lessons that land better when the screen shows what you describe." },

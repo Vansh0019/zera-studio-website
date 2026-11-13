@@ -68,6 +68,8 @@ export const siteConfig = {
  */
 export const reel = { seconds: 30, credits: 15 } as const;
 export const reelsFor = (credits: number) => Math.floor(credits / reel.credits);
+/** "one reel" or "about 20 reels": the welcome's 25 credits make exactly one. */
+export const reelCount = (credits: number) => (reelsFor(credits) === 1 ? "one reel" : `about ${reelsFor(credits)} reels`);
 
 /**
  * AI images (the B-roll chat's "Image") and AI backgrounds (Change background) cost the same flat 6 credits each
@@ -78,7 +80,8 @@ export const picture = { credits: 6 } as const;
 export const picturesFor = (credits: number) => Math.floor(credits / picture.credits);
 
 export const pricing = {
-  welcomeCredits: 50,
+  // 25 since 2026-11-13 (his call; 50 from 2026-10-17, 100 before), the same as the server's `ops/credits.welcome`.
+  welcomeCredits: 25,
   costs: [
     { feature: "AI B-roll", amount: String(reel.credits), unit: `credits / ${reel.seconds}-second reel` },
     { feature: "Auto captions (Auto, Hindi, English)", amount: "1", unit: "credit / min" },
