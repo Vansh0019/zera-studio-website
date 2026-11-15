@@ -1,8 +1,8 @@
 ---
 // 03 · The editor. A phone running the editor's layout (the app's palette and track kinds): the preview on top, a
-// fixed centre playhead, five tracks that scroll under it. The page's scroll is the playhead: it scrubs the clip
-// frame by frame (`editor.mp4` is encoded with a keyframe every third frame for this) and slides the timeline, while
-// the features around the phone light up in turn. Features are the app's, as he has shipped them.
+// fixed centre playhead, five tracks that slide under it as the clip plays. Features are the app's, as he has
+// shipped them. (Until 2026-11-15 the scroll scrubbed the clip while the section was pinned; now it simply plays,
+// and it is the B-roll chapter's own clip, so a phone that saw that chapter downloads nothing new.)
 import { refPeaks } from "./refPeaks";
 const M = "/media/site";
 const left = ["Keyframes", "Masking", "Filters & adjust", "Speed 0.25–4×", "Crop & frame"];
@@ -28,7 +28,7 @@ const { bare = false } = Astro.props;
 
   <div class="ed-pin" id="edPin">
     <div class="wrap ed-grid">
-      <ul class="ed-feats l">{left.map((f, i) => <li style={`--i:${i * 2}`}><i></i>{f}</li>)}</ul>
+      <ul class="ed-feats l">{left.map((f) => <li><i></i>{f}</li>)}</ul>
 
       <div class="phone ed-phone">
         <div class="scr ed-scr">
@@ -38,7 +38,7 @@ const { bare = false } = Astro.props;
             <span class="ed-export">Export</span>
           </div>
           <div class="ed-prev">
-            <video id="edVid" data-src={`${M}/editor.mp4`} poster={`${M}/editor.webp`} muted playsinline preload="none"></video>
+            <video id="edVid" data-lazy data-src={`${M}/broll_edit.mp4`} poster={`${M}/editor.webp`} muted playsinline loop preload="none"></video>
           </div>
           <div class="ed-time num"><span id="edTc">00:00</span><span class="ed-play" aria-hidden="true"></span><span>00:10</span></div>
           <div class="ed-tl" aria-hidden="true">
@@ -59,21 +59,19 @@ const { bare = false } = Astro.props;
         </div>
       </div>
 
-      <ul class="ed-feats r">{right.map((f, i) => <li style={`--i:${i * 2 + 1}`}><i></i>{f}</li>)}</ul>
+      <ul class="ed-feats r">{right.map((f) => <li><i></i>{f}</li>)}</ul>
     </div>
   </div>
 </section>
 
 <style>
-  .ed-pin { height: 100svh; display: grid; align-items: center; margin-top: clamp(20px, 3vw, 50px); }
+  .ed-pin { margin-top: clamp(40px, 5vw, 80px); }
   .ed-grid { display: grid; grid-template-columns: 1fr; justify-items: center; gap: 20px; }
   .ed-phone { height: min(84svh, 800px); }
 
   .ed-feats { list-style: none; display: grid; gap: 6px; }
-  .ed-feats li { display: flex; align-items: center; gap: 12px; font-family: var(--display); font-weight: 650; font-stretch: 100%; font-size: clamp(20px, 1.9vw, 32px); letter-spacing: -0.02em; color: var(--dim); transition: color 0.5s var(--out); }
-  .ed-feats li i { width: 9px; height: 9px; border-radius: 2px; background: currentColor; transform: rotate(45deg); flex: none; transition: background 0.4s, box-shadow 0.4s; }
-  .ed-feats li.on { color: var(--paper); }
-  .ed-feats li.on i { background: var(--zera-hi); box-shadow: 0 0 14px var(--zera-hi); }
+  .ed-feats li { display: flex; align-items: center; gap: 12px; font-family: var(--display); font-weight: 650; font-stretch: 100%; font-size: clamp(20px, 1.9vw, 32px); letter-spacing: -0.02em; color: var(--paper); }
+  .ed-feats li i { width: 9px; height: 9px; border-radius: 2px; background: var(--zera-hi); transform: rotate(45deg); flex: none; }
   .ed-feats.r li { flex-direction: row; }
 
   /* the editor, in the app's palette */
@@ -114,7 +112,6 @@ const { bare = false } = Astro.props;
     .ed-feats.r { justify-self: start; }
   }
   @media (max-width: 999px) {
-    .ed-pin { height: auto; min-height: 100svh; padding: calc(var(--nav-h) + 8px) 0 24px; align-items: start; }
     .ed-phone { height: min(70svh, 640px); }
     .ed-feats { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
     .ed-feats li { font-size: 14px; padding: 8px 12px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line-2); font-family: var(--body); font-weight: 600; letter-spacing: -0.01em; }
@@ -125,46 +122,19 @@ const { bare = false } = Astro.props;
 </style>
 
 <script>
-  import { gsap, ScrollTrigger, reduce } from "@/scripts/site/core";
+  import { whileVisible } from "@/scripts/site/core";
+  // The clip plays on its own (loaded near the screen, playing only on it, by core.ts); the timeline and the clock
+  // follow it, one transform a frame, only while the phone is on screen.
   const vid = document.getElementById("edVid") as HTMLVideoElement;
   const tracks = document.getElementById("edTracks")!, tc = document.getElementById("edTc")!;
-  const feats = Array.from(document.querySelectorAll<HTMLElement>(".ed-feats li")).sort((a, b) => Number(a.style.getPropertyValue("--i")) - Number(b.style.getPropertyValue("--i")));
-
-  // The clip loads once the section is near, then belongs to the scroll.
-  new IntersectionObserver(([e], io) => {
-    if (!e.isIntersecting) return;
-    vid.src = vid.dataset.src!; vid.preload = "auto"; vid.load();
-    io.disconnect();
-  }, { rootMargin: "600px" }).observe(vid);
-
-  let want = 0, seeking = false;
-  const seek = () => {
-    if (seeking || !vid.duration) return;
-    const t = want * (vid.duration - 0.05);
-    if (Math.abs(vid.currentTime - t) < 1 / 30) return;
-    seeking = true;
-    vid.currentTime = t;
-  };
-  vid.addEventListener("seeked", () => { seeking = false; seek(); });
-  vid.addEventListener("loadedmetadata", seek);
-
-  const place = (p: number) => {
-    want = p;
-    seek();
-    tracks.style.transform = `translateX(${-p * tracks.offsetWidth}px)`;
-    const s = p * 10;
-    tc.textContent = `00:${String(Math.floor(s)).padStart(2, "0")}`;
-    const lit = Math.floor(p * (feats.length + 0.999));
-    feats.forEach((f, i) => f.classList.toggle("on", i < lit));
-  };
-  place(0);
-
-  if (reduce) place(1);
-  else {
-    ScrollTrigger.create({
-      trigger: "#edPin", start: "top top", end: "+=220%", pin: true, anticipatePin: 1, scrub: true,
-      onUpdate: (s) => place(s.progress),
-    });
-    gsap.from(".ed-phone", { yPercent: 10, rotateX: 18, transformPerspective: 1200, ease: "none", scrollTrigger: { trigger: "#edPin", start: "top bottom", end: "top top", scrub: true } });
-  }
+  let shown = -1, width = tracks.offsetWidth;
+  new ResizeObserver(() => { width = tracks.offsetWidth; shown = -1; }).observe(tracks);
+  whileVisible(vid, () => {
+    const p = vid.duration ? vid.currentTime / vid.duration : 0;
+    if (p === shown) return;
+    shown = p;
+    tracks.style.transform = `translateX(${-p * width}px)`;
+    const t = `00:${String(Math.floor(p * 10)).padStart(2, "0")}`;
+    if (tc.textContent !== t) tc.textContent = t;
+  });
 </script>

@@ -1,5 +1,5 @@
 ---
-// The site's layout (2026-10-13): loader (home only), nav, full-screen menu and the motion runtime. SEO tags match
+// The site's layout (2026-10-13): nav, full-screen menu and the motion runtime. SEO tags match
 // BaseLayout's, plus a social card per page (`image`, from public/og/) so each link preview shows its own page.
 import { playUrl, siteConfig } from "@/config/site";
 import Beacon from "@/components/Beacon.astro";
@@ -13,9 +13,8 @@ interface Props {
   title?: string;
   description?: string;
   jsonLd?: string;
-  preload?: string[];
-  /** The counting loader is the home page's entrance; inner pages open straight away. */
-  loader?: boolean;
+  /** Images to fetch first; `media` keeps a phone from fetching the desktop one (and back). */
+  preload?: (string | { href: string; media: string })[];
   /** This page's social card (1200×630, under public/og/, made by scripts/generate-og-images.mjs). */
   image?: string;
   /** What the card shows, for screen readers in link previews. Defaults to the title. */
@@ -28,7 +27,6 @@ const {
   description = siteConfig.description,
   jsonLd,
   preload = [],
-  loader = true,
   image = siteConfig.ogImage,
   imageAlt = title,
   noindex = false,
@@ -46,7 +44,7 @@ const links = [
 const roll = (t: string) => `<span>${t}</span><span aria-hidden="true">${t}</span>`;
 ---
 <!doctype html>
-<html lang="en" data-loader={loader ? "on" : "off"}>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -73,25 +71,10 @@ const roll = (t: string) => `<span>${t}</span><span aria-hidden="true">${t}</spa
     <meta name="twitter:image" content={ogImageUrl} />
     <meta name="twitter:image:alt" content={imageAlt} />
     <meta name="theme-color" content="#0e0e11" />
-    {preload.map((href) => <link rel="preload" as="image" href={href} />)}
+    {preload.map((p) => (typeof p === "string" ? <link rel="preload" as="image" href={p} /> : <link rel="preload" as="image" href={p.href} media={p.media} />))}
     {jsonLd && <script is:inline type="application/ld+json" set:html={jsonLd} />}
-    <script is:inline>
-      // The loader plays once per visit and never for reduced motion; decided before first paint so it never flashes.
-      try {
-        if (document.documentElement.dataset.loader === "off" || sessionStorage.getItem("zera-loaded") || matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("no-loader");
-      } catch (e) { document.documentElement.classList.add("no-loader"); }
-    </script>
   </head>
   <body>
-{loader && (
-    <div class="loader" id="loader" aria-hidden="true">
-      <div class="ld-row"><span class="label">Zera Studio</span><span class="label">Loading the edit</span></div>
-      <div class="ld-num d"><span id="ldNum">0</span></div>
-      <div class="ld-bar"><i id="ldBar"></i></div>
-      <div class="ld-sweep" id="ldSweep"></div>
-    </div>
-)}
-
     <header class="nav" id="nav">
       <a href="/" class="brand" aria-label="Zera Studio home">
         <img src="/media/logo-96.png" alt="" width="20" height="30" />
@@ -129,19 +112,11 @@ const roll = (t: string) => `<span>${t}</span><span aria-hidden="true">${t}</spa
     <Beacon />
 
     <style is:global>
-      /* loader */
-      .loader { position: fixed; inset: 0; z-index: 200; background: var(--ink); padding: 22px var(--gutter); display: grid; grid-template-rows: auto 1fr auto; }
-      html.no-loader .loader { display: none; }
-      .ld-row { display: flex; justify-content: space-between; }
-      .ld-num { align-self: end; font-size: clamp(120px, 30vw, 520px); line-height: 0.78; overflow: hidden; padding-top: 0.04em; }
-      .ld-num span { display: inline-block; }
-      .ld-bar { position: relative; height: 2px; margin-top: 18px; background: var(--line); }
-      .ld-bar i { position: absolute; inset: 0; transform-origin: left; transform: scaleX(0); background: var(--zera); }
-      .ld-sweep { position: absolute; inset: 0; background: var(--zera); transform: translateY(100%); }
-
       /* nav */
       .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 80; height: var(--nav-h); padding: 0 var(--gutter); display: flex; align-items: center; justify-content: space-between; transition: transform 0.6s var(--out), background-color 0.4s, backdrop-filter 0.4s; }
-      .nav.solid { background: color-mix(in srgb, var(--bg) 72%, transparent); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); }
+      /* glass where there is power to spare; a plain dark bar on phones (a blur over moving video costs every frame) */
+      .nav.solid { background: color-mix(in srgb, var(--bg) 94%, transparent); }
+      @media (min-width: 900px) and (hover: hover) { .nav.solid { background: color-mix(in srgb, var(--bg) 72%, transparent); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); } }
       .nav.tuck { transform: translateY(-100%); }
       .brand { display: flex; align-items: center; gap: 10px; font-size: 19px; color: var(--fg); }
       .brand img { border-radius: 8px; }

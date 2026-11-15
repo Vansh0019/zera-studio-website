@@ -95,7 +95,7 @@ const homepageJsonLd = JSON.stringify({
   description="Talk to the camera and Zera adds B-roll, motion graphics, zooms and word-by-word captions on your words. Change any of it in a free full editor. Android."
   image="/og/home.png"
   jsonLd={homepageJsonLd}
-  preload={["/media/site/hero_raw.webp"]}
+  preload={[{ href: "/media/site/hero_raw.webp", media: "(min-width: 900px)" }, { href: "/media/site/hero_edit.webp", media: "(max-width: 899px)" }]}
 >
   <main>
     <Hero />
