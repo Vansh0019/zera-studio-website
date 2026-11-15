@@ -1,7 +1,7 @@
 ---
 // 02 · Captions. A Zera-blue chapter (landonorris.com's lime moment) where ten of the app's 28 caption animations
-// run live, in type, over stills from the creators' clips. Names as in the app's Animate tab. Desktop: a grid;
-// phones swipe a row. Only the cards on screen animate. (2026-11-15: the blue is the section's own now, not a page
+// run live, in type, over stills from the creators' clips. Names as in the app's Animate tab. Wide screens: a grid
+// of five by two; phones and tablets swipe a row. Only the cards on screen animate. (2026-11-15: the blue is the section's own now, not a page
 // colour change, and the row is no longer pinned to the scroll.)
 import { captionStyles } from "./content";
 const M = "/media/site";
@@ -114,16 +114,23 @@ const words = LINE.split(" ");
   .hall-hint { display: none; margin-top: 14px; font-size: 24px; text-align: right; }
   .caps-facts { margin-top: clamp(40px, 5vw, 70px); }
 
-  @media (min-width: 900px) {
-    .hall-track { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); width: auto; max-width: 1680px; margin-inline: auto; }
+  /* the ten looks as two rows of five where there is room; a swiped row below that */
+  @media (min-width: 1100px) {
+    .hall-track { display: grid; grid-template-columns: repeat(5, 1fr); width: auto; max-width: 1680px; margin-inline: auto; }
     .cap { width: auto; }
     .cap-line { font-size: clamp(20px, 1.6vw, 28px); }
+    /* "+18 more" closes the grid as a strip across it, never as a lone card on its own row */
+    .cap.more { grid-column: 1 / -1; aspect-ratio: auto; display: flex; align-items: baseline; gap: 18px; padding: 22px 28px; }
+    .cap.more br { display: none; }
+    .cap.more .d { font-size: clamp(40px, 3.6vw, 64px); }
   }
-  @media (max-width: 899px) {
+  @media (max-width: 1099px) {
     .hall { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
     .hall::-webkit-scrollbar { display: none; }
-    .cap { width: 68vw; scroll-snap-align: center; }
+    .cap { width: min(68vw, 340px); scroll-snap-align: center; }
     .hall-hint { display: block; }
+  }
+  @media (max-width: 899px) {
     /* the same looks without a moving blur or glow, which a phone would repaint every frame */
     .st-slide .cap-line { animation-name: slide-lite; }
     @keyframes slide-lite { 0% { transform: translateX(-70%); opacity: 0; } 26%, 80% { transform: none; opacity: 1; } 100% { transform: translateX(45%); opacity: 0; } }

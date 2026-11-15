@@ -10,7 +10,7 @@
 #   ad/out/web/web_signin.mp4      Remotion `WebSignin`: its edit
 #   ad/out/car_edit.mp4            a car edit, cropped for the manifesto's B-roll pill
 # The hero is 1080p on desktop, 720p on phones (`*_m.mp4`). The editor chapter plays the B-roll chapter's edit
-# (`broll_edit.mp4`), so a phone downloads that clip once for both.
+# (`broll_edit.mp4`); the scroll no longer scrubs it, so it needs no all-keyframe copy.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 AD=../ad
