@@ -9,7 +9,8 @@
 #   ad/public/creator/signin.mp4   Pexels 8135646, raw (B-roll chapter)
 #   ad/out/web/web_signin.mp4      Remotion `WebSignin`: its edit
 #   ad/out/car_edit.mp4            a car edit, cropped for the manifesto's B-roll pill
-# The hero is 1080p on desktop, 720p on phones (`*_m.mp4`); the editor's clip is all keyframes so scroll can scrub it.
+# The hero is 1080p on desktop, 720p on phones (`*_m.mp4`). The editor chapter plays the B-roll chapter's edit
+# (`broll_edit.mp4`); the scroll no longer scrubs it, so it needs no all-keyframe copy.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 AD=../ad
@@ -43,9 +44,7 @@ enc "$AD/out/web/web_signin.mp4" "$OUT/broll_edit.mp4" 720 25
 still "$AD/public/creator/signin.mp4" "$OUT/broll_raw.webp" 1080 0
 still "$AD/out/web/web_signin.mp4" "$OUT/broll_edit.webp" 1080 6
 
-# editor: a scrubbable clip (every 2nd frame a keyframe) and its filmstrip
-ffmpeg -v error -y -i "$AD/out/web/web_signin.mp4" -an -vf "scale=540:-2:flags=lanczos,format=yuv420p" \
-  -c:v libx264 -preset slow -crf 28 -g 3 -keyint_min 3 -bf 0 -movflags +faststart "$OUT/editor.mp4"
+# editor: its poster and filmstrip (the clip itself is broll_edit.mp4)
 still "$AD/out/web/web_signin.mp4" "$OUT/editor.webp" 540 0
 ffmpeg -v error -y -i "$AD/out/web/web_signin.mp4" -vf "fps=12/10,scale=-2:160:flags=lanczos,tile=12x1" -frames:v 1 \
   -c:v libwebp -quality 78 "$OUT/filmstrip.webp"

@@ -1,7 +1,7 @@
 ---
 import { pricing } from "@/config/site";
 // The app itself: three real screens, rendered from the app's own widgets (`test/ui_render_tool.dart`, dark palette,
-// full phone resolution), set in phones that drift at different speeds as the page moves.
+// full phone resolution), set in phones.
 const M = "/media/site";
 const screens = [
   { src: "app_home", title: "Home", text: "Start a new video, or hand one to the AI." },
@@ -15,9 +15,9 @@ const screens = [
     <h2 class="chap-title d" data-split>Made for the<br /><span class="b">phone you film on.</span></h2>
   </div>
 
-  <div class="wrap scr-row">
+  <div class="wrap scr-row" data-reveal>
     {screens.map((s, i) => (
-      <figure class={`scr-fig f${i}`} data-parallax={["0.4", "-0.2", "0.6"][i]}>
+      <figure class={`scr-fig f${i}`}>
         <div class="phone"><div class="scr"><span class="sb" aria-hidden="true"><b>9:41</b><i></i></span><img src={`${M}/${s.src}.webp`} alt={`Zera Studio app: ${s.title} screen`} loading="lazy" decoding="async" width="720" height="1560" /></div></div>
         <figcaption><b class="d-x">{s.title}</b><span>{s.text}</span></figcaption>
       </figure>
@@ -41,7 +41,7 @@ const screens = [
   @media (max-width: 760px) {
     .scr-row { grid-template-columns: repeat(3, 72vw); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 6px; }
     .scr-row::-webkit-scrollbar { display: none; }
-    .scr-fig { scroll-snap-align: center; transform: none !important; }
+    .scr-fig { scroll-snap-align: center; }
     .f1 { margin-top: 0; }
   }
 </style>

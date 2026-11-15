@@ -12,7 +12,7 @@ const year = new Date().getFullYear();
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 1.8c-.3.3-.4.7-.4 1.2v18c0 .5.1.9.4 1.2l.1.1L13.8 12.2v-.3L3.7 1.7l-.1.1Zm13.6 13.8-3.4-3.4v-.3l3.4-3.4.1.1 4 2.3c1.1.6 1.1 1.7 0 2.4l-4 2.3h-.1Zm-.1.1L13.6 12 3.6 22.2c.4.4 1 .4 1.7.1l11.8-6.6M17.1 8.3 5.3 1.6C4.6 1.2 4 1.3 3.6 1.7L13.6 12l3.5-3.7Z"/></svg>
         <span class="roll"><span>Get it on Google Play</span><span aria-hidden="true">Get it on Google Play</span></span>
       </a>
-      <span class="ft-note"><span class="hand">{pricing.welcomeCredits} credits on day one</span><svg class="doodle" viewBox="0 0 120 40" aria-hidden="true"><path d="M114 30 C 80 6, 40 4, 8 20 M22 8 L 6 21 L 22 32" /></svg></span>
+      <span class="ft-note"><span class="hand">{pricing.welcomeCredits} credits on day one</span><svg class="doodle" viewBox="0 0 120 40" aria-hidden="true"><path pathLength="1" d="M114 30 C 80 6, 40 4, 8 20 M22 8 L 6 21 L 22 32" /></svg></span>
     </div>
   </div>
 
@@ -29,7 +29,7 @@ const year = new Date().getFullYear();
     <p>{siteConfig.shortName} edits videos; it does not generate people. It has no feature for making sexual, nude, "undress", face-swap or deepfake content, and using it for non-consensual intimate imagery of anyone is banned under our <a href="/terms/">Terms of Service</a>. See our <a href="/privacy-policy/">Privacy Policy</a> for how your data is handled.</p>
   </div>
 
-  <div class="ft-mark" aria-hidden="true"><span class="d" id="ftMark">{[..."Zera"].map((c) => <span class="c">{c}</span>)}</span></div>
+  <div class="ft-mark" aria-hidden="true" data-rise><span class="d" id="ftMark">{[..."Zera"].map((c, i) => <span class="c" style={`--i:${i}`}>{c}</span>)}</span></div>
 
   <div class="wrap ft-base">
     <span>© {year} {siteConfig.companyLegalName}. All rights reserved.</span>
@@ -56,23 +56,25 @@ const year = new Date().getFullYear();
   .ft-about a { color: var(--paper); text-decoration: underline; }
   .ft-mark { margin-top: clamp(60px, 8vw, 120px); line-height: 0.74; text-align: center; color: var(--paper); overflow: hidden; }
   .ft-mark .d { display: inline-block; white-space: nowrap; font-size: 40vw; letter-spacing: -0.02em; }
-  .ft-mark .c { display: inline-block; }
+  .ft-mark .c { display: inline-block; transition: transform 1.2s var(--out); transition-delay: calc(var(--i) * 70ms); }
+  .ft-mark.rv:not(.in) .c { transform: translateY(100%); }
   .ft-base { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; padding-block: 22px 28px; color: var(--dim); font-size: 13px; border-top: 1px solid var(--line); }
   .ft-top:hover { color: var(--paper); }
 </style>
 
 <script>
-  import { gsap, reduce } from "@/scripts/site/core";
-  // The wordmark fills the page's width exactly, whatever the font's own widths are.
+  // The wordmark fills the page's width exactly, whatever the font's own widths are. Measured again only when the
+  // width changes: a phone's URL bar showing or hiding fires `resize` mid-scroll and must not cost a layout.
   const mark = document.getElementById("ftMark")!;
+  let fitW = 0;
   const fit = () => {
+    const cw = document.documentElement.clientWidth;
+    if (cw === fitW) return;
+    fitW = cw;
     mark.style.fontSize = "100px";
     const w = mark.getBoundingClientRect().width;
-    mark.style.fontSize = `${(100 * (document.documentElement.clientWidth - 8)) / w}px`;
+    mark.style.fontSize = `${(100 * (cw - 8)) / w}px`;
   };
-  document.fonts.ready.then(fit);
-  addEventListener("resize", fit);
-  if (!reduce) {
-    gsap.from("#ftMark .c", { yPercent: 100, duration: 1.4, ease: "expo.out", stagger: 0.08, scrollTrigger: { trigger: ".ft-mark", start: "top 92%", once: true } });
-  }
+  document.fonts.ready.then(() => { fitW = 0; fit(); });
+  addEventListener("resize", fit, { passive: true });
 </script>

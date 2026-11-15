@@ -1,10 +1,10 @@
 ---
-// The hero. Two words, huge, behind a phone-sized frame. In the frame a creator talks (the raw clip); wherever the
-// pointer (or a finger) brushes, Zera's edit of the same moment shows through (WebGL, `scripts/site/reveal.ts`).
-// Scrolling opens the whole edit while "Just talk." gives way to "Zera edits."
+// The hero. Two words, huge, behind a phone-sized frame. On desktop a creator talks in the frame (the raw clip) and
+// wherever the pointer brushes, Zera's edit of the same moment shows through (WebGL, `scripts/site/reveal.ts`).
+// Phones (2026-11-15) get the edit alone: one 720p video, no WebGL, nothing tied to the scroll.
 import { playUrl } from "@/config/site";
 const M = "/media/site";
-const chars = (w: string) => [...w].map((c) => `<span class="c">${c}</span>`).join("");
+const chars = (w: string, from = 0) => [...w].map((c, i) => `<span class="c" style="--i:${from + i}">${c}</span>`).join("");
 ---
 <section class="hero" id="top" aria-label="Zera Studio">
   <div class="hero-pin" id="heroPin">
@@ -14,23 +14,21 @@ const chars = (w: string) => [...w].map((c) => `<span class="c">${c}</span>`).jo
     <p class="sr">Just talk. Zera edits.</p>
     <div class="hero-words d" aria-hidden="true">
       <span class="hw hw-1" aria-hidden="true"><span class="m" set:html={chars("Just")} /></span>
-      <span class="hw hw-2" aria-hidden="true"><span class="m" set:html={chars("talk.")} /></span>
-      <span class="hw hw-3" aria-hidden="true"><span class="m" set:html={chars("Zera")} /></span>
-      <span class="hw hw-4" aria-hidden="true"><span class="m" set:html={chars("edits.")} /></span>
+      <span class="hw hw-2" aria-hidden="true"><span class="m" set:html={chars("talk.", 4)} /></span>
     </div>
 
     <div class="stage" id="stage">
-      <video class="v-raw" id="heroRaw" muted playsinline loop autoplay preload="metadata" poster={`${M}/hero_raw.webp`} data-auto data-preload>
-        <source src={`${M}/hero_raw_m.mp4`} type="video/mp4" media="(max-width: 899px)" />
-        <source src={`${M}/hero_raw.mp4`} type="video/mp4" />
+      <!-- the raw clip is desktop only: with no matching source a phone never downloads it -->
+      <video class="v-raw" id="heroRaw" muted playsinline loop autoplay preload="metadata" data-auto>
+        <source src={`${M}/hero_raw.mp4`} type="video/mp4" media="(min-width: 900px)" />
       </video>
-      <video class="v-edit" id="heroEdit" muted playsinline loop autoplay preload="metadata" poster={`${M}/hero_edit.webp`} data-auto data-preload>
+      <video class="v-edit" id="heroEdit" muted playsinline loop autoplay preload="metadata" poster={`${M}/hero_edit.webp`} data-auto>
         <source src={`${M}/hero_edit_m.mp4`} type="video/mp4" media="(max-width: 899px)" />
         <source src={`${M}/hero_edit.mp4`} type="video/mp4" />
       </video>
       <canvas class="gl" id="heroGl" aria-hidden="true"></canvas>
       <div class="stage-ui" aria-hidden="true">
-        <span class="chip"><i></i><b id="stageMode">Raw clip</b></span>
+        <span class="chip"><i></i><b id="stageMode">Zera edit</b></span>
         <span class="chip num" id="heroTc">00:00:00</span>
       </div>
       <p class="sr">A creator talks to the camera. Zera's edit of the same clip adds an upload card, an AI B-roll card, a captions title, word-by-word captions and a followers chart.</p>
@@ -64,11 +62,18 @@ const chars = (w: string) => [...w].map((c) => `<span class="c">${c}</span>`).jo
   .hero-words { position: absolute; inset: 0; pointer-events: none; font-size: clamp(110px, 18.5vw, 420px); color: var(--paper); }
   .hw { position: absolute; top: 50%; margin-top: -0.5em; display: block; white-space: nowrap; }
   .hw .m { display: block; overflow: hidden; padding: 0.04em 0.02em 0.02em; }
-  .hw :global(.c) { display: inline-block; will-change: transform; }
-  .hw-1, .hw-3 { left: var(--gutter); }
-  .hw-2, .hw-4 { right: var(--gutter); text-align: right; }
-  .hw-3, .hw-4 { color: var(--zera-hi); }
-  .hw-3, .hw-4 { visibility: hidden; font-size: 0.56em; margin-top: -0.46em; }
+  .hw :global(.c) { display: inline-block; }
+  .hw-1 { left: var(--gutter); }
+  .hw-2 { right: var(--gutter); text-align: right; }
+
+  /* the entrance, once, in CSS (it never waits for a script): the two words rise out of their masks. Everything
+     else is there from the first paint. */
+  @media (prefers-reduced-motion: no-preference) {
+    .hw :global(.c) { animation: hw-rise 1s var(--out) both; animation-delay: calc(var(--i, 0) * 30ms); }
+    .hero-hint { animation: hint-in 0.8s var(--out) both 0.8s; }
+  }
+  @keyframes hw-rise { from { transform: translateY(110%); } }
+  @keyframes hint-in { from { opacity: 0; transform: translateX(16px); } }
 
   .stage {
     --sh: min(78svh, 860px);
@@ -78,13 +83,12 @@ const chars = (w: string) => [...w].map((c) => `<span class="c">${c}</span>`).jo
     --x: 50%; --y: 45%; --r: 0px;
   }
   .stage video, .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .stage .v-edit { opacity: 0; }
   .stage canvas { opacity: 0; transition: opacity 0.5s; }
   .stage.gl-on canvas { opacity: 1; }
   /* no WebGL: the edit shows through a soft circle that follows the pointer */
   .stage.no-gl .v-edit { opacity: 1; -webkit-mask-image: radial-gradient(circle at var(--x) var(--y), #000 calc(var(--r) - 30px), transparent var(--r)); mask-image: radial-gradient(circle at var(--x) var(--y), #000 calc(var(--r) - 30px), transparent var(--r)); }
   .stage-ui { position: absolute; z-index: 3; top: 14px; left: 14px; right: 14px; display: flex; justify-content: space-between; pointer-events: none; }
-  .chip { display: inline-flex; align-items: center; gap: 7px; padding: 7px 10px; border-radius: 999px; background: rgba(14, 14, 17, 0.55); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); font: 600 11px/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--paper); }
+  .chip { display: inline-flex; align-items: center; gap: 7px; padding: 7px 10px; border-radius: 999px; background: rgba(14, 14, 17, 0.72); font: 600 11px/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--paper); }
   .chip i { width: 7px; height: 7px; border-radius: 50%; background: var(--rec); animation: rec 1.4s steps(2) infinite; }
   .chip b { font-weight: 600; }
   @keyframes rec { 50% { opacity: 0.25; } }
@@ -97,6 +101,12 @@ const chars = (w: string) => [...w].map((c) => `<span class="c">${c}</span>`).jo
   .hint-arrow { width: 110px; overflow: visible; }
   .hint-arrow path { fill: none; stroke: var(--zera-hi); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
 
+  /* desktop: the raw clip (its still behind it until the first frame) under the brush */
+  @media (min-width: 900px) {
+    .stage { background: var(--ink-2) url(/media/site/hero_raw.webp) center / cover no-repeat; }
+    .stage .v-edit { opacity: 0; }
+  }
+  @media (max-width: 899px) { .stage .v-raw { display: none; } }
   @media (max-width: 1199px) { .hero-hint { display: none; } }
   @media (max-width: 899px) {
     .hero-pin { height: auto; min-height: 0; padding: calc(var(--nav-h) + 64px) var(--gutter) 40px; display: grid; gap: 18px; }
@@ -104,7 +114,6 @@ const chars = (w: string) => [...w].map((c) => `<span class="c">${c}</span>`).jo
     .hero-words { position: relative; inset: auto; height: 1.62em; font-size: 31vw; margin-inline: calc(var(--gutter) * -1); }
     .hw { top: 0; margin-top: 0; }
     .hw-2 { top: 0.8em; }
-    .hw-3, .hw-4 { display: none; }
     .stage { --sh: min(72svh, 160vw); position: relative; left: auto; top: auto; margin: 0 auto; }
     .hero-foot { position: relative; left: auto; bottom: auto; max-width: none; }
     .hero-cta .btn { flex: 1 1 auto; justify-content: center; }
@@ -112,41 +121,46 @@ const chars = (w: string) => [...w].map((c) => `<span class="c">${c}</span>`).jo
 </style>
 
 <script>
-  import { gsap, ScrollTrigger, onReady, reduce } from "@/scripts/site/core";
+  import { reduce, whileVisible } from "@/scripts/site/core";
   import { createReveal, type Reveal } from "@/scripts/site/reveal";
 
   const stage = document.getElementById("stage")!;
   const raw = document.getElementById("heroRaw") as HTMLVideoElement, edit = document.getElementById("heroEdit") as HTMLVideoElement;
   const canvas = document.getElementById("heroGl") as HTMLCanvasElement;
   const tc = document.getElementById("heroTc")!, mode = document.getElementById("stageMode")!;
-  let heroOn = true;
-  new IntersectionObserver(([e]) => (heroOn = e.isIntersecting)).observe(stage);
   const wide = matchMedia("(min-width: 900px)");
 
-  // The two clips stay on the same frame, so the brush shows the edit of *this* moment.
+  // The clock on the frame follows whichever clip is showing.
+  const fmt = (t: number) => `00:${String(Math.floor(t)).padStart(2, "0")}:${String(Math.floor((t % 1) * 30)).padStart(2, "0")}`;
+  whileVisible(stage, () => {
+    const t = fmt((reveal ? raw : edit).currentTime);
+    if (tc.textContent !== t) tc.textContent = t;
+  });
+
+  // Desktop only: the two clips stay on the same frame, so the brush shows the edit of *this* moment.
   const sync = () => {
+    if (!reveal) return;
     if (Math.abs(edit.currentTime - raw.currentTime) > 0.1) edit.currentTime = raw.currentTime;
     if (!raw.paused && edit.paused) edit.play().catch(() => {});
   };
   raw.addEventListener("seeked", sync);
   raw.addEventListener("play", sync);
   setInterval(sync, 900);
-  const fmt = (t: number) => `00:${String(Math.floor(t)).padStart(2, "0")}:${String(Math.floor((t % 1) * 30)).padStart(2, "0")}`;
-  gsap.ticker.add(() => { if (heroOn) tc.textContent = fmt(raw.currentTime); });
 
-  // WebGL where it exists, started once the page has loaded (it is not needed under the loader); a CSS mask
-  // otherwise.
+  // WebGL on desktop, started once the page is idle; a CSS mask where WebGL is missing. Phones keep the edit alone.
   let reveal: Reveal | null = null;
   const startGl = () => {
+    if (reveal) return;
     reveal = createReveal(canvas, raw, edit, { idle: true });
     if (!reveal) return fallback();
     stage.classList.add("gl-on");
-    canvas.addEventListener("reveal:lost", () => { stage.classList.remove("gl-on"); fallback(); });
+    mode.textContent = "Raw clip";
+    canvas.addEventListener("reveal:lost", () => { stage.classList.remove("gl-on"); reveal = null; fallback(); });
     new IntersectionObserver(([e]) => reveal?.setActive(e.isIntersecting)).observe(stage);
-    reveal.setOpen(openNow);
   };
   function fallback() {
     stage.classList.add("no-gl");
+    mode.textContent = "Zera edit";
     if (reduce) stage.style.setProperty("--r", "200%");
     else {
       const r = () => Math.min(stage.clientWidth, stage.clientHeight) * 0.32;
@@ -158,44 +172,14 @@ const chars = (w: string) => [...w].map((c) => `<span class="c">${c}</span>`).jo
       });
     }
   }
-  let openNow = 0;
-  if (reduce) fallback();
-  else onReady(() => ("requestIdleCallback" in window ? requestIdleCallback(startGl, { timeout: 600 }) : setTimeout(startGl, 200)));
-
-  // "Zera edits." waits below its mask until the scroll brings it up.
-  gsap.set(".hw-3 .c, .hw-4 .c", { y: 0, yPercent: 110 });
-  gsap.set(".hw-3, .hw-4", { visibility: "visible" });
-
-  // Entrance, as the loader leaves.
-  onReady(() => {
-    if (reduce) return;
-    const tl = gsap.timeline();
-    tl.from(".hw-1 .c, .hw-2 .c", { yPercent: 110, duration: 1.3, ease: "expo.out", stagger: 0.035 }, 0)
-      .from(stage, { clipPath: "inset(40% 40% 40% 40% round 26px)", scale: 1.12, duration: 1.5, ease: "expo.inOut" }, 0)
-      .from(".hero-tag, .hero-lead, .hero-cta .btn", { y: 30, opacity: 0, duration: 1.1, ease: "expo.out", stagger: 0.06 }, 0.55)
-      .from(".hero-hint", { opacity: 0, x: 20, duration: 1, ease: "expo.out" }, 1.0);
+  const startDesktop = () => {
+    if (reduce) return fallback();
+    "requestIdleCallback" in window ? requestIdleCallback(startGl, { timeout: 800 }) : setTimeout(startGl, 300);
+  };
+  if (wide.matches) startDesktop();
+  // a window widened past the phone layout: fetch the raw clip (its source was skipped) and start the brush
+  wide.addEventListener("change", (e) => {
+    if (e.matches && !reveal && !stage.classList.contains("no-gl")) { raw.load(); raw.play().catch(() => {}); startDesktop(); }
+    reveal?.resize();
   });
-
-  // Scroll: the edit opens fully, and the words trade places.
-  const mm = gsap.matchMedia();
-  mm.add({ wide: "(min-width: 900px)", reduce: "(prefers-reduced-motion: reduce)" }, (ctx) => {
-    const { wide: isWide, reduce: r } = ctx.conditions!;
-    if (r) return;
-    const o = { open: 0 };
-    if (isWide) {
-      const tl = gsap.timeline({ scrollTrigger: { trigger: "#heroPin", start: "top top", end: "+=140%", scrub: 0.8, pin: true, anticipatePin: 1 } });
-      tl.to(".hero-tag, .hero-foot, .hero-hint", { opacity: 0, y: -20, duration: 0.25, ease: "power2.in" }, 0)
-        .to(".hw-1", { xPercent: -60, opacity: 0, duration: 0.5, ease: "power2.in" }, 0)
-        .to(".hw-2", { xPercent: 60, opacity: 0, duration: 0.5, ease: "power2.in" }, 0)
-        .to(o, { open: 1, duration: 0.7, ease: "power1.inOut", onUpdate: () => { openNow = o.open; reveal?.setOpen(o.open); mode.textContent = o.open > 0.6 ? "Zera edit" : "Raw clip"; } }, 0.05)
-        .to(stage, { scale: 1.1, duration: 1, ease: "none" }, 0)
-        .to(".hw-3 .c, .hw-4 .c", { yPercent: 0, duration: 0.45, ease: "expo.out", stagger: 0.02 }, 0.45)
-        .to({}, { duration: 0.25 });
-    } else {
-      gsap.to(o, { open: 1, ease: "none", onUpdate: () => { openNow = o.open; reveal?.setOpen(o.open); mode.textContent = o.open > 0.6 ? "Zera edit" : "Raw clip"; },
-        scrollTrigger: { trigger: stage, start: "top 30%", end: "bottom 20%", scrub: 0.6 } });
-    }
-    return () => reveal?.setOpen(0);
-  });
-  wide.addEventListener("change", () => { reveal?.resize(); ScrollTrigger.refresh(); });
 </script>

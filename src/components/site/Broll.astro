@@ -1,7 +1,8 @@
 ---
-// 01 · AI B-roll, as a pinned story in four steps beside a phone. The phone plays one clip throughout, so every step
-// is about the same moment: the upload, the transcript (lit word by word on the clip's own timing), the plan (the
-// edit's beats on a timeline), and the edit itself. Timings come from the Remotion reel the edit was rendered from
+// 01 · AI B-roll, as a story in four steps beside a phone. The phone plays one clip throughout, so every step is
+// about the same moment: the upload, the transcript (lit word by word on the clip's own timing), the plan (the
+// edit's beats on a timeline), and the edit itself. The steps turn on a clock while the section is on screen, or on
+// a tap (2026-11-15: no longer pinned to the scroll, which held phones still for 2.6 screens). Timings come from the Remotion reel the edit was rendered from
 // (`ad/src/creator/reels.ts`, `webSigninReel`, 30 fps).
 import { reel } from "@/config/site";
 const M = "/media/site";
@@ -99,17 +100,17 @@ const { bare = false } = Astro.props;
 </section>
 
 <style>
-  .br-pin { position: relative; height: 100svh; display: grid; align-items: center; margin-top: clamp(30px, 4vw, 60px); }
+  .br-pin { position: relative; margin-top: clamp(40px, 5vw, 80px); }
   .br-grid { display: grid; grid-template-columns: 1fr; gap: 28px; align-items: center; }
   .br-steps { position: relative; list-style: none; display: grid; gap: 4px; padding-left: 26px; }
-  .br-steps li { display: grid; grid-template-columns: 46px 1fr; gap: 10px; padding: 18px 0; color: var(--dim); transition: color 0.5s var(--out); }
+  .br-steps li { display: grid; grid-template-columns: 46px 1fr; gap: 10px; padding: 18px 0; color: var(--dim); transition: color 0.5s var(--out); cursor: pointer; -webkit-tap-highlight-color: transparent; }
   .br-steps li.on { color: var(--paper); }
   .br-n { font: 600 13px/1.9 var(--mono); }
   .br-steps h3 { font-size: clamp(22px, 2.1vw, 36px); line-height: 1.05; }
-  .br-steps p { margin-top: 8px; font-size: 16px; line-height: 1.5; max-width: 38ch; color: var(--muted); opacity: 0.35; transition: opacity 0.5s; }
+  .br-steps p { margin-top: 8px; font-size: 16px; line-height: 1.5; max-width: 38ch; color: var(--muted); opacity: 0.5; transition: opacity 0.5s; }
   .br-steps li.on p { opacity: 1; }
   .br-rail { position: absolute; left: 0; top: 18px; bottom: 18px; width: 2px; background: var(--line); border-radius: 2px; }
-  .br-rail i { position: absolute; inset: 0; transform-origin: top; transform: scaleY(0); background: var(--zera); border-radius: inherit; }
+  .br-rail i { position: absolute; inset: 0; transform-origin: top; transform: scaleY(0.25); background: var(--zera); border-radius: inherit; transition: transform 0.6s var(--out); }
 
   .br-phone-wrap { position: relative; justify-self: center; }
   .br-phone { width: min(330px, 31svh * 1.0); }
@@ -125,7 +126,7 @@ const { bare = false } = Astro.props;
   @keyframes rec { 50% { opacity: 0.25; } }
 
   .ov-up { bottom: 12%; display: grid; gap: 10px; }
-  .up-card { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; padding: 12px; border-radius: 16px; background: rgba(23, 23, 28, 0.82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 0 0 1px rgba(255,255,255,0.08); }
+  .up-card { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; padding: 12px; border-radius: 16px; background: rgba(23, 23, 28, 0.92); box-shadow: 0 0 0 1px rgba(255,255,255,0.08); }
   .up-ic { width: 36px; height: 36px; border-radius: 10px; display: grid; place-content: center; background: var(--zera); }
   .up-ic svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
   .up-card b { display: block; font-size: 13px; }
@@ -134,13 +135,13 @@ const { bare = false } = Astro.props;
   .up-bar { position: relative; height: 3px; border-radius: 3px; background: rgba(255,255,255,0.12); overflow: hidden; }
   .up-bar i { position: absolute; inset: 0; transform-origin: left; transform: scaleX(0); background: var(--zera-hi); }
 
-  .ov-tx { bottom: 9%; padding: 14px; border-radius: 16px; background: rgba(14, 14, 17, 0.78); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 0 0 1px rgba(255,255,255,0.08); }
+  .ov-tx { bottom: 9%; padding: 14px; border-radius: 16px; background: rgba(14, 14, 17, 0.9); box-shadow: 0 0 0 1px rgba(255,255,255,0.08); }
   .ov-tx p { margin-top: 8px; font-size: 15px; font-weight: 650; line-height: 1.35; letter-spacing: -0.01em; }
   .ov-tx p span { color: rgba(244, 244, 246, 0.28); transition: color 0.2s; }
   .ov-tx p span.lit { color: var(--paper); }
   .ov-tx p span.now { color: var(--zera-hi); }
 
-  .ov-plan { bottom: 9%; padding: 14px 14px 12px; border-radius: 16px; background: rgba(14, 14, 17, 0.8); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 0 0 1px rgba(255,255,255,0.08); }
+  .ov-plan { bottom: 9%; padding: 14px 14px 12px; border-radius: 16px; background: rgba(14, 14, 17, 0.9); box-shadow: 0 0 0 1px rgba(255,255,255,0.08); }
   .plan { position: relative; height: 44px; margin-top: 10px; border-radius: 8px; background: rgba(255,255,255,0.05); }
   .seg { position: absolute; top: 5px; bottom: 5px; border-radius: 6px; background: var(--c); display: grid; place-content: center; overflow: hidden; transform-origin: left; transform: scaleX(0); transition: transform 0.7s var(--out); }
   .s2 .seg { transform: none; }
@@ -158,71 +159,72 @@ const { bare = false } = Astro.props;
     .br-phone { width: auto; height: min(80svh, 760px); }
   }
   @media (max-width: 899px) {
-    .br-pin { height: auto; min-height: 100svh; padding: calc(var(--nav-h) + 8px) 0 24px; align-items: start; }
     .br-grid { gap: 18px; }
     .br-phone-wrap { order: -1; }
     .br-phone { height: min(58svh, 520px); width: auto; }
     .br-note { display: none; }
-    .br-steps { padding-left: 0; min-height: 132px; }
-    .br-steps li { position: absolute; inset: 0 0 auto; opacity: 0; transform: translateY(16px); transition: opacity 0.5s, transform 0.6s var(--out); padding: 0; }
-    .br-steps li.on { opacity: 1; transform: none; }
+    .br-steps { padding-left: 0; gap: 0; }
+    .br-steps li { padding: 12px 0; grid-template-columns: 36px 1fr; }
+    .br-steps h3 { font-size: 20px; }
+    .br-steps p { font-size: 15px; margin-top: 4px; }
     .br-rail { display: none; }
   }
 </style>
 
 <script>
-  import { gsap, ScrollTrigger, reduce } from "@/scripts/site/core";
+  import { reduce, whileVisible } from "@/scripts/site/core";
+  const section = document.getElementById("brPin")!;
   const phone = document.getElementById("brPhone")!;
   const items = Array.from(document.querySelectorAll<HTMLElement>("#brSteps li"));
   const raw = document.getElementById("brRaw") as HTMLVideoElement, edit = document.getElementById("brEdit") as HTMLVideoElement;
   const rail = document.getElementById("brRail")!, head = document.getElementById("brHead")!;
   const pct = document.getElementById("upPct")!, upBar = document.getElementById("upBar")!;
   const words = Array.from(document.querySelectorAll<HTMLElement>("#brWords span"));
-  const FPS = 30, TOTAL = 300;
+  const FPS = 30, TOTAL = 300, STEP_MS = 3400;
 
-  let step = -1;
+  // The edit is decoded only while it shows (step 4): until then it waits, paused, under the raw clip.
+  let holdTimer = 0;
+  const holdEdit = (on: boolean) => {
+    clearTimeout(holdTimer);
+    if (!on) {
+      delete edit.dataset.hold;
+      if (Math.abs(edit.currentTime - raw.currentTime) > 0.1) edit.currentTime = raw.currentTime;
+      edit.play().catch(() => {});
+    } else {
+      edit.dataset.hold = "1";
+      holdTimer = window.setTimeout(() => edit.pause(), 1000); // after its wipe out
+    }
+  };
+
+  let step = -1, stepAt = 0;
   const setStep = (i: number) => {
+    stepAt = performance.now();
     if (i === step) return;
     step = i;
     phone.className = phone.className.replace(/\bs\d\b/g, "").trim() + ` s${i}`;
     items.forEach((li, n) => li.classList.toggle("on", n === i));
+    rail.style.transform = `scaleY(${(i + 1) / 4})`;
+    holdEdit(i !== 3);
   };
-  setStep(0);
 
-  // The edit plays under the raw clip from the start, on the same frame, so step 4 can wipe straight to it.
-  const sync = () => { if (Math.abs(edit.currentTime - raw.currentTime) > 0.1) edit.currentTime = raw.currentTime; if (!raw.paused && edit.paused) edit.play().catch(() => {}); };
-  setInterval(sync, 1000);
-  raw.addEventListener("play", sync);
-
-  // Transcript and plan playhead, on the clip's clock.
-  let upload = 0, near = false;
-  new IntersectionObserver(([e]) => (near = e.isIntersecting)).observe(document.getElementById("brPin")!);
-  gsap.ticker.add(() => {
-    if (!near) return;
-    const f = raw.currentTime * FPS;
-    if (step === 1) {
-      let cur = -1;
-      words.forEach((w, n) => { const lit = Number(w.dataset.at) <= f; w.classList.toggle("lit", lit); if (lit) cur = n; });
-      words.forEach((w, n) => w.classList.toggle("now", n === cur));
-    }
-    if (step === 2) head.style.left = `${Math.min(100, (f / TOTAL) * 100)}%`;
-    if (step === 0 && upload < 1) {
-      upload = Math.min(1, upload + 0.006);
-      pct.textContent = `${Math.round(upload * 100)}%`;
-      upBar.style.transform = `scaleX(${upload})`;
-    }
-  });
-
-  const mm = gsap.matchMedia();
-  mm.add("(prefers-reduced-motion: no-preference)", () => {
-    ScrollTrigger.create({
-      trigger: "#brPin", start: "top top", end: "+=260%", pin: true, anticipatePin: 1, scrub: true,
-      onUpdate: (s) => {
-        setStep(Math.min(3, Math.floor(s.progress * 4.0001)));
-        rail.style.transform = `scaleY(${s.progress})`;
-      },
-    });
-    gsap.from(phone, { yPercent: 12, rotate: -4, scale: 0.92, ease: "none", scrollTrigger: { trigger: "#brPin", start: "top bottom", end: "top top", scrub: true } });
-  });
   if (reduce) setStep(3);
+  else {
+    setStep(0);
+    items.forEach((li, n) => li.addEventListener("click", () => setStep(n)));
+    // Only while the section is on screen: the clock that turns the steps, the upload count, the transcript and the
+    // plan's playhead (both on the clip's own clock).
+    whileVisible(section, (now) => {
+      if (now - stepAt > STEP_MS) setStep((step + 1) % 4);
+      const f = raw.currentTime * FPS;
+      if (step === 0) {
+        const up = Math.min(1, (now - stepAt) / (STEP_MS * 0.75));
+        pct.textContent = `${Math.round(up * 100)}%`;
+        upBar.style.transform = `scaleX(${up})`;
+      } else if (step === 1) {
+        let cur = -1;
+        words.forEach((w, n) => { const lit = Number(w.dataset.at) <= f; w.classList.toggle("lit", lit); if (lit) cur = n; });
+        words.forEach((w, n) => w.classList.toggle("now", n === cur));
+      } else if (step === 2) head.style.left = `${Math.min(100, (f / TOTAL) * 100)}%`;
+    }, "-15% 0px");
+  }
 </script>
