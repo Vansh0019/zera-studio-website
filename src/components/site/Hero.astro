@@ -8,8 +8,8 @@ const chars = (w: string, from = 0) => [...w].map((c, i) => `<span class="c" sty
 ---
 <section class="hero" id="top" aria-label="Zera Studio">
   <div class="hero-pin" id="heroPin">
-    <h1 class="label hero-tag">AI video editor <br />for Android</h1>
-    <p class="label hero-tag r"><span class="dot"></span> Free on Google Play</p>
+    <!-- the page's H1 stays for search engines and screen readers; on screen the hero starts with the two words -->
+    <h1 class="sr">AI video editor for Android</h1>
 
     <p class="sr">Just talk. Zera edits.</p>
     <div class="hero-words d" aria-hidden="true">
@@ -55,9 +55,6 @@ const chars = (w: string, from = 0) => [...w].map((c, i) => `<span class="c" sty
 <style>
   .hero { position: relative; }
   .hero-pin { position: relative; height: 100svh; min-height: 640px; overflow: hidden; }
-  .hero-tag { position: absolute; top: calc(var(--nav-h) + 18px); left: var(--gutter); z-index: 3; }
-  .hero-tag.r { left: auto; right: var(--gutter); text-align: right; display: flex; align-items: center; gap: 8px; }
-  .hero-tag .dot { width: 7px; height: 7px; border-radius: 50%; background: #2fd36b; box-shadow: 0 0 0 4px rgba(47, 211, 107, 0.18); }
 
   .hero-words { position: absolute; inset: 0; pointer-events: none; font-size: clamp(110px, 18.5vw, 420px); color: var(--paper); }
   .hw { position: absolute; top: 50%; margin-top: -0.5em; display: block; white-space: nowrap; }
@@ -109,8 +106,7 @@ const chars = (w: string, from = 0) => [...w].map((c, i) => `<span class="c" sty
   @media (max-width: 899px) { .stage .v-raw { display: none; } }
   @media (max-width: 1199px) { .hero-hint { display: none; } }
   @media (max-width: 899px) {
-    .hero-pin { height: auto; min-height: 0; padding: calc(var(--nav-h) + 64px) var(--gutter) 40px; display: grid; gap: 18px; }
-    .hero-tag { top: calc(var(--nav-h) + 12px); }
+    .hero-pin { height: auto; min-height: 0; padding: calc(var(--nav-h) + 24px) var(--gutter) 40px; display: grid; gap: 18px; }
     .hero-words { position: relative; inset: auto; height: 1.62em; font-size: 31vw; margin-inline: calc(var(--gutter) * -1); }
     .hw { top: 0; margin-top: 0; }
     .hw-2 { top: 0.8em; }
