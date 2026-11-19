@@ -1,0 +1,148 @@
+---
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import Footer from "@/components/site/Footer.astro";
+import { siteConfig } from "@/config/site";
+---
+
+<SiteLayout
+  image="/og/terms.png"
+  title={`AI Use Policy — ${siteConfig.shortName}`}
+  description={`How ${siteConfig.shortName} uses AI: what Google's Gemini models do in the app, the 18+ age requirement, what you may not do with the AI, and how we keep it safe.`}
+>
+  <main class="doc">
+    <div class="wrap doc-wrap">
+      <!-- Back Link -->
+      <div class="doc-back">
+        <a
+          href="/"
+          class="label"
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M19 12H5"></path>
+            <path d="M12 19l-7-7 7-7"></path>
+          </svg>
+          Back to Zera Studio
+        </a>
+      </div>
+
+      <!-- Header -->
+      <header class="doc-head">
+        <span class="doc-eyebrow">Legal</span>
+        <h1 class="d doc-h1">
+          AI Use Policy
+        </h1>
+        <div class="doc-meta label">
+          <span>Effective Date: November 19, 2026</span>
+          <span>•</span>
+          <span>Applies to: {siteConfig.shortName} for Android</span>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <article class="doc-body">
+        <section>
+          <h2>1. In Short</h2>
+          <p>
+            {siteConfig.shortName} uses AI to edit videos that you record or import yourself. It is made for adult creators: you must be <strong>18 or older</strong> to use it. This page explains what the AI does, which AI we use, what you may not do with it, and how we keep it safe. It forms part of our <a href="/terms/">Terms of Service</a>.
+          </p>
+        </section>
+
+        <section>
+          <h2>2. What the AI Does</h2>
+          <ul>
+            <li><strong>Captions.</strong> It listens to the speech in your video and writes timed captions in Hindi, English or Hinglish.</li>
+            <li><strong>AI Edit (B-roll).</strong> It watches your talking video and adds B-roll, motion graphics, zooms and captions timed to what you say.</li>
+            <li><strong>Editing assistant.</strong> The assistant in the app is an AI. It makes edits to your own project when you ask it to, using the app's editing tools.</li>
+            <li><strong>Pictures and backgrounds.</strong> Where available, it can make a picture from your description or a new background behind you in your own footage.</li>
+          </ul>
+          <p>
+            Every AI result opens in the editor, where you can review, change or delete it before you export anything.
+          </p>
+        </section>
+
+        <section>
+          <h2>3. Which AI We Use</h2>
+          <ul>
+            <li>The AI features are powered by <strong>Google's Gemini models</strong>, used through Google Cloud (Vertex AI).</li>
+            <li>The app never talks to the AI directly, and no key inside the app can reach it. Your request goes to our own servers, which call Google Cloud on your behalf.</li>
+            <li>Only the media needed for the edit you asked for is sent, and our servers delete it automatically on the schedule in our <a href="/privacy-policy/">Privacy Policy</a> (uploads within 14 days).</li>
+            <li>We do not sell your media, and we do not use it to train AI models.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>4. Who Can Use It</h2>
+          <p>
+            {siteConfig.shortName} and its AI features are only for people aged <strong>18 or older</strong>, and are not directed to anyone under 18. If we learn that an account belongs to someone under 18, we close it and delete its data.
+          </p>
+        </section>
+
+        <section>
+          <h2>5. What You May Not Do With the AI</h2>
+          <p>
+            When you use the AI features you must follow Google's <a href="https://policies.google.com/terms/generative-ai/use-policy" target="_blank" rel="noopener">Generative AI Prohibited Use Policy</a> and our <a href="/terms/">Terms of Service</a>. In particular, you may not use the AI to:
+          </p>
+          <ul>
+            <li>Create, edit or share any sexual content involving minors. We report it to the authorities.</li>
+            <li>Create sexually explicit content, or intimate, "undress", face-swap or deepfake content of any real person.</li>
+            <li>Impersonate a real person, or make a video that falsely shows someone saying or doing something, to deceive, harass or defraud.</li>
+            <li>Create content that promotes hate, harassment, violence, self-harm, or illegal activity such as scams, fraud or spam.</li>
+            <li>Create misinformation meant to mislead people about facts, health, elections or public safety.</li>
+            <li>Identify, track or profile people from their face or voice.</li>
+            <li>Get around the AI's safety filters, overload the service, collect its outputs in bulk, or use its outputs to build or train other AI models.</li>
+            <li>Use footage, music or images you do not have the rights to.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>6. How We Keep It Safe</h2>
+          <ul>
+            <li><strong>Every AI request belongs to an account.</strong> AI features only work when you are signed in, so each request is tied to one user.</li>
+            <li><strong>Limits on use.</strong> AI features use credits, and we limit how often each account, and the service as a whole, can run them.</li>
+            <li><strong>Built for your own talking videos.</strong> AI Edit works on short videos you upload yourself (up to 3 minutes), not on arbitrary content.</li>
+            <li><strong>Google's safety filters</strong> apply to every AI request.</li>
+            <li><strong>Enforcement.</strong> If an account breaks this policy, we stop its AI features or close it, and we report illegal content to the authorities.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>7. About AI Results</h2>
+          <p>
+            AI can make mistakes, for example a misheard word in a caption or a B-roll clip that does not fit. Please check your video before you publish it. You are responsible for what you publish.
+          </p>
+        </section>
+
+        <section>
+          <h2>8. Changes to This Policy</h2>
+          <p>
+            We may update this policy as the product develops. Any revised version will be published on this page with an updated Effective Date.
+          </p>
+        </section>
+
+        <section class="doc-end">
+          <h2>9. Report a Problem</h2>
+          <p>
+            To report misuse of the AI, content that breaks this policy, or a user who may be under 18, contact us:
+          </p>
+          <div class="doc-card">
+            <p class="doc-strong">{siteConfig.companyLegalName}</p>
+            <p>Support: <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a></p>
+            <p>General contact: <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a></p>
+            <p class="doc-links">Terms: <a href="/terms/">View Terms of Service</a> · Privacy: <a href="/privacy-policy/">View Privacy Policy</a></p>
+          </div>
+        </section>
+      </article>
+    </div>
+  </main>
+
+  <Footer />
+</SiteLayout>

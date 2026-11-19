@@ -19,14 +19,14 @@ const year = new Date().getFullYear();
   <div class="wrap ft-cols">
     <div><p class="label">Contact</p><a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a><a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a><a href={`mailto:${siteConfig.feedbackEmail}`}>{siteConfig.feedbackEmail}</a></div>
     <div><p class="label">Follow</p><a href={siteConfig.instagram} target="_blank" rel="noopener">Instagram</a><a href={siteConfig.companyLinkedin} target="_blank" rel="noopener">LinkedIn</a><a href={siteConfig.founder.linkedin} target="_blank" rel="noopener">The founder</a></div>
-    <div><p class="label">Legal</p><a href="/privacy-policy/">Privacy policy</a><a href="/terms/">Terms of service</a><a href="/account-deletion/">Delete your account</a></div>
+    <div><p class="label">Legal</p><a href="/privacy-policy/">Privacy policy</a><a href="/terms/">Terms of service</a><a href="/ai-use/">AI use policy</a><a href="/account-deletion/">Delete your account</a></div>
     <div><p class="label">Features</p><a href="/">AI video editor</a>{features.map((f) => <a href={`/${f.slug}/`}>{f.menu}</a>)}<a href="/#pricing">Pricing</a><a href="/capcut-alternative-india/">CapCut alternatives (India)</a></div>
   </div>
 
   <div class="wrap ft-about">
     <p class="label">About {siteConfig.shortName}</p>
     <p>{siteConfig.shortName} is an AI video editing app for Android by {siteConfig.companyLegalName}. You record or import your own talking video; Zera adds captions, B-roll, music, transitions and a clean voice, and you export the finished reel to your phone. The app uses Google Sign-In only to create your account (your name and email address), and uses Google Cloud AI only to understand the speech and footage in the videos you upload so it can edit them.</p>
-    <p>{siteConfig.shortName} edits videos; it does not generate people. It has no feature for making sexual, nude, "undress", face-swap or deepfake content, and using it for non-consensual intimate imagery of anyone is banned under our <a href="/terms/">Terms of Service</a>. See our <a href="/privacy-policy/">Privacy Policy</a> for how your data is handled.</p>
+    <p>{siteConfig.shortName} edits videos; it does not generate people. It has no feature for making sexual, nude, "undress", face-swap or deepfake content, and using it for non-consensual intimate imagery of anyone is banned under our <a href="/terms/">Terms of Service</a>. {siteConfig.shortName} is for adults aged 18 and over. See our <a href="/ai-use/">AI Use Policy</a> for how the AI is used and our <a href="/privacy-policy/">Privacy Policy</a> for how your data is handled.</p>
   </div>
 
   <div class="ft-mark" aria-hidden="true" data-rise><span class="d" id="ftMark">{[..."Zera"].map((c, i) => <span class="c" style={`--i:${i}`}>{c}</span>)}</span></div>
