@@ -7,7 +7,7 @@ import { siteConfig } from "@/config/site";
 <SiteLayout
   image="/og/terms.png"
   title={`AI Use Policy — ${siteConfig.shortName}`}
-  description={`How ${siteConfig.shortName} uses AI: what Google's Gemini models do in the app, the 18+ age requirement, what you may not do with the AI, and how we keep it safe.`}
+  description={`How ${siteConfig.shortName} uses AI: which AI models we use (Google Gemini, and Anthropic Claude with Amazon Transcribe as a stand-in), the 18+ age requirement, what you may not do with the AI, and how we keep it safe.`}
 >
   <main class="doc">
     <div class="wrap doc-wrap">
@@ -41,7 +41,7 @@ import { siteConfig } from "@/config/site";
           AI Use Policy
         </h1>
         <div class="doc-meta label">
-          <span>Effective Date: November 19, 2026</span>
+          <span>Effective Date: November 20, 2026</span>
           <span>•</span>
           <span>Applies to: {siteConfig.shortName} for Android</span>
         </div>
@@ -72,9 +72,11 @@ import { siteConfig } from "@/config/site";
         <section>
           <h2>3. Which AI We Use</h2>
           <ul>
-            <li>The AI features are powered by <strong>Google's Gemini models</strong>, used through Google Cloud (Vertex AI).</li>
-            <li>The app never talks to the AI directly, and no key inside the app can reach it. Your request goes to our own servers, which call Google Cloud on your behalf.</li>
+            <li>The AI features are normally powered by <strong>Google's Gemini models</strong>, used through Google Cloud (Vertex AI).</li>
+            <li><strong>While Google's AI service is unavailable to us</strong>, AI Edit and auto captions run on <strong>Anthropic's Claude models</strong> (through Anthropic's API) and <strong>Amazon Transcribe</strong> (speech-to-text, in Amazon Web Services' Mumbai region). AI pictures, AI backgrounds and the editing assistant are paused during this time.</li>
+            <li>The app never talks to the AI directly, and no key inside the app can reach it. Your request goes to our own servers, which call the AI provider on your behalf.</li>
             <li>Only the media needed for the edit you asked for is sent, and our servers delete it automatically on the schedule in our <a href="/privacy-policy/">Privacy Policy</a> (uploads within 14 days).</li>
+            <li>The audio copy sent to Amazon Transcribe is deleted as soon as your words come back, and within one day at the latest. Anthropic does not train its models on what we send and normally deletes it within 30 days.</li>
             <li>We do not sell your media, and we do not use it to train AI models.</li>
           </ul>
         </section>
@@ -89,7 +91,7 @@ import { siteConfig } from "@/config/site";
         <section>
           <h2>5. What You May Not Do With the AI</h2>
           <p>
-            When you use the AI features you must follow Google's <a href="https://policies.google.com/terms/generative-ai/use-policy" target="_blank" rel="noopener">Generative AI Prohibited Use Policy</a> and our <a href="/terms/">Terms of Service</a>. In particular, you may not use the AI to:
+            When you use the AI features you must follow Google's <a href="https://policies.google.com/terms/generative-ai/use-policy" target="_blank" rel="noopener">Generative AI Prohibited Use Policy</a>, Anthropic's <a href="https://www.anthropic.com/legal/aup" target="_blank" rel="noopener">Usage Policy</a> and our <a href="/terms/">Terms of Service</a>. In particular, you may not use the AI to:
           </p>
           <ul>
             <li>Create, edit or share any sexual content involving minors. We report it to the authorities.</li>
@@ -109,7 +111,7 @@ import { siteConfig } from "@/config/site";
             <li><strong>Every AI request belongs to an account.</strong> AI features only work when you are signed in, so each request is tied to one user.</li>
             <li><strong>Limits on use.</strong> AI features use credits, and we limit how often each account, and the service as a whole, can run them.</li>
             <li><strong>Built for your own talking videos.</strong> AI Edit works on short videos you upload yourself (up to 3 minutes), not on arbitrary content.</li>
-            <li><strong>Google's safety filters</strong> apply to every AI request.</li>
+            <li><strong>The AI provider's own safety filters</strong> apply to every AI request.</li>
             <li><strong>Enforcement.</strong> If an account breaks this policy, we stop its AI features or close it, and we report illegal content to the authorities.</li>
           </ul>
         </section>
