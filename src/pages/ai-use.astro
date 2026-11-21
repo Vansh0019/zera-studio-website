@@ -7,7 +7,7 @@ import { siteConfig } from "@/config/site";
 <SiteLayout
   image="/og/terms.png"
   title={`AI Use Policy — ${siteConfig.shortName}`}
-  description={`How ${siteConfig.shortName} uses AI: which AI models we use (Google Gemini, and Anthropic Claude with Amazon Transcribe as a stand-in), the 18+ age requirement, what you may not do with the AI, and how we keep it safe.`}
+  description={`How ${siteConfig.shortName} uses AI: which AI models we use (Google Gemini, and Anthropic Claude with Amazon Transcribe as a backup), the 18+ age requirement, what you may not do with the AI, and how we keep it safe.`}
 >
   <main class="doc">
     <div class="wrap doc-wrap">
@@ -73,7 +73,7 @@ import { siteConfig } from "@/config/site";
           <h2>3. Which AI We Use</h2>
           <ul>
             <li>The AI features are normally powered by <strong>Google's Gemini models</strong>, used through Google Cloud (Vertex AI).</li>
-            <li><strong>While Google's AI service is unavailable to us</strong>, AI Edit and auto captions run on <strong>Anthropic's Claude models</strong> (through Anthropic's API) and <strong>Amazon Transcribe</strong> (speech-to-text, in Amazon Web Services' Mumbai region). AI pictures, AI backgrounds and the editing assistant are paused during this time.</li>
+            <li><strong>As a backup, only if Google's AI service is unavailable to us</strong>, AI Edit and auto captions can run on <strong>Anthropic's Claude models</strong> (through Anthropic's API) and <strong>Amazon Transcribe</strong> (speech-to-text, in Amazon Web Services' Mumbai region). AI pictures, AI backgrounds and the editing assistant are paused during that time.</li>
             <li>The app never talks to the AI directly, and no key inside the app can reach it. Your request goes to our own servers, which call the AI provider on your behalf.</li>
             <li>Only the media needed for the edit you asked for is sent, and our servers delete it automatically on the schedule in our <a href="/privacy-policy/">Privacy Policy</a> (uploads within 14 days).</li>
             <li>The audio copy sent to Amazon Transcribe is deleted as soon as your words come back, and within one day at the latest. Anthropic does not train its models on what we send and normally deletes it within 30 days.</li>
